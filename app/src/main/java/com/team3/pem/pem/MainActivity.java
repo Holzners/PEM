@@ -1,5 +1,6 @@
 package com.team3.pem.pem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -28,7 +29,6 @@ public class MainActivity extends ActionBarActivity {
         daysToModify = new HashMap<>();
 
         initMonthFragment();
-
     }
 
     @Override
@@ -48,6 +48,8 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id == R.id.action_export){
+            startActivity(new Intent(MainActivity.this, ExportActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
