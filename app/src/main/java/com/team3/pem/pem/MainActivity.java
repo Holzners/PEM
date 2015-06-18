@@ -10,7 +10,6 @@ import android.view.MenuItem;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.team3.pem.pem.view.CalendarFragment;
-import com.team3.pem.pem.view.SwitchFragment;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -23,7 +22,7 @@ public class MainActivity extends ActionBarActivity {
     HashMap<Date, Integer> daysToModify;
 
     CalendarFragment caldroidFragment;
-    SwitchFragment switchFragment;
+   // SwitchFragment switchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +104,7 @@ public class MainActivity extends ActionBarActivity {
 // ------------------- SwitchFragment   ------------------------------
 
     protected void initSwitchFragment(){
-        this.switchFragment = new SwitchFragment();
+ //       this.switchFragment = new SwitchFragment();
         FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction ft = fragmentManager.beginTransaction();
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
