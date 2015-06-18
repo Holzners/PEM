@@ -4,7 +4,6 @@ import android.app.ListFragment;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,44 +23,11 @@ import java.util.List;
 public class SwitchFragment extends ListFragment {
 
     private List<SwitchSymptom> symptomList;
-
-    /**
-     * The fragment's ListView/GridView.
-     */
-    private AbsListView mListView;
-    /**
-     * The Adapter which will be used to populate the ListView/GridView with Views.
-     */
+    /** The fragment's ListView/GridView.  */
+    private ListView mListView;
+    /** The Adapter which will be used to populate the ListView/GridView with Views. */
     private ListAdapter mAdapter;
 
-/*
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    // TODO: Rename and change types of parameters
-    public static SwitchFragment newInstance(String param1, String param2) {
-        SwitchFragment fragment = new SwitchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }*/
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public SwitchFragment() {
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +36,8 @@ public class SwitchFragment extends ListFragment {
         symptomList = new ArrayList<SwitchSymptom>();
         Resources resources = getResources();
         symptomList.add(new SwitchSymptom(resources.getString(R.string.hello_world)));
-        mAdapter = new SwitchAdapter(getActivity(), symptomList);
+        mAdapter = new SwitchFragmentAdapter(getActivity(), symptomList);
+
     }
 
     @Override
@@ -104,7 +71,7 @@ public class SwitchFragment extends ListFragment {
      */
      interface SwitchFragmentInterface {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(String id);
+        void onFragmentInteraction(String id);
     }
 
 }

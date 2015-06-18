@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by Susanne on 15.06.2015.
  */
-public class SwitchAdapter extends ArrayAdapter<SwitchSymptom> {
+public class SwitchFragmentAdapter extends ArrayAdapter<SwitchSymptom> {
 
     private Context context;
     private Switch mSwitch;
@@ -26,7 +26,7 @@ public class SwitchAdapter extends ArrayAdapter<SwitchSymptom> {
     private boolean useList = true;
 
 
-    public SwitchAdapter(Context context, List<SwitchSymptom> items) {
+    public SwitchFragmentAdapter(Context context, List<SwitchSymptom> items) {
         super(context, R.layout.switch_row_layout, items);
         this.context = context;
     }
