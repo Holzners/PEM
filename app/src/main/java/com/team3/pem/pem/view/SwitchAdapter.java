@@ -1,5 +1,6 @@
 package com.team3.pem.pem.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,40 +8,47 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Switch;
 
+import com.team3.pem.pem.SwitchSymptom;
 import com.team3.pem.pem.R;
-import com.team3.pem.pem.SymptomFactor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Susanne on 15.06.2015.
  */
-public class SwitchAdapter extends ArrayAdapter<SymptomFactor> {
+public class SwitchAdapter extends ArrayAdapter<SwitchSymptom> {
 
+    private Context context;
     private Switch mSwitch;
-    private ArrayList<SymptomFactor> arrayList;
+    private ArrayList<SwitchSymptom> arrayList;
+    /** Listen- oder Gridansicht */
+    private boolean useList = true;
 
 
-    public SwitchAdapter(Context context, ArrayList<SymptomFactor> arrayList) {
-        super(context, 0, arrayList);
-        this.arrayList = arrayList;
+    public SwitchAdapter(Context context, List<SwitchSymptom> items) {
+        super(context, R.layout.switch_row_layout, items);
+        this.context = context;
     }
 
-    public View getView (int position, View view, ViewGroup viewGroup) {
-        SymptomFactor symptomFactor = getItem(position);
-        if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.switch_row_layout, viewGroup, false);
+    public View getView(int position, View convertView, ViewGroup viewGroup) {
+        View viewToUse;
+
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        convertView = inflater.inflate(R.layout.switch_row_layout, viewGroup, false);
+
+        if (convertView == null) {
+            if (useList) {
+                viewToUse = inflater.inflate(R.layout.fragment_switch_list, null);
+            } else {
+                viewToUse = inflater.inflate(R.layout.fragment_switch_grid, null);
+            }
+            SwitchSymptom symptom = getItem(position);
+            mSwitch = (Switch) viewToUse.findViewById(R.id.switch1);
+            mSwitch.setText(symptom.getSymptomName());
+        } else {
+            viewToUse = convertView;
         }
-        mSwitch = (Switch) view.findViewById(R.id.switch1);
-        mSwitch.setText(symptomFactor.name);
-        return view;
+        return viewToUse;
     }
-
-    public Switch getSwitch(){
-        return mSwitch;
-    }
-
-// ------------------- SwitchFragment   ------------------------------
-
 }
