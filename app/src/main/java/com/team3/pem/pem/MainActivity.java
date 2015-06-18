@@ -2,6 +2,8 @@ package com.team3.pem.pem;
 
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.roomorama.caldroid.CaldroidFragment;
+import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.view.CalendarFragment;
 
 import java.util.Calendar;
@@ -16,22 +19,35 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import utili.SQLiteMethods;
+
 
 public class MainActivity extends ActionBarActivity {
 
     HashMap<Date, Integer> daysToModify;
 
     CalendarFragment caldroidFragment;
+
+    HashMap<String, Integer> factorAsString;
+
+    protected FeedReaderDBHelper mDHelber;
    // SwitchFragment switchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDHelber = new FeedReaderDBHelper(this);
+        factorAsString = new HashMap<>();
+        factorAsString = getFactorsFromDatabase();
         setContentView(R.layout.activity_main);
         daysToModify = new HashMap<>();
-
         initMonthFragment();
         initSwitchFragment();
+
+        for (Map.Entry<String, Integer> e : factorAsString.entrySet()){
+            Log.d(e.getKey() , e.getValue() + "");
+        }
+
     }
 
     @Override
@@ -71,35 +87,13 @@ public class MainActivity extends ActionBarActivity {
         t.commit();
     }
 
-    private void modifyDays(){
-
-        chooseDaysToModify();
-
-        for(Map.Entry<Date, Integer> e : daysToModify.entrySet()){
-
-            Log.d(e.getKey().toString(), e.getValue() + "");
-
-            caldroidFragment.clearBackgroundResourceForDate(e.getKey());
-            caldroidFragment.setBackgroundResourceForDate(e.getValue(), e.getKey());
-        }
-        caldroidFragment.refreshView();
+    public void getDatabaseEntry(){
+        SQLiteDatabase dbRwad = mDHelber.getReadableDatabase();
+        //String[]
     }
 
-    private void chooseDaysToModify(){
 
-        Date date = new Date(2015, 06 , 12);
-        Date date1 = new Date(2015, 06 , 11);
-        Date date2 = new Date(2015, 06 , 10);
-        Date date3 = new Date(2015, 06 , 9);
-        Date date4 = new Date(2015, 06 , 8);
 
-        daysToModify.put(date, R.color.blue);
-        daysToModify.put(date1, R.color.black);
-        daysToModify.put(date2, R.color.green);
-        daysToModify.put(date3, R.color.darkgreen);
-        daysToModify.put(date4, R.color.red);
-
-    }
 
 // ------------------- SwitchFragment   ------------------------------
 
@@ -111,4 +105,32 @@ public class MainActivity extends ActionBarActivity {
 //        ft.add(R.id.contentPanel, switchFragment);
 //        ft.commit();
     }
+
+    private HashMap<String, Integer> getFactorsFromDatabase(){
+        SQLiteDatabase dbRwad = mDHelber.getReadableDatabase();
+        String [] projection = {
+                SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS,
+                SQLiteMethods.COLUMN_NAME_ENTRY_COLOR,
+        };
+        String selection = " * ";
+
+        Cursor cursor = dbRwad.query(
+                SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        cursor.moveToFirst();
+        HashMap<String , Integer> factors = new HashMap<>();
+        while (!cursor.isAfterLast()){
+            factors.put(cursor.getString(0), cursor.getInt(1));
+            cursor.moveToNext();
+        }
+        return factors;
+    }
+
 }

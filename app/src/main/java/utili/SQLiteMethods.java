@@ -19,6 +19,7 @@ public class SQLiteMethods {
     public static final String VALUES = "VALUES";
     public static final String OPEN_BRACE = " (";
     public static final String CLOSE_BRACE = ") ";
+    public static final String DROP_TABLE = "DROP TABLE";
 
     public static final String TABLE_NAME_MAIN_TABLE = "entries";
     public static final String COLUMN_NAME_ENTRY_ID_DAY = "DAY";
@@ -32,7 +33,7 @@ public class SQLiteMethods {
 
 
     public static final String SQL_CREATE_ENTRIES =
-            CREATE_TABLE + TABLE_NAME_MAIN_TABLE + OPEN_BRACE +
+            CREATE_TABLE + SPACE +TABLE_NAME_MAIN_TABLE + OPEN_BRACE +
                     COLUMN_NAME_ENTRY_ID_DAY + SPACE + NUMBER_TYPE + COMMA_STEP +
                     COLUMN_NAME_ENTRY_ID_MONTH + SPACE + NUMBER_TYPE + COMMA_STEP +
                     COLUMN_NAME_ENTRY_ID_YEAR + SPACE + NUMBER_TYPE + COMMA_STEP +
@@ -42,10 +43,10 @@ public class SQLiteMethods {
                     CLOSE_BRACE;
 
     public static final String SQL_CREATE_FACTORS =
-                    CREATE_TABLE+ TABLE_NAME_FACTOR_TABLE + OPEN_BRACE +
+                    CREATE_TABLE+ SPACE + TABLE_NAME_FACTOR_TABLE + OPEN_BRACE +
                     COLUMN_NAME_ENTRY_ID_FACTORS + SPACE + TEXT_TYPE + COMMA_STEP +
                     COLUMN_NAME_ENTRY_COLOR + SPACE + NUMBER_TYPE + COMMA_STEP +
-                    PRIMARY_KEY + COLUMN_NAME_ENTRY_ID_FACTORS + CLOSE_BRACE + CLOSE_BRACE;
+                    PRIMARY_KEY + OPEN_BRACE+ COLUMN_NAME_ENTRY_ID_FACTORS + CLOSE_BRACE + CLOSE_BRACE;
 
     public static String addColumn(String tableName, String columnName){
         return ALTER_TABLE + SPACE + tableName + " ADD COLUMN" + SPACE + columnName + SPACE +TEXT_TYPE;
@@ -60,6 +61,9 @@ public class SQLiteMethods {
                 COMMA_STEP + COLUMN_NAME_ENTRY_COLOR + CLOSE_BRACE + VALUES + OPEN_BRACE + factor +
                 COMMA_STEP + color +CLOSE_BRACE;
     }
+
+    public static String DROP_TABLE_ENTRIES = DROP_TABLE + SPACE + TABLE_NAME_MAIN_TABLE;
+    public static String DROP_TABLE_FACTORS = DROP_TABLE + SPACE + TABLE_NAME_FACTOR_TABLE;
 
     public static String addDayEntry(Date date , List<Integer> ratings , String description){
 
