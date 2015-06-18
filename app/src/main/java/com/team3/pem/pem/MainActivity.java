@@ -38,7 +38,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         mDHelber = new FeedReaderDBHelper(this);
         factorAsString = new HashMap<>();
-        factorAsString = getFactorsFromDatabase();
+        factorAsString = mDHelber.getFactorsFromDatabase();
         setContentView(R.layout.activity_main);
         daysToModify = new HashMap<>();
         initMonthFragment();
@@ -87,12 +87,6 @@ public class MainActivity extends ActionBarActivity {
         t.commit();
     }
 
-    public void getDatabaseEntry(){
-        SQLiteDatabase dbRwad = mDHelber.getReadableDatabase();
-        //String[]
-    }
-
-
 
 
 // ------------------- SwitchFragment   ------------------------------
@@ -104,33 +98,6 @@ public class MainActivity extends ActionBarActivity {
         android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 //        ft.add(R.id.contentPanel, switchFragment);
 //        ft.commit();
-    }
-
-    private HashMap<String, Integer> getFactorsFromDatabase(){
-        SQLiteDatabase dbRwad = mDHelber.getReadableDatabase();
-        String [] projection = {
-                SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS,
-                SQLiteMethods.COLUMN_NAME_ENTRY_COLOR,
-        };
-        String selection = " * ";
-
-        Cursor cursor = dbRwad.query(
-                SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-
-        cursor.moveToFirst();
-        HashMap<String , Integer> factors = new HashMap<>();
-        while (!cursor.isAfterLast()){
-            factors.put(cursor.getString(0), cursor.getInt(1));
-            cursor.moveToNext();
-        }
-        return factors;
     }
 
 }
