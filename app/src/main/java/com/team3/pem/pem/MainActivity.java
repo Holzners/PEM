@@ -2,6 +2,8 @@ package com.team3.pem.pem;
 
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -11,11 +13,16 @@ import android.view.MenuItem;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.view.CalendarFragment;
+import com.team3.pem.pem.view.SwitchFragment;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import utili.SQLiteMethods;
+
+import static com.team3.pem.pem.R.id.calendarFragmentPanel;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -26,8 +33,8 @@ public class MainActivity extends ActionBarActivity {
 
     HashMap<String, Integer> factorAsString;
 
-    public FeedReaderDBHelper mDHelber;
-   // SwitchFragment switchFragment;
+    protected FeedReaderDBHelper mDHelber;
+    SwitchFragment switchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +45,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         daysToModify = new HashMap<>();
         initMonthFragment();
-        initSwitchFragment();
 
         for (Map.Entry<String, Integer> e : factorAsString.entrySet()){
             Log.d(e.getKey() , e.getValue() + "");
@@ -79,21 +85,40 @@ public class MainActivity extends ActionBarActivity {
         caldroidFragment.setArguments(args);
         caldroidFragment.refreshView();
         android.support.v4.app.FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-        t.add(R.id.contentPanel, caldroidFragment);
+        t.add(calendarFragmentPanel, caldroidFragment);
         t.commit();
     }
 
+    public void getDatabaseEntry(){
+        SQLiteDatabase dbRwad = mDHelber.getReadableDatabase();
+        //String[]
+    }
 
+    private HashMap<String, Integer> getFactorsFromDatabase(){
+        SQLiteDatabase dbRwad = mDHelber.getReadableDatabase();
+        String [] projection = {
+                SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS,
+                SQLiteMethods.COLUMN_NAME_ENTRY_COLOR,
+        };
+        String selection = " * ";
 
-// ------------------- SwitchFragment   ------------------------------
+        Cursor cursor = dbRwad.query(
+                SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
 
-    protected void initSwitchFragment(){
- //       this.switchFragment = new SwitchFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-//        FragmentTransaction ft = fragmentManager.beginTransaction();
-        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        ft.add(R.id.contentPanel, switchFragment);
-//        ft.commit();
+        cursor.moveToFirst();
+        HashMap<String , Integer> factors = new HashMap<>();
+        while (!cursor.isAfterLast()){
+            factors.put(cursor.getString(0), cursor.getInt(1));
+            cursor.moveToNext();
+        }
+        return factors;
     }
 
 }
