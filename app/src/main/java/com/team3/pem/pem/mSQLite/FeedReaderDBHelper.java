@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import utili.DayEntry;
 import utili.IDatabaseHelper;
 import utili.SQLiteMethods;
 
@@ -92,9 +93,9 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
     }
     @Override
-    public HashMap<Date, HashMap<String,List<Integer>>>  getDatabaseEntries(List<String> factors){
+    public HashMap<Date, DayEntry>  getDatabaseEntries(List<String> factors){
         SQLiteDatabase dbRwad = getReadableDatabase();
-        HashMap<Date, HashMap<String,List<Integer>>> entryMap = new HashMap<>();
+        HashMap<Date, DayEntry> entryMap = new HashMap<>();
 
         String [] projection = new String[4 + factors.size()];
         projection[0] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY;
@@ -107,7 +108,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         }
 
         Cursor cursor = dbRwad.query(
-                SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
+                SQLiteMethods.TABLE_NAME_MAIN_TABLE,
                 projection,
                 null,
                 null,
@@ -119,13 +120,13 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()){
-            Date date = new Date (cursor.getInt(0), cursor.getInt(1) , cursor.getInt(2));
+            Date date = new Date (cursor.getInt(2), cursor.getInt(1) , cursor.getInt(0));
             List<Integer> colors = new ArrayList<>();
-            HashMap<String, List<Integer>> descriptionColorMap = new HashMap<>();
-            for(int i = 3 ; i < factors.size() +2; i++){
+
+            for(int i = 3 ; i < factors.size() +3; i++){
                 colors.add(cursor.getInt(i));
             }
-            descriptionColorMap.put(cursor.getString(projection.length-1), colors);
+            DayEntry descriptionColorMap = new DayEntry(colors, cursor.getString(projection.length-1));
             entryMap.put(date, descriptionColorMap);
             cursor.moveToNext();
         }
@@ -133,10 +134,9 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     }
 
     @Override
-    public HashMap<Date, HashMap<String, List<Integer>>> getDatabaseEntriesDay(List<String> factors, int day, int month, int year) {
+    public HashMap<Date, DayEntry> getDatabaseEntriesDay(List<String> factors, int day, int month, int year) {
         SQLiteDatabase dbRwad = getReadableDatabase();
-        HashMap<Date, HashMap<String,List<Integer>>> entryMap = new HashMap<>();
-
+        HashMap<Date, DayEntry> entryMap = new HashMap<>();
         String [] projection = new String[4 + factors.size()];
         projection[0] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY;
         projection[1] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH;
@@ -153,7 +153,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
                 SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR + " = " + year;
 
         Cursor cursor = dbRwad.query(
-                SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
+                SQLiteMethods.TABLE_NAME_MAIN_TABLE,
                 projection,
                 selection,
                 null,
@@ -165,13 +165,13 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()){
-            Date date = new Date (cursor.getInt(0), cursor.getInt(1) , cursor.getInt(2));
+            Date date = new Date (cursor.getInt(2), cursor.getInt(1) , cursor.getInt(0));
             List<Integer> colors = new ArrayList<>();
-            HashMap<String, List<Integer>> descriptionColorMap = new HashMap<>();
-            for(int i = 3 ; i < factors.size() +2; i++){
+
+            for(int i = 3 ; i < factors.size() +3; i++){
                 colors.add(cursor.getInt(i));
             }
-            descriptionColorMap.put(cursor.getString(projection.length-1), colors);
+            DayEntry descriptionColorMap = new DayEntry(colors, cursor.getString(projection.length-1));
             entryMap.put(date, descriptionColorMap);
             cursor.moveToNext();
         }
@@ -179,10 +179,9 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     }
 
     @Override
-    public HashMap<Date, HashMap<String, List<Integer>>> getDatabaseEntriesMonth(List<String> factors, int month, int year) {
+    public HashMap<Date, DayEntry> getDatabaseEntriesMonth(List<String> factors, int month, int year) {
         SQLiteDatabase dbRwad = getReadableDatabase();
-        HashMap<Date, HashMap<String,List<Integer>>> entryMap = new HashMap<>();
-
+        HashMap<Date, DayEntry> entryMap = new HashMap<>();
         String [] projection = new String[4 + factors.size()];
         projection[0] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY;
         projection[1] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH;
@@ -198,7 +197,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
                         SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR + " = " + year;
 
         Cursor cursor = dbRwad.query(
-                SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
+                SQLiteMethods.TABLE_NAME_MAIN_TABLE,
                 projection,
                 selection,
                 null,
@@ -210,13 +209,13 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()){
-            Date date = new Date (cursor.getInt(0), cursor.getInt(1) , cursor.getInt(2));
+            Date date = new Date (cursor.getInt(2), cursor.getInt(1) , cursor.getInt(0));
             List<Integer> colors = new ArrayList<>();
-            HashMap<String, List<Integer>> descriptionColorMap = new HashMap<>();
-            for(int i = 3 ; i < factors.size() +2; i++){
+
+            for(int i = 3 ; i < factors.size() +3; i++){
                 colors.add(cursor.getInt(i));
             }
-            descriptionColorMap.put(cursor.getString(projection.length-1), colors);
+            DayEntry descriptionColorMap = new DayEntry(colors, cursor.getString(projection.length-1));
             entryMap.put(date, descriptionColorMap);
             cursor.moveToNext();
         }
@@ -224,10 +223,9 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     }
 
     @Override
-    public HashMap<Date, HashMap<String, List<Integer>>> getDatabaseEntriesYear(List<String> factors, int year) {
+    public HashMap<Date, DayEntry> getDatabaseEntriesYear(List<String> factors, int year) {
         SQLiteDatabase dbRwad = getReadableDatabase();
-        HashMap<Date, HashMap<String,List<Integer>>> entryMap = new HashMap<>();
-
+        HashMap<Date, DayEntry> entryMap = new HashMap<>();
         String [] projection = new String[4 + factors.size()];
         projection[0] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY;
         projection[1] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH;
@@ -242,7 +240,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
                         SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR + " = " + year;
 
         Cursor cursor = dbRwad.query(
-                SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
+                SQLiteMethods.TABLE_NAME_MAIN_TABLE,
                 projection,
                 selection,
                 null,
@@ -254,13 +252,13 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()){
-            Date date = new Date (cursor.getInt(0), cursor.getInt(1) , cursor.getInt(2));
+            Date date = new Date (cursor.getInt(2), cursor.getInt(1) , cursor.getInt(0));
             List<Integer> colors = new ArrayList<>();
-            HashMap<String, List<Integer>> descriptionColorMap = new HashMap<>();
-            for(int i = 3 ; i < factors.size() +2; i++){
+
+            for(int i = 3 ; i < factors.size() +3; i++){
                 colors.add(cursor.getInt(i));
             }
-            descriptionColorMap.put(cursor.getString(projection.length-1), colors);
+            DayEntry descriptionColorMap = new DayEntry(colors, cursor.getString(projection.length-1));
             entryMap.put(date, descriptionColorMap);
             cursor.moveToNext();
         }

@@ -2,8 +2,6 @@ package com.team3.pem.pem;
 
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -19,8 +17,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import utili.SQLiteMethods;
-
 
 public class MainActivity extends ActionBarActivity {
 
@@ -30,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
 
     HashMap<String, Integer> factorAsString;
 
-    protected FeedReaderDBHelper mDHelber;
+    public FeedReaderDBHelper mDHelber;
    // SwitchFragment switchFragment;
 
     @Override

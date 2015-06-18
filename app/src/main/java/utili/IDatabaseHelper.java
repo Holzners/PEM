@@ -27,9 +27,9 @@ public interface IDatabaseHelper {
     /**
      * Returns each entry to a specific List of factors
      * @param factors - list of factors
-     * @return HashMap<Date, HashMap<String,List<Integer>>>
+     * @return
      */
-    HashMap<Date, HashMap<String,List<Integer>>> getDatabaseEntries(List<String> factors);
+    HashMap<Date, DayEntry> getDatabaseEntries(List<String> factors);
 
     /**
      * Returns  entries for Date(day.month.year) to a specific List of factors
@@ -37,24 +37,24 @@ public interface IDatabaseHelper {
      * @param day
      * @param month
      * @param year
-     * @return HashMap<Date, HashMap<String,List<Integer>>>
+     * @return
      */
-    HashMap<Date, HashMap<String,List<Integer>>> getDatabaseEntriesDay(List<String> factors, int day, int month, int year);
+    HashMap<Date, DayEntry> getDatabaseEntriesDay(List<String> factors, int day, int month, int year);
     /**
      * Returns  entries for Month(month.year) to a specific List of factors
      * @param factors
      * @param month
      * @param year
-     * @return HashMap<Date, HashMap<String,List<Integer>>>
+     * @return
      */
-    HashMap<Date, HashMap<String,List<Integer>>> getDatabaseEntriesMonth(List<String> factors, int month, int year);
+    HashMap<Date, DayEntry> getDatabaseEntriesMonth(List<String> factors, int month, int year);
     /**
      * Returns  entries for Date(day.month.year) to a specific List of factors
      * @param factors
      * @param year
-     * @return HashMap<Date, HashMap<String,List<Integer>>>
+     * @return
      */
-    HashMap<Date, HashMap<String,List<Integer>>> getDatabaseEntriesYear(List<String> factors, int year);
+    HashMap<Date, DayEntry> getDatabaseEntriesYear(List<String> factors, int year);
 
     /**
      * Returns all saved Factors with Color as Resource ID

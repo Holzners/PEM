@@ -8,20 +8,40 @@ import android.widget.TextView;
 
 import com.roomorama.caldroid.CaldroidGridAdapter;
 import com.team3.pem.pem.R;
+import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+
+import hirondelle.date4j.DateTime;
+import utili.DayEntry;
 
 /**
  * Created by Stephan on 12.06.15.
  */
 public class CalendarFragmentAdapter extends CaldroidGridAdapter{
 
-    public CalendarFragmentAdapter(Context context, int month, int year, HashMap<String, Object> caldroidData, HashMap<String, Object> extraData) {
+    FeedReaderDBHelper mDBHelper;
+
+    public CalendarFragmentAdapter(Context context, int month, int year, HashMap<String, Object> caldroidData, HashMap<String, Object> extraData, FeedReaderDBHelper mDBHelper) {
         super(context, month, year, caldroidData, extraData);
+        this.mDBHelper = mDBHelper;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
+
+        DateTime dateTime = this.datetimeList.get(position);
+        List<String> factors = new ArrayList<>();
+        factors.add("Kopfschmerzen");
+        factors.add("Bauchschmerzen");
+        HashMap<Date, DayEntry> entryMap = mDBHelper.getDatabaseEntriesDay(factors, dateTime.getDay(), dateTime.getMonth(), dateTime.getYear());
+
+        Date date = new Date(dateTime.getYear(), dateTime.getMonth(), dateTime.getDay());
+
+        DayEntry dayEntry = entryMap.get(date);
 
         LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -39,10 +59,12 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
         TextView imgView3 = (TextView) cellView.findViewById(R.id.textView3);
         TextView imgView4 = (TextView) cellView.findViewById(R.id.textView4);
 
-        imgView1.setBackgroundColor(cellView.getResources().getColor(R.color.blue));
-        imgView2.setBackgroundColor(cellView.getResources().getColor(R.color.red));
-        imgView3.setBackgroundColor(cellView.getResources().getColor(R.color.green));
-        imgView4.setBackgroundColor(cellView.getResources().getColor(R.color.transparent));
+        if(dayEntry != null) {
+            imgView1.setBackgroundColor(cellView.getResources().getColor(dayEntry.ratings.get(0)));
+            imgView2.setBackgroundColor(cellView.getResources().getColor(dayEntry.ratings.get(1)));
+            imgView3.setBackgroundColor(cellView.getResources().getColor(R.color.transparent));
+            imgView4.setBackgroundColor(cellView.getResources().getColor(R.color.transparent));
+        }
 
 
         cellView.setPadding(leftPadding, topPadding, rightPadding,
