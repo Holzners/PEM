@@ -9,8 +9,6 @@ import android.util.Log;
 
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.utili.DayEntry;
-import com.team3.pem.pem.utili.IDatabaseHelper;
-import com.team3.pem.pem.utili.SQLiteMethods;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +27,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
     public static FeedReaderDBHelper mdbHelper;
 
-    public FeedReaderDBHelper(Context context) {
+    private FeedReaderDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         mdbHelper = this;
     }
@@ -302,6 +300,61 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             DayEntry descriptionColorMap = new DayEntry(colors, cursor.getString(projection.length-1));
             entryMap.put(date, descriptionColorMap);
             cursor.moveToNext();
+        }
+        return entryMap;
+    }
+
+    @Override
+    public HashMap<Date, DayEntry> getDatabaseEntriesWeek(List<String> factors, int startDay, int month, int year, int endDay
+    , int endMonth , int endYear) {
+        SQLiteDatabase dbRwad = getReadableDatabase();
+        HashMap<Date, DayEntry> entryMap = new HashMap<>();
+        String [] projection = new String[4 + factors.size()];
+        projection[0] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY;
+        projection[1] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH;
+        projection[2] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR;
+        projection[projection.length-1] = SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION;
+
+        for(int i = 0 ; i < factors.size() ; i++){
+            projection[3 + i] = factors.get(i);
+        }
+
+        String selection =
+                 "((" + SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY + " >= " + startDay + " AND " +
+                        SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH + " = " + month + " AND " +
+                        SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR + " = " + year +  ") OR (" +
+
+                        SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY + " <= " + endDay + " AND " +
+                        SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH + " = " + endMonth + " AND " +
+                        SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR + " = " + endYear + "))";
+
+
+
+        Cursor cursor = dbRwad.query(
+                SQLiteMethods.TABLE_NAME_MAIN_TABLE,
+                projection,
+                selection,
+                null,
+                null,
+                null,
+                null
+        );
+
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()){
+            Date date = new Date (cursor.getInt(2), cursor.getInt(1) , cursor.getInt(0));
+            List<Integer> colors = new ArrayList<>();
+
+            for(int i = 3 ; i < factors.size() +3; i++){
+                colors.add(cursor.getInt(i));
+                Log.d("Farbe", cursor.getInt(i) + "");
+            }
+            Log.d("Für Tag", date +"");
+            DayEntry descriptionColorMap = new DayEntry(colors, cursor.getString(projection.length-1));
+            entryMap.put(date, descriptionColorMap);
+            cursor.moveToNext();
+
         }
         return entryMap;
     }

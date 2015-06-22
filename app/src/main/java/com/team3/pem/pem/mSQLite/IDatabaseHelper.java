@@ -1,4 +1,6 @@
-package com.team3.pem.pem.utili;
+package com.team3.pem.pem.mSQLite;
+
+import com.team3.pem.pem.utili.DayEntry;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -55,6 +57,8 @@ public interface IDatabaseHelper {
      * @return
      */
     HashMap<Date, DayEntry> getDatabaseEntriesYear(List<String> factors, int year);
+
+    HashMap<Date, DayEntry> getDatabaseEntriesWeek(List<String> factors, int startDay, int month, int year, int endDay, int endMonth, int endYear);
 
     /**
      * Returns all saved Factors with Color as Resource ID

@@ -4,22 +4,20 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.roomorama.caldroid.CaldroidFragment;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
-import com.team3.pem.pem.utili.SQLiteMethods;
+import com.team3.pem.pem.mSQLite.SQLiteMethods;
 import com.team3.pem.pem.view.CalendarFragment;
 import com.team3.pem.pem.view.SwitchFragment;
+import com.team3.pem.pem.view.WeekFragment;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.team3.pem.pem.R.id.calendarFragmentPanel;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -75,14 +73,23 @@ public class MainActivity extends ActionBarActivity {
     private void initMonthFragment(){
         this.caldroidFragment = new CalendarFragment();
         Bundle args = new Bundle();
-        Calendar cal = Calendar.getInstance();
+
+        WeekFragment weekFragment = new WeekFragment();
+        weekFragment.init();
+        weekFragment.setFactorColorMap(factorAsString);
+
+        FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+        t.add(R.id.calendarFragmentPanel, weekFragment);
+        t.commit();
+
+        /*Calendar cal = Calendar.getInstance();
         args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
         args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
         caldroidFragment.setArguments(args);
         caldroidFragment.refreshView();
         android.support.v4.app.FragmentTransaction t = getSupportFragmentManager().beginTransaction();
         t.add(calendarFragmentPanel, caldroidFragment);
-        t.commit();
+        t.commit();*/
     }
 
     public void getDatabaseEntry(){
