@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import hirondelle.date4j.DateTime;
-import utili.DayEntry;
+import com.team3.pem.pem.utili.DayEntry;
 
 /**
  * Created by Stephan on 12.06.15.

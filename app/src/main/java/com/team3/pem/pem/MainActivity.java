@@ -1,6 +1,5 @@
 package com.team3.pem.pem;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,7 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import utili.SQLiteMethods;
+import com.team3.pem.pem.utili.SQLiteMethods;
 
 import static com.team3.pem.pem.R.id.calendarFragmentPanel;
 

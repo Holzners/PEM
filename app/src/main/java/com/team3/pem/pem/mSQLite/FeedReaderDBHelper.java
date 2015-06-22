@@ -8,15 +8,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.team3.pem.pem.R;
+import com.team3.pem.pem.utili.DayEntry;
+import com.team3.pem.pem.utili.IDatabaseHelper;
+import com.team3.pem.pem.utili.SQLiteMethods;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import utili.DayEntry;
-import utili.IDatabaseHelper;
-import utili.SQLiteMethods;
 
 /**
  * Created by Stephan on 16.06.15.
