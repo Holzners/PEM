@@ -36,4 +36,17 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send via mail"
+        android:id="@+id/mailswitch"
+        android:layout_above="@+id/nameField"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="38dp"
+        android:textSize="24dp"
+        android:switchMinWidth="50sp"
+        android:switchPadding="50sp"/>
+
 </RelativeLayout>
