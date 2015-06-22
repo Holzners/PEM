@@ -11,38 +11,35 @@ import android.view.MenuItem;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
+import com.team3.pem.pem.utili.SQLiteMethods;
 import com.team3.pem.pem.view.CalendarFragment;
 import com.team3.pem.pem.view.SwitchFragment;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.team3.pem.pem.utili.SQLiteMethods;
 
 import static com.team3.pem.pem.R.id.calendarFragmentPanel;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    HashMap<Date, Integer> daysToModify;
-
     CalendarFragment caldroidFragment;
 
     HashMap<String, Integer> factorAsString;
 
-    protected FeedReaderDBHelper mDHelber;
+    FeedReaderDBHelper mDHelber;
     SwitchFragment switchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDHelber = new FeedReaderDBHelper(this);
+        FeedReaderDBHelper.appContext = this;
+        mDHelber = FeedReaderDBHelper.getInstance();
         factorAsString = new HashMap<>();
         factorAsString = mDHelber.getFactorsFromDatabase();
         setContentView(R.layout.activity_main);
-        daysToModify = new HashMap<>();
+
         initMonthFragment();
 
         for (Map.Entry<String, Integer> e : factorAsString.entrySet()){
