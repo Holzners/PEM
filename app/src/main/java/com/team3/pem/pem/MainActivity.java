@@ -3,29 +3,26 @@ package com.team3.pem.pem;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Switch;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
-import com.team3.pem.pem.utili.SQLiteMethods;
 import com.team3.pem.pem.view.CalendarFragment;
 import com.team3.pem.pem.view.SlidingTabLayout;
 import com.team3.pem.pem.view.SwitchFragment;
 import com.team3.pem.pem.view.ViewPagerAdapter;
+import com.team3.pem.pem.view.WeekFragment;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Map;
 
 //import static com.team3.pem.pem.R.id.calendarFragmentPanel;
 
@@ -54,12 +51,8 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         factorAsString = mDHelber.getFactorsFromDatabase();
         setContentView(R.layout.activity_main);
 
-        initMonthFragment();
-        initSwitchFragment();
 
-        for (Map.Entry<String, Integer> e : factorAsString.entrySet()){
-            Log.d(e.getKey() , e.getValue() + "");
-        }
+        initSwitchFragment();
 
         // Creating The Toolbar and setting it as the Toolbar for the activity
 
@@ -69,7 +62,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         titles = getResources().getStringArray(R.array.tabs);
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),titles, tabNumber);
+        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),titles, tabNumber,factorAsString);
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
@@ -89,7 +82,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
-
+        //initWeekFragment();
     }
 
     @Override
@@ -125,40 +118,17 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         caldroidFragment.setArguments(args);
         caldroidFragment.refreshView();
         android.support.v4.app.FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-//        t.add(calendarFragmentPanel, caldroidFragment);
+        t.replace(R.id.calender, caldroidFragment);
         t.commit();
     }
 
-    public void getDatabaseEntry(){
-        SQLiteDatabase dbRwad = mDHelber.getReadableDatabase();
-        //String[]
-    }
 
-    private HashMap<String, Integer> getFactorsFromDatabase(){
-        SQLiteDatabase dbRwad = mDHelber.getReadableDatabase();
-        String [] projection = {
-                SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS,
-                SQLiteMethods.COLUMN_NAME_ENTRY_COLOR,
-        };
-        String selection = " * ";
-
-        Cursor cursor = dbRwad.query(
-                SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
-
-        cursor.moveToFirst();
-        HashMap<String , Integer> factors = new HashMap<>();
-        while (!cursor.isAfterLast()){
-            factors.put(cursor.getString(0), cursor.getInt(1));
-            cursor.moveToNext();
-        }
-        return factors;
+    private void initWeekFragment(){
+        WeekFragment weekFragment = new WeekFragment();
+        weekFragment.init();
+        android.support.v4.app.FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.calender, weekFragment);
+        t.commit();
     }
 
 

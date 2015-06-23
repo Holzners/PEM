@@ -19,11 +19,10 @@ public class WeekFragment extends ListFragment{
 
     private int year;
     private int calenderWeek;
-
     private HashMap<String,Integer> factorColorMap;
 
     public WeekFragment() {
-
+        init();
         // Required empty public constructor
     }
 
@@ -32,7 +31,6 @@ public class WeekFragment extends ListFragment{
         Calendar c = Calendar.getInstance();
         year = c.get(Calendar.YEAR);
         calenderWeek = c.get(Calendar.WEEK_OF_YEAR);
-
     }
 
     @Override
@@ -53,7 +51,6 @@ public class WeekFragment extends ListFragment{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         List<String> factors = new ArrayList<>();
         factors.add("");
         for (Map.Entry<String, Integer> e : factorColorMap.entrySet()){
@@ -70,6 +67,7 @@ public class WeekFragment extends ListFragment{
 
     public void setFactorColorMap(HashMap<String, Integer> factorColorMap) {
         this.factorColorMap = factorColorMap;
+
         updateTable();
     }
 

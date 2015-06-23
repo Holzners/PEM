@@ -52,13 +52,6 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        /**View newRow = convertView;
-
-        int topPadding = convertView.getPaddingTop();
-        int leftPadding = convertView.getPaddingLeft();
-        int bottomPadding = convertView.getPaddingBottom();
-        int rightPadding = convertView.getPaddingRight();*/
-
         View newRow = inflater.inflate(R.layout.table_row_week, null);
         TextView[] rowViews = new TextView[7];
         rowViews[0] = (TextView) newRow.findViewById(R.id.rowTextView1);
@@ -88,7 +81,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
             DateTime startDay = firstDayOfThisWeek();
             DateTime endDay = lastDayOfThisWeek();
 
-            HashMap<Date, DayEntry> entryHashMap = new HashMap<>();
+            HashMap<Date, DayEntry> entryHashMap;
             if (mDBHelper == null) {
                 mDBHelper = mDBHelper.getInstance();
             }
@@ -99,17 +92,18 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
             for (int i = 0; i < rowViews.length; i++) {
                 DateTime thisDate = startDay.plusDays(i);
                 Date date = new Date(thisDate.getYear(), thisDate.getMonth(), thisDate.getDay());
-                if (entryHashMap.containsKey(date)) {
-                    if (entryHashMap.get(date).ratings.get(0) != 0) {
+                if (entryHashMap.containsKey(date)&& (entryHashMap.get(date).ratings.get(0) != 0)) {
+
                         Log.d("" + date + " Symptom:" , ""+factors.get(0) + " Farbe: " + entryHashMap.get(date).ratings.get(0));
                         GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
                         gd.setColor(newRow.getResources().getColor(entryHashMap.get(date).ratings.get(0)));
+                    }else{
+                        GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
+                        gd.setColor(newRow.getResources().getColor(R.color.white));
                     }
-                }
+
             }
         }
-        //newRow.setPadding(leftPadding, topPadding, rightPadding,
-          //      bottomPadding);
 
         return newRow;
 
