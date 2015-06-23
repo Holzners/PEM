@@ -123,7 +123,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         caldroidFragment.setArguments(args);
         caldroidFragment.refreshView();
         android.support.v4.app.FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-        t.add(calendarFragmentPanel, caldroidFragment);
+//        t.add(calendarFragmentPanel, caldroidFragment);
         t.commit();
     }
 

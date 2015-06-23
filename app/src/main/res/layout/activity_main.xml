@@ -34,10 +34,21 @@
         android:layout_height="wrap_content"
         android:id="@+id/calender"
         android:layout_below="@+id/tool_bar"
-        >
-        android:layout_weight="1"
-        android:id = "@+id/switchFragmentPanel" />>
+        />
 
-    </FrameLayout>
+    <FrameLayout
+        android:padding="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/calendarFragmentPanel"
+        />
+
+    <FrameLayout
+        android:padding="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/switchFragmentPanel"
+        />
+
 
 </LinearLayout>
