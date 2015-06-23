@@ -1,5 +1,7 @@
 package com.team3.pem.pem;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,6 +10,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Switch;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
@@ -22,14 +26,12 @@ import java.util.Map;
 import static com.team3.pem.pem.R.id.calendarFragmentPanel;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements SwitchFragment.SwitchFragmentInterface {
 
     CalendarFragment caldroidFragment;
-
-    HashMap<String, Integer> factorAsString;
-
-    FeedReaderDBHelper mDHelber;
     SwitchFragment switchFragment;
+    HashMap<String, Integer> factorAsString;
+    FeedReaderDBHelper mDHelber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +43,11 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         initMonthFragment();
+        initSwitchFragment();
 
         for (Map.Entry<String, Integer> e : factorAsString.entrySet()){
             Log.d(e.getKey() , e.getValue() + "");
         }
-
     }
 
     @Override
@@ -117,4 +119,31 @@ public class MainActivity extends ActionBarActivity {
         return factors;
     }
 
+
+//---------------------SwitchFragment---------------------------------
+
+    public void initSwitchFragment(){
+        this.switchFragment = new SwitchFragment();
+        FragmentManager f = getFragmentManager();
+        FragmentTransaction t = f.beginTransaction();
+        t.add(R.id.switchFragmentPanel, switchFragment);
+        t.commit();
+    }
+
+    @Override
+    public void updateSymptoms() {
+        // TODO Farbe/Symptom (de)aktivieren
+    }
+
+    public void onSwitchClicked(View view){
+        boolean on = ((Switch) view).isChecked();
+        // TODO Switch Position
+        if (on) {
+            Log.i("onSwitchClicked","Switch isChecked");
+            updateSymptoms();
+        } else {
+            Log.i("onSwitchClicked","Switch isNotChecked");
+            updateSymptoms();
+        }
+    }
 }

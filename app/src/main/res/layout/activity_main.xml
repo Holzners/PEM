@@ -16,14 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:id = "@+id/switchFragmentPanel" />><fragment
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:name="com.team3.pem.pem.view.SwitchFragment"
-            android:id="@+id/fragment"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            tools:layout="@layout/fragment_switch"/>
+        android:id = "@+id/switchFragmentPanel" />>
 
 
 </LinearLayout>
