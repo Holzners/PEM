@@ -41,8 +41,9 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    CharSequence Titles[]={"Week","Month","Year"};
-    int Numboftabs =3;
+    String titles[];
+
+    int tabNumber =3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,8 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
 
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
+        titles = getResources().getStringArray(R.array.tabs);
+        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),titles, tabNumber);
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);

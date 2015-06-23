@@ -12,6 +12,9 @@
         android:id="@+id/switch1"
         android:clickable="true"
         android:onClick="onSwitchClicked"
-        android:checked="true" />
+        android:checked="true"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        />
 
 </LinearLayout>

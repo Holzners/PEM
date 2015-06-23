@@ -40,13 +40,6 @@
         android:padding="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/calendarFragmentPanel"
-        />
-
-    <FrameLayout
-        android:padding="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/switchFragmentPanel"
         />
 
