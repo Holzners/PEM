@@ -8,6 +8,7 @@ public class CalendarFragment extends CaldroidFragment {
     @Override
     public CaldroidGridAdapter getNewDatesGridAdapter(int month, int year) {
         // TODO Auto-generated method stub
+
         return new CalendarFragmentAdapter(getActivity(), month, year, getCaldroidData(), extraData);
     }
 

@@ -1,6 +1,8 @@
 package com.team3.pem.pem;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,7 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 //Importing stuff for PDF Export
@@ -26,6 +30,9 @@ public class ExportActivity extends ActionBarActivity {
 
     Button exportButton;
     EditText nameField;
+    Switch mailSwitch;
+    boolean switchOn;
+    File file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +41,37 @@ public class ExportActivity extends ActionBarActivity {
 
         exportButton = (Button) findViewById(R.id.exportbutton);
         nameField = (EditText) findViewById(R.id.nameField);
+        mailSwitch = (Switch) findViewById(R.id.mailswitch);
 
         exportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String filename = nameField.getText().toString();
                 if(createPDF(filename)){
-                    Toast.makeText(getApplicationContext(), filename + ".pdf created", Toast.LENGTH_SHORT).show();
+                    if(switchOn) {
+                        Intent email = new Intent(Intent.ACTION_SEND);
+
+                        Uri uri = Uri.fromFile(file);
+                        email.putExtra(Intent.EXTRA_STREAM, uri);
+
+                        email.setType("message/rfc822");
+                        startActivity(Intent.createChooser(email, "Choose an email client!"));
+                    }else{
+                        Toast.makeText(getApplicationContext(), filename + ".pdf created", Toast.LENGTH_SHORT).show();
+                    }
                 }else{
                     Toast.makeText(getApplicationContext(), "Could not create pdf", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        mailSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    switchOn = true;
+                }else{
+                    switchOn = false;
                 }
             }
         });
@@ -73,7 +102,7 @@ public class ExportActivity extends ActionBarActivity {
     public boolean createPDF(String name){
         try{
             String filePath = Environment.getExternalStorageDirectory().getPath() + "/" + name + ".pdf";
-            File file = new File(filePath);
+            file = new File(filePath);
             // If file exists, stop working
             if (file.exists()) {
                 Toast.makeText(getApplicationContext(), "The file already exists", Toast.LENGTH_LONG).show();
@@ -85,7 +114,7 @@ public class ExportActivity extends ActionBarActivity {
             PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
             //TODO: ADD DATA
-            //document.add(new Paragraph("Hello World!"));
+            document.add(new Paragraph("Hello World!"));
             document.close();
             return true;
         }catch(IOException e){
