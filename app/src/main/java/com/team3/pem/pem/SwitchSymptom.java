@@ -1,22 +1,16 @@
 package com.team3.pem.pem;
 
+import android.widget.Switch;
+
 public class SwitchSymptom {
 
-    private String name;
-//    public Switch mSwitch;
+    public String name;
+    public Switch mSwitch;
 //    public Color color;
 
-    public SwitchSymptom(String name){
+    public SwitchSymptom (String name, Switch mSwitch){
         this.name = name;
-//        this.mSwitch = mSwitch;
+        this.mSwitch = mSwitch;
 //        this.color = color;
-    }
-
-    public void setSymptomName(String symptomName){
-        this.name = symptomName;
-    }
-
-    public String getSymptomName(){
-        return name;
     }
 }
