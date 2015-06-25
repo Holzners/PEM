@@ -58,6 +58,4 @@ public enum ColorsToPick {
         return VIOLETTE;
     }
 
-
-
 }

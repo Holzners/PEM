@@ -93,7 +93,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
-        checkDatabase();
+        //checkDatabase();
     }
 
     @Override

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.DayEntry;
+import com.team3.pem.pem.utili.RatingToColorHelper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -103,7 +104,9 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
 
                         Log.d("" + date + " Symptom:" , ""+factors.get(0) + " Farbe: " + entryHashMap.get(date).ratings.get(0));
                         GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
-                        gd.setColor(newRow.getResources().getColor(entryHashMap.get(date).ratings.get(0)));
+                        gd.setColor(newRow.getResources().getColor(
+                                RatingToColorHelper.ratingToColor(factors.get(0),
+                                entryHashMap.get(date).ratings.get(0))));
                     }else{
                         GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
                         gd.setColor(newRow.getResources().getColor(R.color.white));

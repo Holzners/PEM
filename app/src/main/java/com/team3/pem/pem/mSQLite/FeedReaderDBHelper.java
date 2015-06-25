@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.team3.pem.pem.R;
 import com.team3.pem.pem.utili.ColorsToPick;
 import com.team3.pem.pem.utili.DayEntry;
 import com.team3.pem.pem.utili.ReminderModel;
@@ -51,8 +50,8 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, 22);
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH, 6);
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR, 2015);
-        values.put("Kopfschmerzen", (R.color.blue));
-        values.put("Bauchschmerzen", (R.color.red));
+        values.put("Kopfschmerzen", 1);
+        values.put("Bauchschmerzen", 3);
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION, "Damn hard day");
 
         db.insertWithOnConflict(
@@ -64,8 +63,8 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH, 6);
         values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR, 2015);
 
-        values2.put("Kopfschmerzen", (R.color.navy));
-        values2.put("Bauchschmerzen", (R.color.accentColor));
+        values2.put("Kopfschmerzen", 4);
+        values2.put("Bauchschmerzen", 3);
         values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION, "Damn hard day");
 
         db.insertWithOnConflict(

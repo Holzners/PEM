@@ -12,6 +12,7 @@ import com.roomorama.caldroid.CaldroidGridAdapter;
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.DayEntry;
+import com.team3.pem.pem.utili.RatingToColorHelper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,8 +80,10 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
                 GradientDrawable drawable2 = (GradientDrawable) imgView2.getBackground();
                 GradientDrawable drawable3 = (GradientDrawable) imgView3.getBackground();
                 GradientDrawable drawable4 = (GradientDrawable) imgView4.getBackground();
-                drawable1.setColor(cellView.getResources().getColor(dayEntry.ratings.get(0)));
-                drawable2.setColor(cellView.getResources().getColor(dayEntry.ratings.get(1)));
+                drawable1.setColor(cellView.getResources().getColor(
+                        RatingToColorHelper.ratingToColor(factors.get(0), dayEntry.ratings.get(0))));
+                drawable2.setColor(cellView.getResources().getColor(
+                        RatingToColorHelper.ratingToColor(factors.get(1), dayEntry.ratings.get(1))));
                 drawable3.setColor(cellView.getResources().getColor(R.color.white));
                 drawable4.setColor(cellView.getResources().getColor(R.color.white));
             } else {
