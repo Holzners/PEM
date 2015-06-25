@@ -26,6 +26,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team3.pem.pem.MainActivity" />
         </activity>
+        <activity
+            android:name=".RateDayActivity"
+            android:label="@string/title_activity_rate_day"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.team3.pem.pem.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

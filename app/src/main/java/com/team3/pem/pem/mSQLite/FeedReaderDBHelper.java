@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.team3.pem.pem.utili.ColorsToPick;
 import com.team3.pem.pem.utili.DayEntry;
 import com.team3.pem.pem.utili.ReminderModel;
 
@@ -15,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Stephan on 16.06.15.
@@ -45,7 +45,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, "Kopfschmerzen"));
         db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, "Bauchschmerzen"));
         db.execSQL(SQLiteMethods.SQL_CREATE_REMINDERS);
-
+/*
         ContentValues values = new ContentValues();
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, 22);
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH, 6);
@@ -110,6 +110,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_REMINDER_TABLE,
                 "null", values10, SQLiteDatabase.CONFLICT_REPLACE);
+                */
     }
 
 
@@ -129,27 +130,26 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
                 "null", values, SQLiteDatabase.CONFLICT_REPLACE);
     }
     @Override
-    public void saveDay(Date date, List<Integer> ratings, String text){
+    public void saveDay(Date date, HashMap<String,Integer> ratings, String text){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values  = new ContentValues();
 
-        List<String> factors = getFactors();
+        Log.d("Saved: " , text+ date);
 
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, date.getDate());
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH, date.getMonth());
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR, date.getYear());
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION, text);
 
-        if(ratings.size() == factors.size()){
-            for (int i = 0 ; i < ratings.size(); i++){
-                values.put(factors.get(i), ratings.get(i));
+            for (Map.Entry<String, Integer> e : ratings.entrySet()){
+                Log.d(e.getKey(), e.getValue()+"");
+                values.put(e.getKey(),e.getValue());
             }
-        }else{
-            Log.e("Save to Database" , "Error while saving: Ratings and Factors Size dont match!");
-        }
+
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_MAIN_TABLE,
                 "null", values, SQLiteDatabase.CONFLICT_REPLACE);
+
 
     }
     @Override

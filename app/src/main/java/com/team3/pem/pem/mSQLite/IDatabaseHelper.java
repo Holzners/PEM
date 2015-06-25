@@ -25,7 +25,7 @@ public interface IDatabaseHelper {
      * @param ratings - List of Ratings
      * @param text - Description
      */
-    void saveDay(Date date, List<Integer> ratings, String text);
+    void saveDay(Date date, HashMap<String, Integer> ratings, String text);
 
     /**
      * Returns each entry to a specific List of factors

@@ -2,14 +2,15 @@ package com.team3.pem.pem.view.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.team3.pem.pem.R;
+import com.team3.pem.pem.RateDayActivity;
 import com.team3.pem.pem.utili.ColorsToPick;
 
 import java.util.ArrayList;
@@ -20,25 +21,24 @@ import java.util.Map;
 /**
  * Created by Stephan on 25.06.15.
  */
-public class RateDayAdapter extends ArrayAdapter implements View.OnClickListener {
+public class RateDayAdapter extends ArrayAdapter {
 
     HashMap<String,String> factorColors;
 
     List<String> factors;
 
-    Context context;
+    RateDayActivity activity;
 
-    HashMap<String, Integer> selectedColor;
-
-    public RateDayAdapter(Context context, int resource, HashMap<String,String> factorColors) {
-        super(context, resource);
-        this.context = context;
+    public RateDayAdapter(RateDayActivity activity, int resource, HashMap<String,String> factorColors) {
+        super(activity, resource);
+        this.activity = activity;
         this.factorColors = factorColors;
         factors = new ArrayList<>();
+        activity.selectedColor = new HashMap<>();
         for (Map.Entry<String,String> e : factorColors.entrySet()){
             factors.add(e.getKey());
+            activity.selectedColor.put(e.getKey(),1);
         }
-        selectedColor = new HashMap<>();
     }
     @Override
     public int getCount() {
@@ -55,7 +55,7 @@ public class RateDayAdapter extends ArrayAdapter implements View.OnClickListener
 
         final TextView[] rateViews = new TextView[5];
 
-        LayoutInflater inflater = (LayoutInflater) context
+        LayoutInflater inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View newRow = inflater.inflate(R.layout.rate_day_layout, null);
@@ -69,32 +69,56 @@ public class RateDayAdapter extends ArrayAdapter implements View.OnClickListener
         rateViews[3] = (TextView) newRow.findViewById(R.id.ratText4);
         rateViews[4] = (TextView) newRow.findViewById(R.id.ratText5);
 
-        EditText notePad = (EditText) newRow.findViewById(R.id.noteText);
 
         String color = factorColors.get(factors.get(position));
         int[]colors = ColorsToPick.getColorByString(color).getAllColors();
 
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        int width = display.getWidth()/7;
+        int height = display.getWidth()/7;
+
         for (int i = 0 ; i < colors.length && i < rateViews.length ; i++){
+            ViewGroup.LayoutParams params =rateViews[i].getLayoutParams();
+            params.width = width;
+            params.height = height;
+            rateViews[i].setLayoutParams(params);
 
             GradientDrawable gd = (GradientDrawable) rateViews[i].getBackground();
             gd.setColor(newRow.getResources().getColor(colors[i]));
-            final int colorFinal = colors[i];
-            final TextView tv = rateViews[i];
-            rateViews[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    selectedColor.put(factors.get(position), colorFinal);
-                    tv.setBackgroundResource(R.drawable.border_red);
-                }
-            });
+            gd.setStroke(1, activity.getResources().getColor(R.color.black));
+            rateViews[i].setOnClickListener(
+                    new RateViewOnClickListener(rateViews[i],rateViews,position,i));
         }
 
+
+        GradientDrawable gd = (GradientDrawable)  rateViews[0].getBackground();
+        gd.setStroke(7, activity.getResources().getColor(R.color.black));
         return newRow;
     }
 
-    @Override
-    public void onClick(View v) {
+   public class RateViewOnClickListener implements View.OnClickListener {
 
-    }
+       private TextView textView;
+       private TextView[] textViews;
+       private int factorPosition, index;
 
+       public RateViewOnClickListener(TextView textView, TextView[] textViews, int factorPosition, int index){
+           this.textView = textView;
+           this.textViews = textViews;
+           this.factorPosition = factorPosition;
+           this.index = index;
+       }
+
+       @Override
+       public void onClick(View v) {
+           int oldIndex =  activity.selectedColor.get(factors.get(factorPosition))-1;
+           GradientDrawable gd = (GradientDrawable)  textViews[oldIndex].getBackground();
+           gd.setStroke(1, activity.getResources().getColor(R.color.black));
+
+           activity.selectedColor.put(factors.get(factorPosition), index+1);
+           GradientDrawable gdNew = (GradientDrawable)  textView.getBackground();
+           gdNew.setStroke(7, activity.getResources().getColor(R.color.black));
+
+       }
+   }
 }

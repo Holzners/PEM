@@ -15,4 +15,7 @@
     <!-- Export activity -->
     <string name="title_activity_export">ExportActivity</string>
     <string name="label_activity_export">Export</string>
+    <string name="title_activity_rate_day">RateDayActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
