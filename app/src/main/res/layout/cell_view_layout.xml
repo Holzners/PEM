@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/cellContainer"
     android:stretchColumns="0,1"
-    android:background="@drawable/border"
     >
 
     <TableRow
@@ -43,3 +48,11 @@
         </TableRow>
 
 </TableLayout>
+
+<TextView
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:gravity="center_horizontal"
+android:id="@+id/textView5" />
+
+</RelativeLayout>

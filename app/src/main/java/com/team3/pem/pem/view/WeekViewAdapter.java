@@ -29,11 +29,13 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
     FeedReaderDBHelper mDBHelper;
     Context context;
     List<String> factors;
+    private int displayWidth;
 
-    public WeekViewAdapter(Context context, int resource, List<String> factors) {
+    public WeekViewAdapter(Context context, int resource, List<String> factors, int displaySize) {
         super(context, resource);
         this.context = context;
         this.factors = factors;
+        this.displayWidth = displaySize;
     }
 
     @Override
@@ -73,6 +75,10 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
             for(int k = 0 ; k <rowViews.length; k++){
                 GradientDrawable gd = (GradientDrawable) rowViews[k].getBackground();
                 gd.setColor(newRow.getResources().getColor(R.color.caldroid_lighter_gray));
+                ViewGroup.LayoutParams params = rowViews[k].getLayoutParams();
+                params.height = displayWidth/7-5;
+                params.width = displayWidth/7-5;
+                rowViews[k].setLayoutParams(params);
             }
 
         }else {
@@ -90,6 +96,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
 
 
             for (int i = 0; i < rowViews.length; i++) {
+
                 DateTime thisDate = startDay.plusDays(i);
                 Date date = new Date(thisDate.getYear(), thisDate.getMonth(), thisDate.getDay());
                 if (entryHashMap.containsKey(date)&& (entryHashMap.get(date).ratings.get(0) != 0)) {
@@ -101,7 +108,10 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
                         GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
                         gd.setColor(newRow.getResources().getColor(R.color.white));
                     }
-
+                ViewGroup.LayoutParams params = rowViews[i].getLayoutParams();
+                params.height = displayWidth/7-5;
+                params.width = displayWidth/7-5;
+                rowViews[i].setLayoutParams(params);
             }
         }
 

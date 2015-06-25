@@ -3,6 +3,7 @@ package com.team3.pem.pem.view;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,9 @@ public class WeekFragment extends ListFragment{
         for (Map.Entry<String, Integer> e : factorColorMap.entrySet()){
             factors.add(e.getKey());
         }
-        WeekViewAdapter adapter = new WeekViewAdapter(getActivity(),0,factors);
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        int displayWidth = display.getWidth();
+        WeekViewAdapter adapter = new WeekViewAdapter(getActivity(),0,factors, displayWidth);
         setListAdapter(adapter);
     }
 
