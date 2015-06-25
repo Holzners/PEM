@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.team3.pem.pem.R;
+import com.team3.pem.pem.view.adapters.WeekViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,7 +21,7 @@ public class WeekFragment extends ListFragment{
 
     private int year;
     private int calenderWeek;
-    private HashMap<String,Integer> factorColorMap;
+    private HashMap<String,String> factorColorMap;
 
     public WeekFragment() {
         init();
@@ -54,7 +55,7 @@ public class WeekFragment extends ListFragment{
         super.onActivityCreated(savedInstanceState);
         List<String> factors = new ArrayList<>();
         factors.add("");
-        for (Map.Entry<String, Integer> e : factorColorMap.entrySet()){
+        for (Map.Entry<String, String> e : factorColorMap.entrySet()){
             factors.add(e.getKey());
         }
         Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -64,11 +65,11 @@ public class WeekFragment extends ListFragment{
     }
 
 
-    public HashMap<String, Integer> getFactorColorMap() {
+    public HashMap<String, String> getFactorColorMap() {
         return factorColorMap;
     }
 
-    public void setFactorColorMap(HashMap<String, Integer> factorColorMap) {
+    public void setFactorColorMap(HashMap<String, String> factorColorMap) {
         this.factorColorMap = factorColorMap;
 
         updateTable();

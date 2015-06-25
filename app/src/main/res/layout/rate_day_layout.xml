@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/ratePopUp">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listViewRatings"/>
+    <TableRow android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/factorText" />
+    </TableRow>
+    <TableRow android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+      <TextView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+          android:background="@drawable/border"
+        android:id="@+id/ratText1" />
+      <TextView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+          android:background="@drawable/border"
+        android:id="@+id/ratText2" />
+        <TextView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+            android:background="@drawable/border"
+        android:id="@+id/ratText3" />
+        <TextView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+            android:background="@drawable/border"
+        android:id="@+id/ratText4" />
+        <TextView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+            android:background="@drawable/border"
+        android:id="@+id/ratText5" />
+    </TableRow>
+    <TableRow android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notiz"
+            android:textColor="@color/caldroid_middle_gray"
+            android:id="@+id/noteText" />
+    </TableRow>
+
+
+</LinearLayout>

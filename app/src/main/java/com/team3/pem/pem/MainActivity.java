@@ -2,27 +2,37 @@ package com.team3.pem.pem;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.Switch;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
+import com.team3.pem.pem.utili.ReminderModel;
 import com.team3.pem.pem.view.CalendarFragment;
 import com.team3.pem.pem.view.SlidingTabLayout;
 import com.team3.pem.pem.view.SwitchFragment;
-import com.team3.pem.pem.view.ViewPagerAdapter;
 import com.team3.pem.pem.view.WeekFragment;
+import com.team3.pem.pem.view.adapters.RateDayAdapter;
+import com.team3.pem.pem.view.adapters.ViewPagerAdapter;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 //import static com.team3.pem.pem.R.id.calendarFragmentPanel;
 
@@ -31,7 +41,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
 
     CalendarFragment caldroidFragment;
     SwitchFragment switchFragment;
-    HashMap<String, Integer> factorAsString;
+    HashMap<String, String> factorAsString;
     FeedReaderDBHelper mDHelber;
 
     Toolbar toolbar;
@@ -82,7 +92,8 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
-        //initWeekFragment();
+
+        checkDatabase();
     }
 
     @Override
@@ -104,6 +115,8 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
             return true;
         }else if(id == R.id.action_export){
             startActivity(new Intent(MainActivity.this, ExportActivity.class));
+        }else if(id == R.id.action_rateday){
+            openPopUpForDayRating();
         }
 
         return super.onOptionsItemSelected(item);
@@ -156,6 +169,52 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         } else {
             Log.i("onSwitchClicked","Switch isNotChecked");
             updateSymptoms();
+        }
+    }
+
+    private void openPopUpForDayRating(){
+        try {
+            LinearLayout viewGroup = (LinearLayout) findViewById(R.id.ratePopUp);
+            LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.rate_day_layout, viewGroup);
+
+            PopupWindow pWindow = new PopupWindow();
+            pWindow.setContentView(layout);
+            Display d = getWindowManager().getDefaultDisplay();
+
+            pWindow.setWidth((int) (d.getWidth() * 0.9));
+            pWindow.setHeight((int) (d.getHeight() * 0.9));
+            pWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            pWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.white_background));
+
+
+            // Updating parsed JSON data into listview
+            ListView lv_popup = (ListView) layout.findViewById(R.id.listViewRatings);
+
+            RateDayAdapter adapter = new RateDayAdapter(this,  R.layout.rate_day_layout, factorAsString);
+            lv_popup.setAdapter(adapter);
+           /** Button btnClose = (Button)layout.findViewById(R.id.btn_close);
+            btnClose.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    pWindow.dismiss();
+                }
+            }); */
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void checkDatabase(){
+        List<ReminderModel> reminders = mDHelber.getAllReminders();
+        for(ReminderModel r : reminders) {
+            Log.d("Reminder ID", r.getAlarmID()+"");
+            Log.d("Dialog ID", r.getDialogID()+"");
+            Log.d("Time", r.getTime()+"");
+            Log.d("Text", r.getText()+"");
+            Log.d("Active", r.isActive()+"");
+            for(Boolean b : r.getActiveForDays()){
+                Log.d("Boolen" , b + "");
+            }
         }
     }
 }

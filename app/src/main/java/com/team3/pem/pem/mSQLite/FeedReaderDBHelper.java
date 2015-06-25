@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.team3.pem.pem.R;
+import com.team3.pem.pem.utili.ColorsToPick;
 import com.team3.pem.pem.utili.DayEntry;
+import com.team3.pem.pem.utili.ReminderModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,6 +45,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         db.execSQL(SQLiteMethods.SQL_CREATE_FACTORS);
         db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, "Kopfschmerzen"));
         db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, "Bauchschmerzen"));
+        db.execSQL(SQLiteMethods.SQL_CREATE_REMINDERS);
 
         ContentValues values = new ContentValues();
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, 22);
@@ -71,7 +74,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
         ContentValues values3 = new ContentValues();
         values3.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS, "Kopfschmerzen");
-        values3.put(SQLiteMethods.COLUMN_NAME_ENTRY_COLOR, (R.color.blue));
+        values3.put(SQLiteMethods.COLUMN_NAME_ENTRY_COLOR, ColorsToPick.BLUE.name());
 
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
@@ -79,13 +82,35 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
         ContentValues values4 = new ContentValues();
         values4.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS, "Bauchschmerzen");
-        values4.put(SQLiteMethods.COLUMN_NAME_ENTRY_COLOR, (R.color.red));
+        values4.put(SQLiteMethods.COLUMN_NAME_ENTRY_COLOR, ColorsToPick.RED.name());
 
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
                 "null", values4, SQLiteDatabase.CONFLICT_REPLACE);
 
+        ContentValues values10  = new ContentValues();
 
+        String[] dayColumns = {
+                SQLiteMethods.COLUMN_NAME_ENTRY_MONDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_TUESDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_WEDNESDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_THURSDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_FRIDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY};
+        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID, 1);
+        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_DIALOG_ID, 2);
+        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_TEXT,  "Some Text");
+        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_TIME, "8:00");
+        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ACTIVE, 1);
+
+        for (int i = 0; i< dayColumns.length; i++){
+            values10.put(dayColumns[i], 1);
+        }
+
+        db.insertWithOnConflict(
+                SQLiteMethods.TABLE_NAME_REMINDER_TABLE,
+                "null", values10, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
 
@@ -95,7 +120,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     }
 
     @Override
-    public void saveFactor(String factorName, int colorId) {
+    public void saveFactor(String factorName, String colorId) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values  = new ContentValues();
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS, factorName);
@@ -360,7 +385,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     }
 
     @Override
-    public HashMap<String, Integer> getFactorsFromDatabase(){
+    public HashMap<String, String> getFactorsFromDatabase(){
         SQLiteDatabase dbRwad = getReadableDatabase();
         String [] projection = {
                 SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS,
@@ -378,9 +403,9 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         );
 
         cursor.moveToFirst();
-        HashMap<String , Integer> factors = new HashMap<>();
+        HashMap<String , String> factors = new HashMap<>();
         while (!cursor.isAfterLast()){
-            factors.put(cursor.getString(0), cursor.getInt(1));
+            factors.put(cursor.getString(0), cursor.getString(1));
             cursor.moveToNext();
         }
         return factors;
@@ -409,6 +434,99 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             cursor.moveToNext();
         }
         return factors;
+    }
+
+    @Override
+    public void saveReminder(ReminderModel reminder) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values  = new ContentValues();
+
+        boolean[] bools = reminder.getActiveForDays();
+        String[] dayColumns = {
+                SQLiteMethods.COLUMN_NAME_ENTRY_MONDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_TUESDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_WEDNESDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_THURSDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_FRIDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY};
+        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID, reminder.getAlarmID());
+        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_DIALOG_ID, reminder.getDialogID());
+        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_TEXT,  reminder.getText());
+        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_TIME, reminder.getTime());
+        if(reminder.isActive()) values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ACTIVE, 1);
+        else   values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ACTIVE, 1);
+
+        for (int i = 0; i< dayColumns.length && i < bools.length; i++){
+            if(bools[i]) values.put(dayColumns[i], 1);
+            else values.put(dayColumns[i], 0);
+        }
+
+        db.insertWithOnConflict(
+                SQLiteMethods.TABLE_NAME_REMINDER_TABLE,
+                "null", values, SQLiteDatabase.CONFLICT_REPLACE);
+    }
+
+    @Override
+    public void removeReminder(int iD) {
+        SQLiteDatabase db = getWritableDatabase();
+        String DELETE = SQLiteMethods.DELETE_FROM+SQLiteMethods.TABLE_NAME_REMINDER_TABLE+
+                SQLiteMethods.SPACE + SQLiteMethods.SPACE + SQLiteMethods.WHERE +
+                SQLiteMethods.COLUMN_NAME_ENTRY_ID + " = "+ iD;
+        db.execSQL(DELETE);
+
+    }
+
+    @Override
+    public List<ReminderModel> getAllReminders() {
+        List<ReminderModel> reminders = new ArrayList<>();
+        SQLiteDatabase dbRwad = getReadableDatabase();
+
+        String[] projection = {
+                SQLiteMethods.COLUMN_NAME_ENTRY_ID,
+                SQLiteMethods.COLUMN_NAME_ENTRY_DIALOG_ID,
+                SQLiteMethods.COLUMN_NAME_ENTRY_TEXT,
+                SQLiteMethods.COLUMN_NAME_ENTRY_TIME,
+                SQLiteMethods.COLUMN_NAME_ENTRY_ACTIVE,
+                SQLiteMethods.COLUMN_NAME_ENTRY_MONDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_TUESDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_WEDNESDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_THURSDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_FRIDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY,
+                SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY
+        };
+
+
+        Cursor cursor = dbRwad.query(
+                SQLiteMethods.TABLE_NAME_REMINDER_TABLE,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()){
+
+            int alarmID = cursor.getInt(0);
+            int dialogId= cursor.getInt(1);
+            String text = cursor.getString(2);
+            String time = cursor.getString(3);
+            boolean isActive = (cursor.getInt(4) == 1);
+            boolean[] activeForDays = new boolean[7];
+            for(int i = 0; i < activeForDays.length; i++ ){
+                activeForDays[i] = (cursor.getInt(5+i) == 1);
+            }
+            ReminderModel reminder = new ReminderModel(alarmID,dialogId,time,text,isActive,activeForDays);
+            reminders.add(reminder);
+            cursor.moveToNext();
+        }
+
+        return reminders;
     }
 
 }

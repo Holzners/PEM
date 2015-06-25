@@ -4,6 +4,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_export">Export</string>
     <string name="notification">Notifications</string>
+    <string name="action_rate_day">Tag bewerten</string>
 
     <string-array name="tabs">
         <item >Week</item>

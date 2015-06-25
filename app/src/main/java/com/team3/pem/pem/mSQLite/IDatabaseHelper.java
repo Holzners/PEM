@@ -1,6 +1,7 @@
 package com.team3.pem.pem.mSQLite;
 
 import com.team3.pem.pem.utili.DayEntry;
+import com.team3.pem.pem.utili.ReminderModel;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public interface IDatabaseHelper {
      * @param factorName
      * @param colorId
      */
-    void saveFactor(String factorName, int colorId);
+    void saveFactor(String factorName, String colorId);
 
     /**
      * saves Users rate of specific day
@@ -64,11 +65,30 @@ public interface IDatabaseHelper {
      * Returns all saved Factors with Color as Resource ID
      * @return  HashMap<String, Integer>
      */
-    HashMap<String, Integer> getFactorsFromDatabase();
+    HashMap<String, String> getFactorsFromDatabase();
 
     /**
      * Returns all saved Factors
      * @return
      */
     List<String> getFactors ();
+
+    /**
+     * Saves new Reminder in Database
+     * @param reminder
+     */
+    void saveReminder(ReminderModel reminder);
+
+    /**
+     * removes Reminder from Database
+     * @param iD
+     */
+    void removeReminder(int iD);
+
+    /**
+     * return all saved Reminders in Database
+     * @return
+     */
+    List<ReminderModel> getAllReminders();
+
 }

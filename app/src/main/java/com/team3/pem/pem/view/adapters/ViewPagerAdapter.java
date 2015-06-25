@@ -1,7 +1,10 @@
-package com.team3.pem.pem.view;
+package com.team3.pem.pem.view.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.team3.pem.pem.view.CalendarFragment;
+import com.team3.pem.pem.view.WeekFragment;
 
 import java.util.HashMap;
 
@@ -13,9 +16,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
 
-    private HashMap<String,Integer> factorColorMap;
+    private HashMap<String,String> factorColorMap;
     // Build a Constructor and assign the passed Values to appropriate values in the class
-    public ViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumbOfTabsumb, HashMap<String,Integer> factorColorMap) {
+    public ViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumbOfTabsumb, HashMap<String,String> factorColorMap) {
         super(fm);
         this.factorColorMap = factorColorMap;
         this.Titles = mTitles;
