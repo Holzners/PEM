@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.team3.pem.pem.utili.ColorsToPick;
 import com.team3.pem.pem.utili.DayEntry;
 import com.team3.pem.pem.utili.ReminderModel;
 
@@ -45,7 +46,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, "Kopfschmerzen"));
         db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, "Bauchschmerzen"));
         db.execSQL(SQLiteMethods.SQL_CREATE_REMINDERS);
-/*
+
         ContentValues values = new ContentValues();
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, 22);
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH, 6);
@@ -97,20 +98,20 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
                 SQLiteMethods.COLUMN_NAME_ENTRY_FRIDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY};
-        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID, 1);
-        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_DIALOG_ID, 2);
-        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_TEXT,  "Some Text");
+        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID, 0);
+        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_DIALOG_ID,0);
+        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_TEXT,  "Tag bewerten");
         values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_TIME, "8:00");
-        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ACTIVE, 1);
+        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ACTIVE, 0);
 
         for (int i = 0; i< dayColumns.length; i++){
-            values10.put(dayColumns[i], 1);
+            values10.put(dayColumns[i], 0);
         }
 
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_REMINDER_TABLE,
                 "null", values10, SQLiteDatabase.CONFLICT_REPLACE);
-                */
+
     }
 
 
