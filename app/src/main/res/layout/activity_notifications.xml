@@ -4,7 +4,7 @@
     android:paddingRight="8dp"
     android:paddingTop="16dp"
     android:paddingBottom="16dp"
-    tools:context="com.team3.pem.pem.NotificationsActivity">
+    tools:context="com.team3.pem.pem.activities.NotificationsActivity">
 
     <ListView
         android:id="@+id/list_reminders"

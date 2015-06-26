@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.team3.pem.pem.R;
-import com.team3.pem.pem.RateDayActivity;
+import com.team3.pem.pem.activities.RateDayActivity;
 import com.team3.pem.pem.utili.ColorsToPick;
 
 import java.util.ArrayList;

@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,46 +20,46 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ExportActivity"
+            android:name=".activities.ExportActivity"
             android:label="@string/label_activity_export"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.team3.pem.pem.MainActivity" />
+                android:value=".activities.MainActivity" />
         </activity>
         <activity
-            android:name=".RateDayActivity"
+            android:name=".activities.RateDayActivity"
             android:label="@string/title_activity_rate_day"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/ActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.team3.pem.pem.MainActivity" />
+                android:value=".activities.MainActivity" />
         </activity>
         <activity
-            android:name=".NotificationsActivity"
+            android:name=".activities.NotificationsActivity"
             android:label="@string/title_activity_notifications"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.team3.pem.pem.MainActivity" />
+                android:value=".activities.MainActivity" />
         </activity>
         <activity
-            android:name=".NewFactorActivity"
+            android:name=".activities.NewFactorActivity"
             android:label="@string/title_activity_new_factor"
-            android:parentActivityName="com.team3.pem.pem.MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/ActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.team3.pem.pem.MainActivity" />
+                android:value=".activities.MainActivity" />
         </activity>
 
         <receiver
-            android:name=".NotifyService"
+            android:name=".utili.NotifyService"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.team3.pem.pem.ActionSetter" >

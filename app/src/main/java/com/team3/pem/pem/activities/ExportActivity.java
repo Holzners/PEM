@@ -1,4 +1,4 @@
-package com.team3.pem.pem;
+package com.team3.pem.pem.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +20,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.team3.pem.pem.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

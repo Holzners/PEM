@@ -1,4 +1,4 @@
-package com.team3.pem.pem;
+package com.team3.pem.pem.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.team3.pem.pem.R;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.adapters.RateDayAdapter;
 

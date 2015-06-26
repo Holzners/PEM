@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.team3.pem.pem.MainActivity;
+import com.team3.pem.pem.activities.MainActivity;
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.adapters.SwitchFragmentAdapter;
 

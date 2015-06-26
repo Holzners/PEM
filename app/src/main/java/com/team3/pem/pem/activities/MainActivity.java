@@ -1,4 +1,4 @@
-package com.team3.pem.pem;
+package com.team3.pem.pem.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Switch;
 
 import com.roomorama.caldroid.CaldroidFragment;
+import com.team3.pem.pem.R;
 import com.team3.pem.pem.adapters.ViewPagerAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.ReminderModel;

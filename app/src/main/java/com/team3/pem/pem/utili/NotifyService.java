@@ -1,4 +1,4 @@
-package com.team3.pem.pem;
+package com.team3.pem.pem.utili;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.team3.pem.pem.R;
+import com.team3.pem.pem.activities.MainActivity;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.ReminderModel;
 
