@@ -103,10 +103,10 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }else if(id == R.id.action_export){
+        if(id == R.id.action_export){
             startActivity(new Intent(MainActivity.this, ExportActivity.class));
+        }else if(id == R.id.action_notifications){
+            startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
         }else if(id == R.id.action_rateday){
             openPopUpForDayRating();
         }

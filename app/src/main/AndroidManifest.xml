@@ -3,6 +3,7 @@
     package="com.team3.pem.pem" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:allowBackup="true"
@@ -21,7 +22,9 @@
         <activity
             android:name=".ExportActivity"
             android:label="@string/label_activity_export"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team3.pem.pem.MainActivity" />
@@ -29,11 +32,30 @@
         <activity
             android:name=".RateDayActivity"
             android:label="@string/title_activity_rate_day"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/ActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team3.pem.pem.MainActivity" />
         </activity>
+        <!--<activity
+            android:name=".NotificationsActivity"
+            android:label="@string/title_activity_notifications"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.team3.pem.pem.MainActivity" />
+        </activity>
+        <receiver
+            android:name=".NotifyService"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.team3.pem.pem.ActionSetter" >
+                </action>
+            </intent-filter>
+        </receiver>-->
     </application>
 
 </manifest>
