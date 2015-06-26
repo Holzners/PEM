@@ -68,36 +68,4 @@ public class NotificationsActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-   /* @Override
-    protected Dialog onCreateDialog(int id) {
-        if(id == DIALOG_ID)
-            return new TimePickerDialog(NotificationsActivity.this, timePickerListner, hour, minute_, true);
-        return null;
-    }
-
-    protected TimePickerDialog.OnTimeSetListener timePickerListner = new TimePickerDialog.OnTimeSetListener(){
-        @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            hour = hourOfDay;
-            minute_ = minute;
-            String timeString = (hour < 10 ? ("0" + hour) : hour) + ":" + (minute_ < 10 ? ("0" + minute_) : minute_);
-            timePicker.setText(timeString);
-
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("com.team3.pem.pem.notificationTime", timeString);
-            editor.apply();
-
-           // createAlarm();
-        }
-    };
-
-    public void createAlarm(){
-        if(alarm != null){
-            alarm.SetAlarm(this.getApplicationContext(), hour, minute_, day);
-            alarmActive = true;
-        }else{
-            Toast.makeText(getApplicationContext(), "Alarm is null", Toast.LENGTH_SHORT).show();
-        }
-    }*/
 }
