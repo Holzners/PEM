@@ -29,13 +29,17 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
     FeedReaderDBHelper mDBHelper;
     Context context;
     List<String> factors;
+
     private int displayWidth;
+
+    private DateTime firstDayOfSelectedWeek;
 
     public WeekViewAdapter(Context context, int resource, List<String> factors, int displaySize) {
         super(context, resource);
         this.context = context;
         this.factors = factors;
         this.displayWidth = displaySize;
+        this.firstDayOfSelectedWeek = firstDayOfThisWeek();
     }
 
     @Override
@@ -84,7 +88,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
         }else {
             List<String> factors = new ArrayList<>();
             factors.add(this.factors.get(position));
-            DateTime startDay = firstDayOfThisWeek();
+            DateTime startDay = getFirstDayOfSelectedWeek();
             DateTime endDay = lastDayOfThisWeek();
 
             HashMap<DateTime, DayEntry> entryHashMap;
@@ -132,8 +136,9 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
         return firstDayThisWeek;
     }
 
+
     private DateTime lastDayOfThisWeek() {
-      return firstDayOfThisWeek().plusDays(7);
+      return getFirstDayOfSelectedWeek().plusDays(7);
     }
 
     public List<String> getFactors() {
@@ -142,6 +147,14 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
 
     public void setFactors(List<String> factors) {
         this.factors = factors;
+    }
+
+    public DateTime getFirstDayOfSelectedWeek() {
+        return firstDayOfSelectedWeek;
+    }
+
+    public void setFirstDayOfSelectedWeek(DateTime firstDayOfSelectedWeek) {
+        this.firstDayOfSelectedWeek = firstDayOfSelectedWeek;
     }
 
 }

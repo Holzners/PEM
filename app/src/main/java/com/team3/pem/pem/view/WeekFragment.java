@@ -7,6 +7,9 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.adapters.WeekViewAdapter;
@@ -22,6 +25,8 @@ public class WeekFragment extends ListFragment{
     private int year;
     private int calenderWeek;
     private HashMap<String,String> factorColorMap;
+    WeekViewAdapter adapter;
+    Spinner weekPickern;
 
     public WeekFragment() {
         init();
@@ -47,20 +52,47 @@ public class WeekFragment extends ListFragment{
         return inflater.inflate(R.layout.fragment_week, container, false);
     }
 
-    public void updateTable(){
-
-    }
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        weekPickern = (Spinner) getView().findViewById(R.id.spinner);
+        List<Integer> weeks = new ArrayList<>();
+        for(int i = 1 ; i <= 52 ; i++){
+            weeks.add(i);
+        }
+        ArrayAdapter<Integer> spinnerAdapter = new ArrayAdapter(getActivity(),
+                android.R.layout.simple_spinner_item,weeks);
+
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        weekPickern.setAdapter(spinnerAdapter);
+        weekPickern.setSelection(calenderWeek-1);
+        weekPickern.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if(position+1 < calenderWeek){
+                            previousWeek(position+1 - calenderWeek);
+                            calenderWeek = position +1;
+                        } else if(position+1 > calenderWeek){
+                            nextWeek(calenderWeek- position- 1  );
+                            calenderWeek = position +1;
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
         List<String> factors = new ArrayList<>();
         factors.add("");
-        for (Map.Entry<String, String> e : factorColorMap.entrySet()){
+        for (Map.Entry<String, String> e : factorColorMap.entrySet()) {
             factors.add(e.getKey());
         }
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         int displayWidth = display.getWidth();
-        WeekViewAdapter adapter = new WeekViewAdapter(getActivity(),0,factors, displayWidth);
+        adapter = new WeekViewAdapter(getActivity(),0,factors, displayWidth);
         setListAdapter(adapter);
     }
 
@@ -71,8 +103,16 @@ public class WeekFragment extends ListFragment{
 
     public void setFactorColorMap(HashMap<String, String> factorColorMap) {
         this.factorColorMap = factorColorMap;
+    }
 
-        updateTable();
+    public void nextWeek(int weeks){
+        adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().plusDays(8*weeks));
+        adapter.notifyDataSetChanged();
+    }
+
+    public void previousWeek(int weeks){
+        adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().minusDays(8*weeks));
+        adapter.notifyDataSetChanged();
     }
 
     public int getYear() {
@@ -90,4 +130,5 @@ public class WeekFragment extends ListFragment{
     public void setCalenderWeek(int calenderWeek) {
         this.calenderWeek = calenderWeek;
     }
+
 }

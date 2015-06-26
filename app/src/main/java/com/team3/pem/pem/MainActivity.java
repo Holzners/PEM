@@ -73,7 +73,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         if(id == R.id.action_export){
             startActivity(new Intent(MainActivity.this, ExportActivity.class));
         }else if(id == R.id.action_notifications){
-          //  startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
+            startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
         }else if(id == R.id.action_rateday){
             openPopUpForDayRating();
         } else if (id == R.id.action_new_factor){
