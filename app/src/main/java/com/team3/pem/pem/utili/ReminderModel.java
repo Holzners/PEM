@@ -59,6 +59,18 @@ public class ReminderModel {
         this.activeForDays = activeForDays;
     }
 
+    public void setActiveMonday(boolean bool){this.activeForDays[0] = bool;}
+    public void setActiveTuesday(boolean bool){this.activeForDays[1] = bool;}
+    public void setActiveWednesday(boolean bool){this.activeForDays[2] = bool;}
+    public void setActiveThursday(boolean bool){this.activeForDays[3] = bool;}
+    public void setActiveFriday(boolean bool){this.activeForDays[4] = bool;}
+    public void setActiveSaturday(boolean bool){this.activeForDays[5] = bool;}
+    public void setActiveSunday(boolean bool){this.activeForDays[6] = bool;}
+
+    public void setActiveDay(int i, boolean bool){
+        this.activeForDays[i] = bool;
+    }
+
     public int getAlarmID() {
         return alarmID;
     }
