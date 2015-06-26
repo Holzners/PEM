@@ -2,7 +2,6 @@ package com.team3.pem.pem.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +55,6 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
 
             DayEntry dayEntry = mDBHelper.getDatabaseEntriesDay(factors, dateTime.getDay(), dateTime.getMonth(), dateTime.getYear());
 
-            Log.d("Time" , dateTime + "");
             TextView imgView1 = (TextView) cellView.findViewById(R.id.textView);
             TextView imgView2 = (TextView) cellView.findViewById(R.id.textView2);
             TextView imgView3 = (TextView) cellView.findViewById(R.id.textView3);
