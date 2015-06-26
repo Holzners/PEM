@@ -14,13 +14,13 @@ import android.view.View;
 import android.widget.Switch;
 
 import com.roomorama.caldroid.CaldroidFragment;
+import com.team3.pem.pem.adapters.ViewPagerAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.ReminderModel;
 import com.team3.pem.pem.view.CalendarFragment;
 import com.team3.pem.pem.view.SlidingTabLayout;
 import com.team3.pem.pem.view.SwitchFragment;
 import com.team3.pem.pem.view.WeekFragment;
-import com.team3.pem.pem.adapters.ViewPagerAdapter;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -52,39 +52,6 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         factorAsString = new HashMap<>();
         factorAsString = mDHelber.getFactorsFromDatabase();
         setContentView(R.layout.activity_main);
-
-
-        initSwitchFragment();
-
-        // Creating The Toolbar and setting it as the Toolbar for the activity
-
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
-
-
-        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        titles = getResources().getStringArray(R.array.tabs);
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),titles, tabNumber,factorAsString);
-
-        // Assigning ViewPager View and setting the adapter
-        pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-
-        // Assiging the Sliding Tab Layout View
-        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
-
-        // Setting Custom Color for the Scroll bar indicator of the Tab View
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.tabsScrollColor);
-            }
-        });
-
-        // Setting the ViewPager For the SlidingTabsLayout
-        tabs.setViewPager(pager);
-
         //checkDatabase();
     }
 
@@ -116,6 +83,42 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        // Creating The Toolbar and setting it as the Toolbar for the activity
+
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+
+
+        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+        titles = getResources().getStringArray(R.array.tabs);
+        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),titles, tabNumber,factorAsString);
+
+        // Assigning ViewPager View and setting the adapter
+        pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(adapter);
+
+        // Assiging the Sliding Tab Layout View
+        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+        // Setting Custom Color for the Scroll bar indicator of the Tab View
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.tabsScrollColor);
+            }
+        });
+
+        // Setting the ViewPager For the SlidingTabsLayout
+        tabs.setViewPager(pager);
+        initSwitchFragment();
+    }
+
+
     private void initMonthFragment(){
         this.caldroidFragment = new CalendarFragment();
         Bundle args = new Bundle();
@@ -145,7 +148,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         this.switchFragment = new SwitchFragment();
         FragmentManager f = getFragmentManager();
         FragmentTransaction t = f.beginTransaction();
-        t.add(R.id.switchFragmentPanel, switchFragment);
+        t.replace(R.id.switchFragmentPanel, switchFragment);
         t.commit();
     }
 
@@ -194,4 +197,15 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
             Log.e("Something went wrong", "While closing database");
         }
     }
+
+    public List<String> getSymptomList(){
+        return mDHelber.getFactors();
+    }
+
+    public HashMap<String, String> getFactorWithColor(){;
+        return factorAsString;
+    }
+
+
+
 }

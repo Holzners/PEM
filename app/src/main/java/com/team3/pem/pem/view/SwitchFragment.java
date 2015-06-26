@@ -3,21 +3,19 @@ package com.team3.pem.pem.view;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Switch;
-import android.widget.Toast;
 
+import com.team3.pem.pem.MainActivity;
 import com.team3.pem.pem.R;
-import com.team3.pem.pem.SwitchSymptom;
 import com.team3.pem.pem.adapters.SwitchFragmentAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -26,38 +24,39 @@ import java.util.ArrayList;
  */
 public class SwitchFragment extends ListFragment implements AdapterView.OnItemClickListener {
 
-    protected static ArrayList<SwitchSymptom> symptomList = new ArrayList<>();
+  //  protected static List<SwitchSymptom> symptomList = new ArrayList<>();
+    private List<String> symptomList = new ArrayList<>();
     private ListAdapter mAdapter;
     private ListView listView;
     private SwitchFragmentInterface switchFragmentInterface;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.i("SwitchFragment", "onCreate");
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.i("SwitchFragment", "onCreateView");
-        View view = inflater.inflate(R.layout.fragment_switch_list, container, false);
+        return inflater.inflate(R.layout.fragment_switch_list, container, false);
 
-        listView = (ListView) view.findViewById(android.R.id.list);
-        symptomList.add(new SwitchSymptom("Symptom 1",new Switch(getActivity().getApplicationContext())));
-        symptomList.add(new SwitchSymptom("Symptom 2",new Switch(getActivity().getApplicationContext())));
-        mAdapter = new SwitchFragmentAdapter(getActivity(), symptomList);
-        listView.setAdapter(mAdapter);
-        listView.setOnItemClickListener(this);
-
-        return view;
+    }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+         symptomList = ((MainActivity)getActivity()).getSymptomList();
+        //symptomList.add(new SwitchSymptom("Symptom 1", new Switch(getActivity().getApplicationContext())));
+        // symptomList.add(new SwitchSymptom("Symptom 2",new Switch(getActivity().getApplicationContext())));
+        mAdapter = new SwitchFragmentAdapter(getActivity(), symptomList, ((MainActivity) getActivity()).getFactorWithColor());
+        setListAdapter(mAdapter);
+        // listView.setOnItemClickListener(this);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.i("onItemClick", String.valueOf(position));
-        SwitchSymptom item = symptomList.get(position);
-        Toast.makeText(getActivity(), position, Toast.LENGTH_SHORT).show();
+        // Log.i("onItemClick", String.valueOf(position));
+      //  SwitchSymptom item = symptomList.get(position);
+      //  Toast.makeText(getActivity(), position, Toast.LENGTH_SHORT).show();
     }
 
 
