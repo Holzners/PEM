@@ -92,17 +92,17 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         ContentValues values10  = new ContentValues();
 
         String[] dayColumns = {
+                SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_MONDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_TUESDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_WEDNESDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_THURSDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_FRIDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY};
+                SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY};
         values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID, 0);
         values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_DIALOG_ID,0);
         values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_TEXT,  "Tag bewerten");
-        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_TIME, "8:00");
+        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_TIME, "08:00");
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ACTIVE, 0);
 
         for (int i = 0; i< dayColumns.length; i++){
@@ -441,13 +441,13 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
         boolean[] bools = reminder.getActiveForDays();
         String[] dayColumns = {
+                SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_MONDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_TUESDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_WEDNESDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_THURSDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_FRIDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY};
+                SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY};
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID, reminder.getAlarmID());
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_DIALOG_ID, reminder.getDialogID());
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_TEXT,  reminder.getText());
@@ -486,13 +486,13 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
                 SQLiteMethods.COLUMN_NAME_ENTRY_TEXT,
                 SQLiteMethods.COLUMN_NAME_ENTRY_TIME,
                 SQLiteMethods.COLUMN_NAME_ENTRY_ACTIVE,
+                SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_MONDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_TUESDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_WEDNESDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_THURSDAY,
                 SQLiteMethods.COLUMN_NAME_ENTRY_FRIDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY
+                SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY
         };
 
 
@@ -503,7 +503,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
                 null,
                 null,
                 null,
-                null
+                SQLiteMethods.COLUMN_NAME_ENTRY_ID + " ASC"
         );
 
         cursor.moveToFirst();
