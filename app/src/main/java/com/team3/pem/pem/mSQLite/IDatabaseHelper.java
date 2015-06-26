@@ -3,9 +3,10 @@ package com.team3.pem.pem.mSQLite;
 import com.team3.pem.pem.utili.DayEntry;
 import com.team3.pem.pem.utili.ReminderModel;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import hirondelle.date4j.DateTime;
 
 /**
  * Created by Stephan on 18.06.15.
@@ -25,14 +26,14 @@ public interface IDatabaseHelper {
      * @param ratings - List of Ratings
      * @param text - Description
      */
-    void saveDay(Date date, HashMap<String, Integer> ratings, String text);
+    void saveDay(DateTime date, HashMap<String, Integer> ratings, String text);
 
     /**
      * Returns each entry to a specific List of factors
      * @param factors - list of factors
      * @return
      */
-    HashMap<Date, DayEntry> getDatabaseEntries(List<String> factors);
+    HashMap<DateTime, DayEntry> getDatabaseEntries(List<String> factors);
 
     /**
      * Returns  entries for Date(day.month.year) to a specific List of factors
@@ -42,7 +43,7 @@ public interface IDatabaseHelper {
      * @param year
      * @return
      */
-    HashMap<Date, DayEntry> getDatabaseEntriesDay(List<String> factors, int day, int month, int year);
+    DayEntry getDatabaseEntriesDay(List<String> factors, int day, int month, int year);
     /**
      * Returns  entries for Month(month.year) to a specific List of factors
      * @param factors
@@ -50,16 +51,16 @@ public interface IDatabaseHelper {
      * @param year
      * @return
      */
-    HashMap<Date, DayEntry> getDatabaseEntriesMonth(List<String> factors, int month, int year);
+    HashMap<DateTime, DayEntry> getDatabaseEntriesMonth(List<String> factors, int month, int year);
     /**
      * Returns  entries for Date(day.month.year) to a specific List of factors
      * @param factors
      * @param year
      * @return
      */
-    HashMap<Date, DayEntry> getDatabaseEntriesYear(List<String> factors, int year);
+    HashMap<DateTime, DayEntry> getDatabaseEntriesYear(List<String> factors, int year);
 
-    HashMap<Date, DayEntry> getDatabaseEntriesWeek(List<String> factors, int startDay, int month, int year, int endDay, int endMonth, int endYear);
+    HashMap<DateTime, DayEntry> getDatabaseEntriesWeek(List<String> factors, int startDay, int month, int year, int endDay, int endMonth, int endYear);
 
     /**
      * Returns all saved Factors with Color as Resource ID

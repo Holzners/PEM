@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.SwitchSymptom;
-import com.team3.pem.pem.view.adapters.SwitchFragmentAdapter;
+import com.team3.pem.pem.adapters.SwitchFragmentAdapter;
 
 import java.util.ArrayList;
 

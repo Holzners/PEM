@@ -16,6 +16,13 @@
     <string name="title_activity_export">ExportActivity</string>
     <string name="label_activity_export">Export</string>
     <string name="title_activity_rate_day">RateDayActivity</string>
+    <string name="action_notifications">Notifications</string>
+    <string name="action_new_factor">Faktor anlegen</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_new_factor">NewFactorActivity</string>
+    <string name="to_many_symptoms">Du hast die maximale Anzahl an Symptomen erreicht, es muss erst ein altes entfernt werden!</string>
+
+
+
 </resources>

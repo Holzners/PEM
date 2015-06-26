@@ -1,4 +1,4 @@
-package com.team3.pem.pem.view.adapters;
+package com.team3.pem.pem.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
@@ -14,8 +14,6 @@ import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.DayEntry;
 import com.team3.pem.pem.utili.RatingToColorHelper;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,7 +35,8 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
     public View getView(int position, View convertView, ViewGroup parent){
 
         DateTime dateTime = this.datetimeList.get(position);
-        List<String> factors = new ArrayList<>();
+
+        List<String> factors;
         factors = mDBHelper.getFactors();
         View cellView = convertView;
         LayoutInflater inflater = (LayoutInflater) context
@@ -54,13 +53,10 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
         int rightPadding = cellView.getPaddingRight();
 
         if(dateTime.getMonth() == this.month) {
-            HashMap<Date, DayEntry> entryMap = mDBHelper.getDatabaseEntriesDay(factors, dateTime.getDay(), dateTime.getMonth(), dateTime.getYear());
 
-            Date date = new Date(dateTime.getYear(), dateTime.getMonth(), dateTime.getDay());
+            DayEntry dayEntry = mDBHelper.getDatabaseEntriesDay(factors, dateTime.getDay(), dateTime.getMonth(), dateTime.getYear());
 
-            DayEntry dayEntry = entryMap.get(date);
-
-
+            Log.d("Time" , dateTime + "");
             TextView imgView1 = (TextView) cellView.findViewById(R.id.textView);
             TextView imgView2 = (TextView) cellView.findViewById(R.id.textView2);
             TextView imgView3 = (TextView) cellView.findViewById(R.id.textView3);
@@ -69,7 +65,6 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
 
 
             if (dayEntry != null) {
-                Log.d("Database entry for", date + "");
 
                 imgView1.setBackgroundResource(R.drawable.border);
                 imgView2.setBackgroundResource(R.drawable.border);
@@ -84,8 +79,13 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
                         RatingToColorHelper.ratingToColor(factors.get(0), dayEntry.ratings.get(0))));
                 drawable2.setColor(cellView.getResources().getColor(
                         RatingToColorHelper.ratingToColor(factors.get(1), dayEntry.ratings.get(1))));
-                drawable3.setColor(cellView.getResources().getColor(R.color.white));
-                drawable4.setColor(cellView.getResources().getColor(R.color.white));
+                try {
+                    drawable3.setColor(cellView.getResources().getColor(
+                            RatingToColorHelper.ratingToColor(factors.get(2), dayEntry.ratings.get(2))));
+                    drawable4.setColor(cellView.getResources().getColor(R.color.white));
+                }catch (IndexOutOfBoundsException ie){
+
+                }
             } else {
                 cellView.setBackgroundResource(R.drawable.border);
                 GradientDrawable drawable = (GradientDrawable) cellView.getBackground();

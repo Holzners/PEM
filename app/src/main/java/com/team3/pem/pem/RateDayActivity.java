@@ -2,6 +2,7 @@ package com.team3.pem.pem;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,11 +11,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
-import com.team3.pem.pem.view.adapters.RateDayAdapter;
+import com.team3.pem.pem.adapters.RateDayAdapter;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.TimeZone;
+
+import hirondelle.date4j.DateTime;
 
 
 public class RateDayActivity extends ActionBarActivity {
@@ -40,8 +42,10 @@ public class RateDayActivity extends ActionBarActivity {
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Calendar c = Calendar.getInstance();
-                Date date = new Date(c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH));
+
+              //  DateTime dt =
+                DateTime date = DateTime.today(TimeZone.getDefault());
+                Log.d("Date" , date + "");
                 mDBHelper.saveDay(date, selectedColor, editText.getText().toString());
                 finish();
             }

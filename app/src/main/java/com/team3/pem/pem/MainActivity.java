@@ -20,7 +20,7 @@ import com.team3.pem.pem.view.CalendarFragment;
 import com.team3.pem.pem.view.SlidingTabLayout;
 import com.team3.pem.pem.view.SwitchFragment;
 import com.team3.pem.pem.view.WeekFragment;
-import com.team3.pem.pem.view.adapters.ViewPagerAdapter;
+import com.team3.pem.pem.adapters.ViewPagerAdapter;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -106,9 +106,11 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         if(id == R.id.action_export){
             startActivity(new Intent(MainActivity.this, ExportActivity.class));
         }else if(id == R.id.action_notifications){
-            startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
+          //  startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
         }else if(id == R.id.action_rateday){
             openPopUpForDayRating();
+        } else if (id == R.id.action_new_factor){
+            startActivity(new Intent(MainActivity.this, NewFactorActivity.class));
         }
 
         return super.onOptionsItemSelected(item);

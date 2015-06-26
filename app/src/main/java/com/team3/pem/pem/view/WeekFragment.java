@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.team3.pem.pem.R;
-import com.team3.pem.pem.view.adapters.WeekViewAdapter;
+import com.team3.pem.pem.adapters.WeekViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;

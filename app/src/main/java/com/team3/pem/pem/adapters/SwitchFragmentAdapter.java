@@ -1,4 +1,4 @@
-package com.team3.pem.pem.view.adapters;
+package com.team3.pem.pem.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

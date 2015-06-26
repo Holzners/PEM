@@ -1,4 +1,4 @@
-package com.team3.pem.pem.view.adapters;
+package com.team3.pem.pem.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;

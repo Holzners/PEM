@@ -1,4 +1,4 @@
-package com.team3.pem.pem.view.adapters;
+package com.team3.pem.pem.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
@@ -15,7 +15,6 @@ import com.team3.pem.pem.utili.DayEntry;
 import com.team3.pem.pem.utili.RatingToColorHelper;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
@@ -88,7 +87,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
             DateTime startDay = firstDayOfThisWeek();
             DateTime endDay = lastDayOfThisWeek();
 
-            HashMap<Date, DayEntry> entryHashMap;
+            HashMap<DateTime, DayEntry> entryHashMap;
             if (mDBHelper == null) {
                 mDBHelper = mDBHelper.getInstance();
             }
@@ -97,16 +96,15 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
 
 
             for (int i = 0; i < rowViews.length; i++) {
-
                 DateTime thisDate = startDay.plusDays(i);
-                Date date = new Date(thisDate.getYear(), thisDate.getMonth(), thisDate.getDay());
-                if (entryHashMap.containsKey(date)&& (entryHashMap.get(date).ratings.get(0) != 0)) {
+                Log.d("This Date" , thisDate+"");
+                if (entryHashMap.containsKey(thisDate)) {
 
-                        Log.d("" + date + " Symptom:" , ""+factors.get(0) + " Farbe: " + entryHashMap.get(date).ratings.get(0));
+                        Log.d("" + thisDate + " Symptom:" , ""+factors.get(0) + " Farbe: " + entryHashMap.get(thisDate).ratings.get(0));
                         GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
                         gd.setColor(newRow.getResources().getColor(
                                 RatingToColorHelper.ratingToColor(factors.get(0),
-                                entryHashMap.get(date).ratings.get(0))));
+                                entryHashMap.get(thisDate).ratings.get(0))));
                     }else{
                         GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
                         gd.setColor(newRow.getResources().getColor(R.color.white));
@@ -135,15 +133,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
     }
 
     private DateTime lastDayOfThisWeek() {
-        DateTime today = DateTime.today(TimeZone.getDefault());
-        DateTime lastDayOfThisWeek = today; //start value
-        int todaysWeekday = today.getWeekDay();
-        int SATURDAY = 7;
-        if (todaysWeekday < SATURDAY) {
-            int numDaysFromSunday = SATURDAY - todaysWeekday;
-            lastDayOfThisWeek = today.plusDays(numDaysFromSunday);
-        }
-        return lastDayOfThisWeek;
+      return firstDayOfThisWeek().plusDays(7);
     }
 
     public List<String> getFactors() {
