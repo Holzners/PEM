@@ -38,17 +38,26 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team3.pem.pem.MainActivity" />
         </activity>
-        <!--
         <activity
             android:name=".NotificationsActivity"
             android:label="@string/title_activity_notifications"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ActionBar">
+            android:theme="@style/ActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.team3.pem.pem.MainActivity" />
         </activity>
+        <activity
+            android:name=".NewFactorActivity"
+            android:label="@string/title_activity_new_factor"
+            android:parentActivityName="com.team3.pem.pem.MainActivity"
+            android:theme="@style/ActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.team3.pem.pem.MainActivity" />
+        </activity>
+
         <receiver
             android:name=".NotifyService"
             android:exported="true" >
@@ -57,11 +66,7 @@
                 </action>
             </intent-filter>
         </receiver>
-        -->
-        <activity
-            android:name=".NewFactorActivity"
-            android:label="@string/title_activity_new_factor" >
-        </activity>
+
     </application>
 
 </manifest>
