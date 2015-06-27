@@ -15,12 +15,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
-
     private HashMap<String,String> factorColorMap;
+    CalendarFragment monthfragment;
+    WeekFragment weekFragment;
     // Build a Constructor and assign the passed Values to appropriate values in the class
     public ViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumbOfTabsumb, HashMap<String,String> factorColorMap) {
         super(fm);
-        this.factorColorMap = factorColorMap;
+         this.factorColorMap = factorColorMap;
         this.Titles = mTitles;
         this.NumbOfTabs = mNumbOfTabsumb;
 
@@ -32,15 +33,15 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         if(position == 0) // if the position is 0 we are returning the First tab
         {
-            WeekFragment tab1 = new WeekFragment();
-            tab1.init();
-            tab1.setFactorColorMap(factorColorMap);
-            return tab1;
+            weekFragment = new WeekFragment();
+            weekFragment.init();
+            weekFragment.setFactorColorMap(factorColorMap);
+            return weekFragment;
         }
         else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
-            CalendarFragment tab2 = new CalendarFragment();
-            return tab2;
+            monthfragment = new CalendarFragment();
+            return monthfragment;
         }
 
     }
@@ -60,7 +61,8 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public void notifyFragment(){
-
+        if(weekFragment != null) weekFragment.notifyAdapter();
+        if(monthfragment!= null) monthfragment.refreshView();
     }
 
 }

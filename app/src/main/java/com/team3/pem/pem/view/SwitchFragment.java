@@ -47,7 +47,7 @@ public class SwitchFragment extends ListFragment implements AdapterView.OnItemCl
          symptomList = ((MainActivity)getActivity()).getSymptomList();
         //symptomList.add(new SwitchSymptom("Symptom 1", new Switch(getActivity().getApplicationContext())));
         // symptomList.add(new SwitchSymptom("Symptom 2",new Switch(getActivity().getApplicationContext())));
-        mAdapter = new SwitchFragmentAdapter(getActivity(), symptomList, ((MainActivity) getActivity()).getFactorWithColor());
+        mAdapter = new SwitchFragmentAdapter(((MainActivity)getActivity()), symptomList, ((MainActivity) getActivity()).getFactorWithColor());
         setListAdapter(mAdapter);
         // listView.setOnItemClickListener(this);
     }

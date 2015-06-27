@@ -26,6 +26,7 @@ import com.team3.pem.pem.view.WeekFragment;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //import static com.team3.pem.pem.R.id.calendarFragmentPanel;
 
@@ -35,6 +36,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
     CalendarFragment caldroidFragment;
     SwitchFragment switchFragment;
     HashMap<String, String> factorAsString;
+    HashMap<String, Boolean> factorsEnabledMap;
     FeedReaderDBHelper mDHelber;
 
     Toolbar toolbar;
@@ -51,7 +53,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         FeedReaderDBHelper.appContext = this;
         mDHelber = FeedReaderDBHelper.getInstance();
         factorAsString = new HashMap<>();
-        factorAsString = mDHelber.getFactorsFromDatabase();
+        factorsEnabledMap = new HashMap<>();
         setContentView(R.layout.activity_main);
         //checkDatabase();
     }
@@ -87,7 +89,12 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
     @Override
     public void onResume(){
         super.onResume();
+        if(mDHelber == null) mDHelber.getInstance();
+        factorAsString = mDHelber.getFactorsFromDatabase();
 
+        for(Map.Entry<String, String> e : factorAsString.entrySet()){
+            factorsEnabledMap.put(e.getKey() , true);
+        }
         // Creating The Toolbar and setting it as the Toolbar for the activity
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
@@ -207,6 +214,12 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         return factorAsString;
     }
 
-
+    public void switchSymptom(boolean isEnabled, String symptom){
+        factorsEnabledMap.put(symptom,isEnabled);
+        adapter.notifyFragment();
+    }
+    public HashMap<String, Boolean> getFactorsEnabledMap(){
+        return factorsEnabledMap;
+    }
 
 }

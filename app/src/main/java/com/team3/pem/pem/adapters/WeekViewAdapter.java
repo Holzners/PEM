@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.team3.pem.pem.R;
+import com.team3.pem.pem.activities.MainActivity;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.DayEntry;
 import com.team3.pem.pem.utili.RatingToColorHelper;
@@ -27,14 +28,14 @@ import hirondelle.date4j.DateTime;
 public class WeekViewAdapter extends ArrayAdapter<String> {
 
     FeedReaderDBHelper mDBHelper;
-    Context context;
+    MainActivity context;
     List<String> factors;
 
     private int displayWidth;
 
     private DateTime firstDayOfSelectedWeek;
 
-    public WeekViewAdapter(Context context, int resource, List<String> factors, int displaySize) {
+    public WeekViewAdapter(MainActivity context, int resource, List<String> factors, int displaySize) {
         super(context, resource);
         this.context = context;
         this.factors = factors;
@@ -86,42 +87,44 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
             }
 
         }else {
-            List<String> factors = new ArrayList<>();
-            factors.add(this.factors.get(position));
-            DateTime startDay = getFirstDayOfSelectedWeek();
-            DateTime endDay = lastDayOfThisWeek();
+            if (context.getFactorsEnabledMap().get(this.factors.get(position))) {
+                List<String> factors = new ArrayList<>();
+                factors.add(this.factors.get(position));
+                DateTime startDay = getFirstDayOfSelectedWeek();
+                DateTime endDay = lastDayOfThisWeek();
 
-            HashMap<DateTime, DayEntry> entryHashMap;
-            if (mDBHelper == null) {
-                mDBHelper = mDBHelper.getInstance();
-            }
-            entryHashMap = mDBHelper.getDatabaseEntriesWeek(factors, startDay.getDay(),
-                    startDay.getMonth(), startDay.getYear(), endDay.getDay(), endDay.getMonth(), endDay.getYear());
+                HashMap<DateTime, DayEntry> entryHashMap;
+                if (mDBHelper == null) {
+                    mDBHelper = mDBHelper.getInstance();
+                }
+                entryHashMap = mDBHelper.getDatabaseEntriesWeek(factors, startDay.getDay(),
+                        startDay.getMonth(), startDay.getYear(), endDay.getDay(), endDay.getMonth(), endDay.getYear());
 
 
-            for (int i = 0; i < rowViews.length; i++) {
-                DateTime thisDate = startDay.plusDays(i);
-                Log.d("This Date" , thisDate+"");
-                if (entryHashMap.containsKey(thisDate)) {
+                for (int i = 0; i < rowViews.length; i++) {
+                    DateTime thisDate = startDay.plusDays(i);
+                    Log.d("This Date", thisDate + "");
+                    if (entryHashMap.containsKey(thisDate)) {
 
-                        Log.d("" + thisDate + " Symptom:" , ""+factors.get(0) + " Farbe: " + entryHashMap.get(thisDate).ratings.get(0));
+                        Log.d("" + thisDate + " Symptom:", "" + factors.get(0) + " Farbe: " + entryHashMap.get(thisDate).ratings.get(0));
                         GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
                         gd.setColor(newRow.getResources().getColor(
                                 RatingToColorHelper.ratingToColor(factors.get(0),
-                                entryHashMap.get(thisDate).ratings.get(0))));
-                    }else{
+                                        entryHashMap.get(thisDate).ratings.get(0))));
+                    } else {
                         GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
                         gd.setColor(newRow.getResources().getColor(R.color.white));
                     }
-                ViewGroup.LayoutParams params = rowViews[i].getLayoutParams();
-                params.height = displayWidth/7-5;
-                params.width = displayWidth/7-5;
-                rowViews[i].setLayoutParams(params);
+                    ViewGroup.LayoutParams params = rowViews[i].getLayoutParams();
+                    params.height = displayWidth / 7 - 5;
+                    params.width = displayWidth / 7 - 5;
+                    rowViews[i].setLayoutParams(params);
+                }
+            }else {
+                for(TextView t: rowViews){ t.setVisibility(View.GONE);}
             }
         }
-
         return newRow;
-
     }
 
     private DateTime firstDayOfThisWeek() {

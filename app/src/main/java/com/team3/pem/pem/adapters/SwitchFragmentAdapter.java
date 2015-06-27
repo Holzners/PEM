@@ -9,6 +9,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.team3.pem.pem.R;
+import com.team3.pem.pem.activities.MainActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,9 +26,9 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
 */
     private HashMap<String,String> factorWithColor;
     private List<String> factors;
-    private Context context;
+    private MainActivity context;
 
-  public SwitchFragmentAdapter(Context context, List<String> factors , HashMap<String,String> factorWithColor) {
+  public SwitchFragmentAdapter(MainActivity context, List<String> factors , HashMap<String,String> factorWithColor) {
       super(context,0,factors);
       this.factorWithColor = factorWithColor;
       this.factors = factors;
@@ -82,6 +83,7 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
 
         @Override
         public void onClick(View v) {
+            context.switchSymptom(mSwitch.isChecked() , symptom);
             Toast.makeText(context, symptom + " enabled " + mSwitch.isChecked(), Toast.LENGTH_SHORT).show();
         }
     }
