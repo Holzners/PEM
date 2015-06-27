@@ -15,6 +15,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.team3.pem.pem.utili.NotifyService;
 import com.team3.pem.pem.R;
@@ -132,7 +133,8 @@ public class RemindersAdapter extends ArrayAdapter {
                         days[index].setTextColor(Color.rgb(0, 150, 255));
                         reminderModel.setActiveDay(index, true);
                     }
-                    createAlarm(reminderModel.getAlarmID());
+                    if(reminderModel.isActive())
+                        createAlarm(reminderModel.getAlarmID());
                     break;
             }
         }
@@ -158,7 +160,8 @@ public class RemindersAdapter extends ArrayAdapter {
                 time.setText(timeString);
 
                 reminderModel.setTime(timeString);
-                createAlarm(reminderModel.getAlarmID());
+                if(reminderModel.isActive())
+                    createAlarm(reminderModel.getAlarmID());
             }
         };
 
