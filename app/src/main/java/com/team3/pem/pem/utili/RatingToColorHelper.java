@@ -14,6 +14,7 @@ public class RatingToColorHelper {
         FeedReaderDBHelper mdHelper = FeedReaderDBHelper.getInstance();
 
         HashMap<String, String> factorWidthColor = mdHelper.getFactorsFromDatabase();
+        if(factor == null || rating == 0) return R.color.white;
         switch (rating) {
             case 1:
                 return ColorsToPick.getColorByString(factorWidthColor.get(factor)).getColor1();

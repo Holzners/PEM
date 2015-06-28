@@ -16,41 +16,41 @@
     <color name= "tabsScrollColor">#FFFFFF</color>
 
 
-    <color name="green1">#00ff00</color>
-    <color name="green2">#00ff00</color>
-    <color name="green3">#00ff00</color>
-    <color name="green4">#00ff00</color>
-    <color name="green5">#00ff00</color>
+    <color name="green1">#3000ff00</color>
+    <color name="green2">#6000ff00</color>
+    <color name="green3">#9000ff00</color>
+    <color name="green4">#c000ff00</color>
+    <color name="green5">#f000ff00</color>
 
-    <color name="blue1">#0000ff</color>
-    <color name="blue2">#0000ff</color>
-    <color name="blue3">#0000ff</color>
-    <color name="blue4">#0000ff</color>
-    <color name="blue5">#0000ff</color>
+    <color name="blue1">#30000ff0</color>
+    <color name="blue2">#60000ff0</color>
+    <color name="blue3">#90000ff0</color>
+    <color name="blue4">#c0000ff0</color>
+    <color name="blue5">#f0000ff0</color>
 
-    <color name="yellow1">#FF0</color>
-    <color name="yellow2">#FF0</color>
-    <color name="yellow3">#FF0</color>
-    <color name="yellow4">#FF0</color>
-    <color name="yellow5">#FF0</color>
+    <color name="yellow1">#3FFFF000</color>
+    <color name="yellow2">#6FFFF000</color>
+    <color name="yellow3">#9FFFF000</color>
+    <color name="yellow4">#cFFFF000</color>
+    <color name="yellow5">#FFFfF000</color>
 
-    <color name="red1">#f32</color>
-    <color name="red2">#f32</color>
-    <color name="red3">#f32</color>
-    <color name="red4">#f32</color>
-    <color name="red5">#f32</color>
+    <color name="red1">#30B40404</color>
+    <color name="red2">#60B40404</color>
+    <color name="red3">#90B40404</color>
+    <color name="red4">#c0B40404</color>
+    <color name="red5">#f0B40404</color>
 
-    <color name="violette1">#A901DB</color>
-    <color name="violette2">#A901DB</color>
-    <color name="violette3">#A901DB</color>
-    <color name="violette4">#A901DB</color>
-    <color name="violette5">#A901DB</color>
+    <color name="violette1">#308904B1</color>
+    <color name="violette2">#608904B1</color>
+    <color name="violette3">#908904B1</color>
+    <color name="violette4">#c08904B1</color>
+    <color name="violette5">#f08904B1</color>
 
-    <color name="brown1">#8A4B08</color>
-    <color name="brown2">#8A4B08</color>
-    <color name="brown3">#8A4B08</color>
-    <color name="brown4">#8A4B08</color>
-    <color name="brown5">#8A4B08</color>
+    <color name="brown1">#308A4B08</color>
+    <color name="brown2">#608A4B08</color>
+    <color name="brown3">#908A4B08</color>
+    <color name="brown4">#c08A4B08</color>
+    <color name="brown5">#f08A4B08</color>
 
 
 </resources>

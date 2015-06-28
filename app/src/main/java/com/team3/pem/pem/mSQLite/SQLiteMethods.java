@@ -29,6 +29,9 @@ public class SQLiteMethods {
     public static final String COLUMN_NAME_ENTRY_ID_YEAR = "YEAR";
     public static final String COLUMN_NAME_ENTRY_DESCRIPTION = "Description";
 
+    public static final String TABLE_NAME_WEATHER_TABLE = "Weathertable";
+    public static final String COLUMN_NAME_ENTRY_WEATHER = "Weather";
+
     public static final String TABLE_NAME_FACTOR_TABLE = "factors";
     public static final String COLUMN_NAME_ENTRY_ID_FACTORS = "FACTOR";
     public static final String COLUMN_NAME_ENTRY_COLOR = "COLOR";
@@ -70,6 +73,17 @@ public class SQLiteMethods {
                     COLUMN_NAME_ENTRY_ID_MONTH + SPACE + NUMBER_TYPE + COMMA_STEP +
                     COLUMN_NAME_ENTRY_ID_YEAR + SPACE + NUMBER_TYPE + COMMA_STEP +
                     COLUMN_NAME_ENTRY_DESCRIPTION + SPACE + TEXT_TYPE + COMMA_STEP +
+                    COLUMN_NAME_ENTRY_WEATHER+ SPACE + TEXT_TYPE + COMMA_STEP +
+                    PRIMARY_KEY + OPEN_BRACE + COLUMN_NAME_ENTRY_ID_DAY + COMMA_STEP +
+                    COLUMN_NAME_ENTRY_ID_MONTH + COMMA_STEP + COLUMN_NAME_ENTRY_ID_YEAR + CLOSE_BRACE +
+                    CLOSE_BRACE;
+
+    public static final String SQL_CREATE_WEATHER =
+            CREATE_TABLE + SPACE +TABLE_NAME_WEATHER_TABLE + OPEN_BRACE +
+                    COLUMN_NAME_ENTRY_ID_DAY + SPACE + NUMBER_TYPE + COMMA_STEP +
+                    COLUMN_NAME_ENTRY_ID_MONTH + SPACE + NUMBER_TYPE + COMMA_STEP +
+                    COLUMN_NAME_ENTRY_ID_YEAR + SPACE + NUMBER_TYPE + COMMA_STEP +
+                    COLUMN_NAME_ENTRY_WEATHER+ SPACE + TEXT_TYPE + COMMA_STEP +
                     PRIMARY_KEY + OPEN_BRACE + COLUMN_NAME_ENTRY_ID_DAY + COMMA_STEP +
                     COLUMN_NAME_ENTRY_ID_MONTH + COMMA_STEP + COLUMN_NAME_ENTRY_ID_YEAR + CLOSE_BRACE +
                     CLOSE_BRACE;

@@ -2,8 +2,11 @@ package com.team3.pem.pem.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,21 +15,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.adapters.ViewPagerAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
+import com.team3.pem.pem.openWeatherApi.RemoteWeatherFetcher;
+import com.team3.pem.pem.openWeatherApi.WeatherJSONRenderer;
 import com.team3.pem.pem.utili.ReminderModel;
 import com.team3.pem.pem.view.CalendarFragment;
 import com.team3.pem.pem.view.SlidingTabLayout;
 import com.team3.pem.pem.view.SwitchFragment;
 import com.team3.pem.pem.view.WeekFragment;
 
+import org.json.JSONObject;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
+
+import hirondelle.date4j.DateTime;
 
 //import static com.team3.pem.pem.R.id.calendarFragmentPanel;
 
@@ -55,7 +66,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         factorAsString = new HashMap<>();
         factorsEnabledMap = new HashMap<>();
         setContentView(R.layout.activity_main);
-        //checkDatabase();
+
     }
 
     @Override
@@ -93,7 +104,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         factorAsString = mDHelber.getFactorsFromDatabase();
 
         for(Map.Entry<String, String> e : factorAsString.entrySet()){
-            factorsEnabledMap.put(e.getKey() , true);
+           if(!factorsEnabledMap.containsKey(e.getKey())) factorsEnabledMap.put(e.getKey() , true);
         }
         // Creating The Toolbar and setting it as the Toolbar for the activity
 
@@ -124,6 +135,13 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
         initSwitchFragment();
+
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        String lastUpdate = sharedPref.getString(getString(R.string.last_weather_update_key), null);
+        String today = DateTime.today(TimeZone.getDefault())+"";
+        if(!lastUpdate.equalsIgnoreCase(today)) {
+            updateWeatherData();
+        }
     }
 
 
@@ -220,6 +238,36 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
     }
     public HashMap<String, Boolean> getFactorsEnabledMap(){
         return factorsEnabledMap;
+    }
+
+    private void updateWeatherData(){
+        final Handler handler = new Handler();
+
+        new Thread(){
+            public void run(){
+                final JSONObject json = RemoteWeatherFetcher.getJSON(MainActivity.this);
+                if(json == null){
+                    handler.post(new Runnable(){
+                        public void run(){
+                            Toast.makeText(MainActivity.this,"output empty",
+                                     Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable(){
+                        public void run(){
+                            String s = WeatherJSONRenderer.renderWeather(json);
+                            DateTime today = DateTime.today(TimeZone.getDefault());
+                            mDHelber.saveWeatherDay(today ,s);
+                            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putString(getString(R.string.last_weather_update_key), today+"");
+                            editor.commit();
+                        }
+                    });
+                }
+            }
+        }.start();
     }
 
 }

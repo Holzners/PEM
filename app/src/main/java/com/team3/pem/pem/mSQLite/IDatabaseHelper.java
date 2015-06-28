@@ -29,6 +29,12 @@ public interface IDatabaseHelper {
     void saveDay(DateTime date, HashMap<String, Integer> ratings, String text);
 
     /**
+     *
+     * @param date
+     * @param weatherData
+     */
+    void saveWeatherDay(DateTime date, String weatherData);
+    /**
      * Returns each entry to a specific List of factors
      * @param factors - list of factors
      * @return

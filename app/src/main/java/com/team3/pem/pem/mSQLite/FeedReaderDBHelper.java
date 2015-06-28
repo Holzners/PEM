@@ -47,6 +47,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, "Kopfschmerzen"));
         db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, "Bauchschmerzen"));
         db.execSQL(SQLiteMethods.SQL_CREATE_REMINDERS);
+        db.execSQL(SQLiteMethods.SQL_CREATE_WEATHER);
 
         ContentValues values = new ContentValues();
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, 22);
@@ -138,8 +139,6 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values  = new ContentValues();
 
-        Log.d("Saved: " , text+ date);
-
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, date.getDay());
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH, date.getMonth());
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR, date.getYear());
@@ -156,6 +155,23 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
 
     }
+
+    @Override
+    public void saveWeatherDay(DateTime date, String weatherData) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values  = new ContentValues();
+
+        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, date.getDay());
+        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH, date.getMonth());
+        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR, date.getYear());
+        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_WEATHER, weatherData);
+
+        db.insertWithOnConflict(
+                SQLiteMethods.TABLE_NAME_WEATHER_TABLE,
+                "null", values, SQLiteDatabase.CONFLICT_REPLACE);
+
+    }
+
     @Override
     public HashMap<DateTime, DayEntry>  getDatabaseEntries(List<String> factors){
         SQLiteDatabase dbRwad = getReadableDatabase();

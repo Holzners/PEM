@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import com.roomorama.caldroid.CaldroidGridAdapter;
 import com.team3.pem.pem.R;
+import com.team3.pem.pem.activities.MainActivity;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.DayEntry;
 import com.team3.pem.pem.utili.RatingToColorHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,10 +26,16 @@ import hirondelle.date4j.DateTime;
 public class CalendarFragmentAdapter extends CaldroidGridAdapter{
 
     FeedReaderDBHelper mDBHelper;
+    List<String> factors;
+    MainActivity context;
 
-    public CalendarFragmentAdapter(Context context, int month, int year, HashMap<String, Object> caldroidData, HashMap<String, Object> extraData) {
+    public CalendarFragmentAdapter(MainActivity context, int month, int year, HashMap<String, Object> caldroidData, HashMap<String, Object> extraData) {
         super(context, month, year, caldroidData, extraData);
         this.mDBHelper = FeedReaderDBHelper.getInstance();
+        this.context = context;
+
+        factors = mDBHelper.getFactors();
+
     }
 
     @Override
@@ -35,8 +43,15 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
 
         DateTime dateTime = this.datetimeList.get(position);
 
-        List<String> factors;
-        factors = mDBHelper.getFactors();
+        List<String> copyOfFactors = new ArrayList<>();
+
+        for(String s: factors){
+            if(context.getFactorsEnabledMap().get(s)){
+                copyOfFactors.add(s);
+            }
+        }
+
+
         View cellView = convertView;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -51,47 +66,52 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
         int bottomPadding = cellView.getPaddingBottom();
         int rightPadding = cellView.getPaddingRight();
 
-        if(dateTime.getMonth() == this.month) {
+        if(dateTime.getMonth() == this.month && copyOfFactors.size()>0) {
 
-            DayEntry dayEntry = mDBHelper.getDatabaseEntriesDay(factors, dateTime.getDay(), dateTime.getMonth(), dateTime.getYear());
+            DayEntry dayEntry = mDBHelper.getDatabaseEntriesDay(copyOfFactors, dateTime.getDay(), dateTime.getMonth(), dateTime.getYear());
+            TextView colorView[];
 
-            TextView imgView1 = (TextView) cellView.findViewById(R.id.textView);
-            TextView imgView2 = (TextView) cellView.findViewById(R.id.textView2);
-            TextView imgView3 = (TextView) cellView.findViewById(R.id.textView3);
-            TextView imgView4 = (TextView) cellView.findViewById(R.id.textView4);
-            TextView textView = (TextView) cellView.findViewById(R.id.textView5);
+                colorView = new TextView[4];
+                colorView[0] = (TextView) cellView.findViewById(R.id.textView);
+                colorView[1] = (TextView) cellView.findViewById(R.id.textView2);
+                colorView[2] = (TextView) cellView.findViewById(R.id.textView3);
+                colorView[3] = (TextView) cellView.findViewById(R.id.textView4);
+
+                TextView textView = (TextView) cellView.findViewById(R.id.textView5);
 
 
-            if (dayEntry != null) {
-
-                imgView1.setBackgroundResource(R.drawable.border);
-                imgView2.setBackgroundResource(R.drawable.border);
-                imgView3.setBackgroundResource(R.drawable.border);
-                imgView4.setBackgroundResource(R.drawable.border);
-
-                GradientDrawable drawable1 = (GradientDrawable) imgView1.getBackground();
-                GradientDrawable drawable2 = (GradientDrawable) imgView2.getBackground();
-                GradientDrawable drawable3 = (GradientDrawable) imgView3.getBackground();
-                GradientDrawable drawable4 = (GradientDrawable) imgView4.getBackground();
-                drawable1.setColor(cellView.getResources().getColor(
-                        RatingToColorHelper.ratingToColor(factors.get(0), dayEntry.ratings.get(0))));
-                drawable2.setColor(cellView.getResources().getColor(
-                        RatingToColorHelper.ratingToColor(factors.get(1), dayEntry.ratings.get(1))));
-                try {
-                    drawable3.setColor(cellView.getResources().getColor(
-                            RatingToColorHelper.ratingToColor(factors.get(2), dayEntry.ratings.get(2))));
-                    drawable4.setColor(cellView.getResources().getColor(R.color.white));
-                }catch (IndexOutOfBoundsException ie){
-
-                }
-            } else {
+            if (dayEntry != null ) {
+                if(copyOfFactors.size()== 1){
+                    cellView.setBackgroundResource(R.drawable.border);
+                    GradientDrawable drawable = (GradientDrawable) cellView.getBackground();
+                    drawable.setColor(cellView.getResources().getColor(
+                                    RatingToColorHelper.ratingToColor(copyOfFactors.get(0), dayEntry.ratings.get(0))));
+                }else if (copyOfFactors.size()== 2) {
+                    colorView[0].setBackgroundColor(cellView.getResources().getColor(
+                            RatingToColorHelper.ratingToColor(copyOfFactors.get(0), dayEntry.ratings.get(0))));
+                    colorView[1].setBackgroundColor(cellView.getResources().getColor(
+                            RatingToColorHelper.ratingToColor(copyOfFactors.get(0), dayEntry.ratings.get(0))));
+                    colorView[2].setBackgroundColor(cellView.getResources().getColor(
+                            RatingToColorHelper.ratingToColor(copyOfFactors.get(1), dayEntry.ratings.get(1))));
+                    colorView[3].setBackgroundColor(cellView.getResources().getColor(
+                            RatingToColorHelper.ratingToColor(copyOfFactors.get(1), dayEntry.ratings.get(1))));
+                    textView.setBackgroundResource(R.drawable.border);
+                    GradientDrawable drawable = (GradientDrawable) textView.getBackground();
+                    drawable.setColor(cellView.getResources().getColor(R.color.transparent));
+                    textView.setPadding(leftPadding, topPadding, rightPadding,
+                            bottomPadding);
+                }else{
+                        for (int i = 0; i < colorView.length && i < dayEntry.ratings.size(); i++) {
+                            colorView[i].setBackgroundResource(R.drawable.border);
+                            GradientDrawable drawable = (GradientDrawable) colorView[i].getBackground();
+                            drawable.setColor(cellView.getResources().getColor(
+                                    RatingToColorHelper.ratingToColor(copyOfFactors.get(i), dayEntry.ratings.get(i))));
+                        }
+                    }
+            }
                 cellView.setBackgroundResource(R.drawable.border);
                 GradientDrawable drawable = (GradientDrawable) cellView.getBackground();
                 drawable.setColor(cellView.getResources().getColor(R.color.white));
-                //textView.setText(""+dateTime.getDay());
-
-            }
-
 
         }
         cellView.setPadding(leftPadding, topPadding, rightPadding,

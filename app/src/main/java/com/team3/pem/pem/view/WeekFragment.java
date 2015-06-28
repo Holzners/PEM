@@ -39,6 +39,7 @@ public class WeekFragment extends ListFragment{
         Calendar c = Calendar.getInstance();
         year = c.get(Calendar.YEAR);
         calenderWeek = c.get(Calendar.WEEK_OF_YEAR);
+
     }
 
     @Override
@@ -72,10 +73,10 @@ public class WeekFragment extends ListFragment{
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if (position + 1 < calenderWeek) {
-                            previousWeek(position + 1 - calenderWeek);
+                            previousWeek(calenderWeek - position - 1);
                             calenderWeek = position + 1;
                         } else if (position + 1 > calenderWeek) {
-                            nextWeek(calenderWeek - position - 1);
+                            nextWeek(position + 1 -calenderWeek);
                             calenderWeek = position + 1;
                         }
                     }
@@ -107,12 +108,12 @@ public class WeekFragment extends ListFragment{
     }
 
     public void nextWeek(int weeks){
-        adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().plusDays(8*weeks));
+        adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().plusDays(7*weeks));
         adapter.notifyDataSetChanged();
     }
 
     public void previousWeek(int weeks){
-        adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().minusDays(8 * weeks));
+        adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().minusDays(7 * weeks));
         adapter.notifyDataSetChanged();
     }
 

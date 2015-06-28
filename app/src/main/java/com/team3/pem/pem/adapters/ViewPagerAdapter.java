@@ -1,4 +1,5 @@
 package com.team3.pem.pem.adapters;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -25,12 +26,14 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         this.Titles = mTitles;
         this.NumbOfTabs = mNumbOfTabsumb;
 
+
+
     }
 
     //This method return the fragment for the every position in the View Pager
     @Override
     public Fragment getItem(int position) {
-
+    //TODO
         if(position == 0) // if the position is 0 we are returning the First tab
         {
             weekFragment = new WeekFragment();
@@ -62,7 +65,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public void notifyFragment(){
         if(weekFragment != null) weekFragment.notifyAdapter();
-        if(monthfragment!= null) monthfragment.refreshView();
+        if(monthfragment!= null) monthfragment.notifyAdapter();
     }
 
 }

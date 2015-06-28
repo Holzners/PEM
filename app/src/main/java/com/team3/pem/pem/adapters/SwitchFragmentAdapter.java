@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.activities.MainActivity;
@@ -65,6 +64,7 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
 
         Switch mSwitch = (Switch) newView.findViewById(R.id.switch1);
         mSwitch.setText(factors.get(position));
+        mSwitch.setChecked(context.getFactorsEnabledMap().get(factors.get(position)));
 
         mSwitch.setOnClickListener(new SwitchOnClickListener(mSwitch, factors.get(position)));
         return newView;
@@ -84,7 +84,7 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
         @Override
         public void onClick(View v) {
             context.switchSymptom(mSwitch.isChecked() , symptom);
-            Toast.makeText(context, symptom + " enabled " + mSwitch.isChecked(), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(context, symptom + " enabled " + mSwitch.isChecked(), Toast.LENGTH_SHORT).show();
         }
     }
 }

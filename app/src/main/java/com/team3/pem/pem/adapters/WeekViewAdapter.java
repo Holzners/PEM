@@ -2,7 +2,6 @@ package com.team3.pem.pem.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,13 +69,13 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
         rowViews[6] = (TextView) newRow.findViewById(R.id.rowTextView7);
 
         if(position == 0){
-            rowViews[0].setText("SO");
-            rowViews[1].setText("MO");
-            rowViews[2].setText("DI");
-            rowViews[3].setText("MI");
-            rowViews[4].setText("DO");
-            rowViews[5].setText("FR");
-            rowViews[6].setText("SA");
+            rowViews[0].setText("MO");
+            rowViews[1].setText("DI");
+            rowViews[2].setText("MI");
+            rowViews[3].setText("DO");
+            rowViews[4].setText("FR");
+            rowViews[5].setText("SA");
+            rowViews[6].setText("SO");
             for(int k = 0 ; k <rowViews.length; k++){
                 GradientDrawable gd = (GradientDrawable) rowViews[k].getBackground();
                 gd.setColor(newRow.getResources().getColor(R.color.caldroid_lighter_gray));
@@ -103,11 +102,9 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
 
                 for (int i = 0; i < rowViews.length; i++) {
                     DateTime thisDate = startDay.plusDays(i);
-                    Log.d("This Date", thisDate + "");
                     if (entryHashMap.containsKey(thisDate)) {
 
-                        Log.d("" + thisDate + " Symptom:", "" + factors.get(0) + " Farbe: " + entryHashMap.get(thisDate).ratings.get(0));
-                        GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
+                         GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
                         gd.setColor(newRow.getResources().getColor(
                                 RatingToColorHelper.ratingToColor(factors.get(0),
                                         entryHashMap.get(thisDate).ratings.get(0))));
@@ -131,9 +128,10 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
         DateTime today = DateTime.today(TimeZone.getDefault());
         DateTime firstDayThisWeek = today; //start value
         int todaysWeekday = today.getWeekDay();
-        int SUNDAY = 1;
-        if (todaysWeekday > SUNDAY) {
-            int numDaysFromSunday = todaysWeekday - SUNDAY;
+        if (todaysWeekday<2) todaysWeekday = 8;
+        int MONDAY = 2;
+        if (todaysWeekday > MONDAY) {
+            int numDaysFromSunday = todaysWeekday - MONDAY;
             firstDayThisWeek = today.minusDays(numDaysFromSunday);
         }
         return firstDayThisWeek;

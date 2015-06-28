@@ -13,7 +13,7 @@
         android:clickable="true"
         android:onClick="onSwitchClicked"
         android:checked="true"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="right"
         android:gravity="center"
         />
 

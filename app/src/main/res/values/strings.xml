@@ -41,4 +41,8 @@
     <string name="so">So</string>
     <string name="zeit">00:00</string>
     <string name="title_activity_reminder">ReminderActivity</string>
+
+    <!--open Weather API -->
+    <string name="open_weather_maps_api_key">04f4e274ef4930db6350758fd3c9556a</string>
+    <string name="last_weather_update_key">last Weather Update</string>
 </resources>
