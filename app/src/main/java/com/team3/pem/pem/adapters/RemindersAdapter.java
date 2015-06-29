@@ -15,7 +15,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.team3.pem.pem.utili.NotifyService;
 import com.team3.pem.pem.R;
@@ -54,6 +53,7 @@ public class RemindersAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ReminderModel reminderModel = getItem(position);
+
         if(convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.reminders_list_layout, parent, false);
 
