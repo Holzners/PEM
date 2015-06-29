@@ -201,11 +201,12 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
         while (!cursor.isAfterLast()){
             DateTime date = DateTime.forDateOnly(cursor.getInt(2), cursor.getInt(1), cursor.getInt(0));
-            List<Integer> colors = new ArrayList<>();
+            HashMap<String , Integer> colors = new HashMap<>();
 
             for(int i = 3 ; i < factors.size() +3; i++){
-                colors.add(cursor.getInt(i));
+                colors.put(factors.get(i), cursor.getInt(i));
             }
+
             DayEntry descriptionColorMap = new DayEntry(colors, cursor.getString(projection.length-1));
             entryMap.put(date, descriptionColorMap);
             cursor.moveToNext();
@@ -244,11 +245,11 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         cursor.moveToFirst();
         DayEntry descriptionColorMap = null;
         while (!cursor.isAfterLast()){
-            List<Integer> colors = new ArrayList<>();
+            HashMap<String , Integer> colors = new HashMap<>();
 
             for(int i = 3 ; i < factors.size() +3; i++){
-                colors.add(cursor.getInt(i));
-              }
+                colors.put(factors.get(i-3), cursor.getInt(i));
+            }
             descriptionColorMap = new DayEntry(colors, cursor.getString(projection.length-1));
              cursor.moveToNext();
 
@@ -288,10 +289,10 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
         while (!cursor.isAfterLast()){
             DateTime date = DateTime.forDateOnly(cursor.getInt(2), cursor.getInt(1), cursor.getInt(0));
-            List<Integer> colors = new ArrayList<>();
+            HashMap<String , Integer> colors = new HashMap<>();
 
             for(int i = 3 ; i < factors.size() +3; i++){
-                colors.add(cursor.getInt(i));
+                colors.put(factors.get(i-3), cursor.getInt(i));
             }
             DayEntry descriptionColorMap = new DayEntry(colors, cursor.getString(projection.length-1));
             entryMap.put(date, descriptionColorMap);
@@ -331,10 +332,10 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
         while (!cursor.isAfterLast()){
             DateTime date = DateTime.forDateOnly(cursor.getInt(2), cursor.getInt(1), cursor.getInt(0));
-            List<Integer> colors = new ArrayList<>();
+            HashMap<String , Integer> colors = new HashMap<>();
 
             for(int i = 3 ; i < factors.size() +3; i++){
-                colors.add(cursor.getInt(i));
+                colors.put(factors.get(i-3), cursor.getInt(i));
             }
             DayEntry descriptionColorMap = new DayEntry(colors, cursor.getString(projection.length-1));
             entryMap.put(date, descriptionColorMap);
@@ -383,11 +384,10 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
         while (!cursor.isAfterLast()){
             DateTime date = DateTime .forDateOnly (cursor.getInt(2), cursor.getInt(1) , cursor.getInt(0));
-            List<Integer> colors = new ArrayList<>();
+            HashMap<String , Integer> colors = new HashMap<>();
 
             for(int i = 3 ; i < factors.size() +3; i++){
-                colors.add(cursor.getInt(i));
-                Log.d("Farbe", cursor.getInt(i) + "");
+                colors.put(factors.get(i-3), cursor.getInt(i));
             }
             Log.d("Für Tag", date +"");
             DayEntry descriptionColorMap = new DayEntry(colors, cursor.getString(projection.length-1));

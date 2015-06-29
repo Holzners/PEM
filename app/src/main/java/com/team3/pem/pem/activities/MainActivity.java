@@ -1,10 +1,14 @@
 package com.team3.pem.pem.activities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -14,11 +18,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.team3.pem.pem.R;
+import com.team3.pem.pem.adapters.CalendarFragmentAdapter;
+import com.team3.pem.pem.adapters.RateDayAdapter;
 import com.team3.pem.pem.adapters.ViewPagerAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.openWeatherApi.RemoteWeatherFetcher;
@@ -58,6 +69,10 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
 
     int tabNumber =3;
 
+    static final int RATE_DAY_DIALOG = 0;
+    public HashMap<String, Integer> selectedColor;
+    ListView dialogListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,8 +105,6 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
             startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
         }else if(id == R.id.action_rateday){
             openPopUpForDayRating();
-        } else if (id == R.id.action_new_factor){
-            startActivity(new Intent(MainActivity.this, NewFactorActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -195,8 +208,51 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         }
     }
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        final Dialog dialog = new Dialog(MainActivity.this);
+        if(id == RATE_DAY_DIALOG) {
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(true);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.setContentView(R.layout.rate_day_dialog);
+
+            ListView dialogListView = (ListView) dialog.findViewById(R.id.rateDayList);
+            HashMap<String, String> factorsFromDatabase = mDHelber.getFactorsFromDatabase();
+
+            RateDayAdapter rateDayAdapteradapter = new RateDayAdapter(this, R.layout.rate_day_layout, factorsFromDatabase);
+            dialogListView.setAdapter(rateDayAdapteradapter);
+
+            ImageView newFactor = (ImageView) dialog.findViewById(R.id.newFactor);
+
+            newFactor.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, NewFactorActivity.class));
+                }
+            });
+
+            Button saveDay = (Button) dialog.findViewById(R.id.saveDay);
+            final EditText editText = (EditText) dialog.findViewById(R.id.editNote);
+
+            saveDay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DateTime date = DateTime.today(TimeZone.getDefault());
+                    Log.d("Date", date + "");
+                    mDHelber.saveDay(date, selectedColor, editText.getText().toString());
+                    adapter.notifyFragment();
+                    dialog.dismiss();
+                }
+            });
+        }
+        return dialog;
+    }
+
     private void openPopUpForDayRating() {
-        startActivity(new Intent(MainActivity.this, RateDayActivity.class));
+        //startActivity(new Intent(MainActivity.this, RateDayActivity.class));
+        showDialog(RATE_DAY_DIALOG);
+
     }
 
     private void checkDatabase(){

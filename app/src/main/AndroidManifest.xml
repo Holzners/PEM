@@ -33,15 +33,6 @@
                 android:value=".activities.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.RateDayActivity"
-            android:label="@string/title_activity_rate_day"
-            android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/ActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-        <activity
             android:name=".activities.NotificationsActivity"
             android:label="@string/title_activity_notifications"
             android:parentActivityName=".activities.MainActivity"

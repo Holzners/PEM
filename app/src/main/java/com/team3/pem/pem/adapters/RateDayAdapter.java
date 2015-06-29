@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.team3.pem.pem.R;
-import com.team3.pem.pem.activities.RateDayActivity;
+import com.team3.pem.pem.activities.MainActivity;
 import com.team3.pem.pem.utili.ColorsToPick;
 
 import java.util.ArrayList;
@@ -27,9 +27,9 @@ public class RateDayAdapter extends ArrayAdapter {
 
     List<String> factors;
 
-    RateDayActivity activity;
+    MainActivity activity;
 
-    public RateDayAdapter(RateDayActivity activity, int resource, HashMap<String,String> factorColors) {
+    public RateDayAdapter(MainActivity activity, int resource, HashMap<String,String> factorColors) {
         super(activity, resource);
         this.activity = activity;
         this.factorColors = factorColors;
