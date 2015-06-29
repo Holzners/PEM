@@ -1,19 +1,35 @@
-/**package com.team3.pem.pem.view;
- *
+package com.team3.pem.pem.view;
 
-
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.team3.pem.pem.R;
+import com.team3.pem.pem.activities.MainActivity;
+import com.team3.pem.pem.adapters.YearAdapter;
 
-public class YearFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TimeZone;
+
+import hirondelle.date4j.DateTime;
+
+public class YearFragment extends ListFragment {
 
     private int selectedYear;
+    private Spinner yearSpinner;
 
+
+
+    private HashMap<String ,String> factorColorMap;
+    private List<Integer> years;
     public YearFragment() {
     }
 
@@ -26,33 +42,34 @@ public class YearFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_item, container, false);
+        return inflater.inflate(R.layout.fragment_year, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-     /***   weekPicker = (Spinner) getView().findViewById(R.id.spinner);
-        List<Integer> weeks = new ArrayList<>();
-        for(int i = 1 ; i <= 52 ; i++){
-            weeks.add(i);
+        yearSpinner = (Spinner) getView().findViewById(R.id.spinner);
+        years = new ArrayList<>();
+        DateTime today = DateTime.today(TimeZone.getDefault());
+        for(int i = 2010 ; i <= today.getYear() ; i++){
+            years.add(i);
         }
         ArrayAdapter<Integer> spinnerAdapter = new ArrayAdapter(getActivity(),
-                android.R.layout.simple_spinner_item,weeks);
+                android.R.layout.simple_spinner_item, years);
 
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        weekPicker.setAdapter(spinnerAdapter);
-        weekPicker.setSelection(calenderWeek - 1);
-        weekPicker.setOnItemSelectedListener(
+        yearSpinner.setAdapter(spinnerAdapter);
+        yearSpinner.setSelection(years.indexOf(selectedYear));
+        yearSpinner.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (position + 1 < calenderWeek) {
-                            previousWeek(calenderWeek - position - 1);
-                            calenderWeek = position + 1;
-                        } else if (position + 1 > calenderWeek) {
-                            nextWeek(position + 1 -calenderWeek);
-                            calenderWeek = position + 1;
+                        if (years.get(position) < selectedYear) {
+                            previousYear(selectedYear - years.get(position));
+                            selectedYear =years.get(position);
+                        } else if (years.get(position)> selectedYear) {
+                            nextYear(years.get(position) - selectedYear);
+                            selectedYear = years.get(position);
                         }
                     }
 
@@ -61,18 +78,24 @@ public class YearFragment extends Fragment {
 
                     }
                 });
-
-        List<String> factors = new ArrayList<>();
-        factors.add("");
-        for (Map.Entry<String, String> e : factorColorMap.entrySet()) {
-            factors.add(e.getKey());
-        }
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         int displayWidth = display.getWidth();
-        adapter = new WeekViewAdapter((MainActivity)getActivity(),0,factors, displayWidth);
-        setListAdapter(adapter);
-      *
+        YearAdapter adapter = new YearAdapter((MainActivity)getActivity(), 0, displayWidth, factorColorMap);
+        this.setListAdapter(adapter);
+    }
+
+    private void previousYear(int years){
+
+    }
+    private void nextYear(int years){
+
+    }
+    public HashMap<String, String> getFactorColorMap() {
+        return factorColorMap;
+    }
+
+    public void setFactorColorMap(HashMap<String, String> factorColorMap) {
+        this.factorColorMap = factorColorMap;
     }
 
 }
-*/
