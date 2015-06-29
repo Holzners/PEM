@@ -10,7 +10,6 @@ import android.support.v4.app.NotificationCompat;
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.activities.MainActivity;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
-import com.team3.pem.pem.utili.ReminderModel;
 
 import java.util.Calendar;
 import java.util.List;

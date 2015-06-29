@@ -137,7 +137,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         initSwitchFragment();
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        String lastUpdate = sharedPref.getString(getString(R.string.last_weather_update_key), null);
+        String lastUpdate = sharedPref.getString(getString(R.string.last_weather_update_key), "");
         String today = DateTime.today(TimeZone.getDefault())+"";
         if(!lastUpdate.equalsIgnoreCase(today)) {
             updateWeatherData();

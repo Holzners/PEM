@@ -23,6 +23,7 @@ public class NotificationsActivity extends ActionBarActivity {
     List<ReminderModel> reminders;
     Button new_reminder;
     EditText reminderBezeichnung;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class NotificationsActivity extends ActionBarActivity {
         dbHelper = FeedReaderDBHelper.getInstance();
         reminders = dbHelper.getAllReminders();
 
-        final ListView listView = (ListView) findViewById(R.id.list_reminders);
+        listView = (ListView) findViewById(R.id.list_reminders);
         new_reminder = (Button) findViewById(R.id.create_reminder);
         reminderBezeichnung = (EditText) findViewById(R.id.reminder_bezeichnung);
 
