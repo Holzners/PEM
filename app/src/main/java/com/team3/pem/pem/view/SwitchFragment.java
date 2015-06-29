@@ -17,11 +17,6 @@ import com.team3.pem.pem.adapters.SwitchFragmentAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- * Large screen devices (such as tablets) are supported by replacing the ListView with a GridView.
- * Activities containing this fragment MUST implement the {@link com.team3.pem.pem.view.SwitchFragment.SwitchFragmentInterface}.
- */
 public class SwitchFragment extends ListFragment implements AdapterView.OnItemClickListener {
 
   //  protected static List<SwitchSymptom> symptomList = new ArrayList<>();
@@ -29,6 +24,7 @@ public class SwitchFragment extends ListFragment implements AdapterView.OnItemCl
     private ListAdapter mAdapter;
     private ListView listView;
     private SwitchFragmentInterface switchFragmentInterface;
+    AdapterView.OnItemClickListener onItemClickListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +55,6 @@ public class SwitchFragment extends ListFragment implements AdapterView.OnItemCl
       //  Toast.makeText(getActivity(), position, Toast.LENGTH_SHORT).show();
     }
 
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -67,10 +62,14 @@ public class SwitchFragment extends ListFragment implements AdapterView.OnItemCl
            switchFragmentInterface = (SwitchFragmentInterface) activity;
         }
         else throw new ClassCastException(activity.toString()+ " must implement SwitchFragmentInterface");
+        try {
+            onItemClickListener = (AdapterView.OnItemClickListener) activity;
+        } catch (ClassCastException e){
+                throw new ClassCastException(activity.toString() + " must implement OnItemClickListener.");
+        }
     }
 
     public interface SwitchFragmentInterface {
-        void updateSymptoms();
+        void updateSymptoms(int position);
     }
-
 }
