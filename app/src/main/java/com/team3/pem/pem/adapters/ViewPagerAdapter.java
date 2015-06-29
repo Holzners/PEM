@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.team3.pem.pem.view.CalendarFragment;
 import com.team3.pem.pem.view.WeekFragment;
+import com.team3.pem.pem.view.YearFragment;
 
 import java.util.HashMap;
 
@@ -19,6 +20,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     private HashMap<String,String> factorColorMap;
     CalendarFragment monthfragment;
     WeekFragment weekFragment;
+    YearFragment yearFragment;
     // Build a Constructor and assign the passed Values to appropriate values in the class
     public ViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumbOfTabsumb, HashMap<String,String> factorColorMap) {
         super(fm);
@@ -41,10 +43,14 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             weekFragment.setFactorColorMap(factorColorMap);
             return weekFragment;
         }
-        else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
+        else if(position ==1)             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
             monthfragment = new CalendarFragment();
             return monthfragment;
+        }else {
+            yearFragment = new YearFragment();
+            yearFragment.setFactorColorMap(factorColorMap);
+            return yearFragment;
         }
 
     }
