@@ -16,7 +16,6 @@ import com.team3.pem.pem.utili.ColorsToPick;
 import com.team3.pem.pem.utili.DayEntry;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,7 +110,7 @@ public class RateDayAdapter extends ArrayAdapter {
         FeedReaderDBHelper dbHelper = FeedReaderDBHelper.getInstance();
         DateTime date = DateTime.today(TimeZone.getDefault());
         DayEntry entry = dbHelper.getDatabaseEntriesDay(factors, date.getDay(), date.getMonth(), date.getYear());
-        int rating = 0;
+        int rating = 1;
         if(entry != null) {
             HashMap<String, Integer> ratings = entry.ratings;
             rating = ratings.get(factors.get(position));

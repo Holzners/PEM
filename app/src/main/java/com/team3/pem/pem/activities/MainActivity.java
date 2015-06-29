@@ -106,6 +106,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
     @Override
     public void onResume() {
         super.onResume();
+
         if (mDHelber == null) mDHelber.getInstance();
         factorAsString = mDHelber.getFactorsFromDatabase();
 
@@ -113,6 +114,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
             if (!factorsEnabledMap.containsKey(e.getKey())) factorsEnabledMap.put(e.getKey(), true);
         }
         // Creating The Toolbar and setting it as the Toolbar for the activity
+        initSwitchFragment();
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -140,7 +142,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
-        initSwitchFragment();
+
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         String lastUpdate = sharedPref.getString(getString(R.string.last_weather_update_key), "");

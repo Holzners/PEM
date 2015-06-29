@@ -66,7 +66,7 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
         int bottomPadding = cellView.getPaddingBottom();
         int rightPadding = cellView.getPaddingRight();
 
-        if(dateTime.getMonth() == this.month && copyOfFactors.size()>0) {
+        if(dateTime.getMonth() == this.month) {
 
             DayEntry dayEntry = mDBHelper.getDatabaseEntriesDay(copyOfFactors, dateTime.getDay(), dateTime.getMonth(), dateTime.getYear());
             TextView colorView[];
@@ -77,35 +77,34 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
                 colorView[2] = (TextView) cellView.findViewById(R.id.textView3);
                 colorView[3] = (TextView) cellView.findViewById(R.id.textView4);
 
-                TextView textView = (TextView) cellView.findViewById(R.id.textView5);
-
-
             if (dayEntry != null ) {
                 if(copyOfFactors.size()== 1){
-                    cellView.setBackgroundResource(R.drawable.border);
-                    GradientDrawable drawable = (GradientDrawable) cellView.getBackground();
-                    drawable.setColor(cellView.getResources().getColor(
-                                    RatingToColorHelper.ratingToColor(copyOfFactors.get(0), dayEntry.ratings.get(copyOfFactors.get(0)))));
+                    for(TextView t : colorView){
+                       t.setBackgroundColor(cellView.getResources().getColor(
+                                RatingToColorHelper.ratingToColor(copyOfFactors.get(0),
+                                        dayEntry.ratings.get(copyOfFactors.get(0)))));
+                    }
                 }else if (copyOfFactors.size()== 2) {
                     colorView[0].setBackgroundColor(cellView.getResources().getColor(
-                            RatingToColorHelper.ratingToColor(copyOfFactors.get(0), dayEntry.ratings.get(copyOfFactors.get(0)))));
+                            RatingToColorHelper.ratingToColor(copyOfFactors.get(0),
+                                    dayEntry.ratings.get(copyOfFactors.get(0)))));
                     colorView[1].setBackgroundColor(cellView.getResources().getColor(
-                            RatingToColorHelper.ratingToColor(copyOfFactors.get(0), dayEntry.ratings.get(copyOfFactors.get(0)))));
+                            RatingToColorHelper.ratingToColor(copyOfFactors.get(0),
+                                    dayEntry.ratings.get(copyOfFactors.get(0)))));
                     colorView[2].setBackgroundColor(cellView.getResources().getColor(
-                            RatingToColorHelper.ratingToColor(copyOfFactors.get(1), dayEntry.ratings.get(copyOfFactors.get(1)))));
+                            RatingToColorHelper.ratingToColor(copyOfFactors.get(1),
+                                    dayEntry.ratings.get(copyOfFactors.get(1)))));
                     colorView[3].setBackgroundColor(cellView.getResources().getColor(
-                            RatingToColorHelper.ratingToColor(copyOfFactors.get(1), dayEntry.ratings.get(copyOfFactors.get(1)))));
-                    textView.setBackgroundResource(R.drawable.border);
-                    GradientDrawable drawable = (GradientDrawable) textView.getBackground();
-                    drawable.setColor(cellView.getResources().getColor(R.color.transparent));
-                    textView.setPadding(leftPadding, topPadding, rightPadding,
-                            bottomPadding);
+                            RatingToColorHelper.ratingToColor(copyOfFactors.get(1),
+                                    dayEntry.ratings.get(copyOfFactors.get(1)))));
+
                 }else{
                         for (int i = 0; i < colorView.length && i < dayEntry.ratings.size(); i++) {
                             colorView[i].setBackgroundResource(R.drawable.border);
                             GradientDrawable drawable = (GradientDrawable) colorView[i].getBackground();
                             drawable.setColor(cellView.getResources().getColor(
-                                    RatingToColorHelper.ratingToColor(copyOfFactors.get(i), dayEntry.ratings.get(copyOfFactors.get(i)))));
+                                    RatingToColorHelper.ratingToColor(copyOfFactors.get(i),
+                                            dayEntry.ratings.get(copyOfFactors.get(i)))));
                         }
                     }
             }
