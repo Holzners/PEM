@@ -29,7 +29,7 @@
         />
 
     <FrameLayout
-        android:padding="15dp"
+        android:padding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/calender"
@@ -37,9 +37,9 @@
         />
 
     <FrameLayout
-        android:padding="15dp"
+        android:padding="1dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="110dp"
         android:id="@+id/switchFragmentPanel"
         />
 

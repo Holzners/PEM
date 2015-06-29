@@ -72,6 +72,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public void notifyFragment(){
         if(weekFragment != null) weekFragment.notifyAdapter();
         if(monthfragment!= null) monthfragment.notifyAdapter();
+        if(yearFragment != null) yearFragment.notifyAdapter();
     }
 
 }

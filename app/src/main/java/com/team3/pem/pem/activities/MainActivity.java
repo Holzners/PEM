@@ -1,14 +1,11 @@
 package com.team3.pem.pem.activities;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -26,23 +23,19 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.roomorama.caldroid.CaldroidFragment;
 import com.team3.pem.pem.R;
-import com.team3.pem.pem.adapters.CalendarFragmentAdapter;
 import com.team3.pem.pem.adapters.RateDayAdapter;
 import com.team3.pem.pem.adapters.ViewPagerAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.openWeatherApi.RemoteWeatherFetcher;
 import com.team3.pem.pem.openWeatherApi.WeatherJSONRenderer;
-import com.team3.pem.pem.utili.ReminderModel;
+import com.team3.pem.pem.utili.DayEntry;
 import com.team3.pem.pem.view.CalendarFragment;
 import com.team3.pem.pem.view.SlidingTabLayout;
 import com.team3.pem.pem.view.SwitchFragment;
-import com.team3.pem.pem.view.WeekFragment;
 
 import org.json.JSONObject;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,22 +97,24 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         }else if(id == R.id.action_notifications){
             startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
         }else if(id == R.id.action_rateday){
-            openPopUpForDayRating();
+            showDialog(RATE_DAY_DIALOG);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if(mDHelber == null) mDHelber.getInstance();
+
+        if (mDHelber == null) mDHelber.getInstance();
         factorAsString = mDHelber.getFactorsFromDatabase();
 
-        for(Map.Entry<String, String> e : factorAsString.entrySet()){
-           if(!factorsEnabledMap.containsKey(e.getKey())) factorsEnabledMap.put(e.getKey() , true);
+        for (Map.Entry<String, String> e : factorAsString.entrySet()) {
+            if (!factorsEnabledMap.containsKey(e.getKey())) factorsEnabledMap.put(e.getKey(), true);
         }
         // Creating The Toolbar and setting it as the Toolbar for the activity
+        initSwitchFragment();
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -127,7 +122,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         titles = getResources().getStringArray(R.array.tabs);
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),titles, tabNumber,factorAsString);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, tabNumber, factorAsString);
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
@@ -147,39 +142,16 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
-        initSwitchFragment();
+
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         String lastUpdate = sharedPref.getString(getString(R.string.last_weather_update_key), "");
-        String today = DateTime.today(TimeZone.getDefault())+"";
-        if(!lastUpdate.equalsIgnoreCase(today)) {
+        String today = DateTime.today(TimeZone.getDefault()) + "";
+        if (!lastUpdate.equalsIgnoreCase(today)) {
             updateWeatherData();
         }
+        if(dialogListView!= null) ((RateDayAdapter)dialogListView.getAdapter()).setFactorColors(factorAsString);
     }
-
-
-    private void initMonthFragment(){
-        this.caldroidFragment = new CalendarFragment();
-        Bundle args = new Bundle();
-        Calendar cal = Calendar.getInstance();
-        args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
-        args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
-        caldroidFragment.setArguments(args);
-        caldroidFragment.refreshView();
-        android.support.v4.app.FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.calender, caldroidFragment);
-        t.commit();
-    }
-
-
-    private void initWeekFragment(){
-        WeekFragment weekFragment = new WeekFragment();
-        weekFragment.init();
-        android.support.v4.app.FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.calender, weekFragment);
-        t.commit();
-    }
-
 
 //---------------------SwitchFragment---------------------------------
 
@@ -217,7 +189,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
             dialog.setCanceledOnTouchOutside(true);
             dialog.setContentView(R.layout.rate_day_dialog);
 
-            ListView dialogListView = (ListView) dialog.findViewById(R.id.rateDayList);
+            dialogListView = (ListView) dialog.findViewById(R.id.rateDayList);
             HashMap<String, String> factorsFromDatabase = mDHelber.getFactorsFromDatabase();
 
             RateDayAdapter rateDayAdapteradapter = new RateDayAdapter(this, R.layout.rate_day_layout, factorsFromDatabase);
@@ -234,6 +206,11 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
 
             Button saveDay = (Button) dialog.findViewById(R.id.saveDay);
             final EditText editText = (EditText) dialog.findViewById(R.id.editNote);
+            List<String> factors = mDHelber.getFactors();
+            DateTime date = DateTime.today(TimeZone.getDefault());
+            DayEntry entry = mDHelber.getDatabaseEntriesDay(factors, date.getDay(), date.getMonth(), date.getYear());
+            if(entry != null)
+                editText.setText(entry.description);
 
             saveDay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -249,25 +226,6 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         return dialog;
     }
 
-    private void openPopUpForDayRating() {
-        //startActivity(new Intent(MainActivity.this, RateDayActivity.class));
-        showDialog(RATE_DAY_DIALOG);
-
-    }
-
-    private void checkDatabase(){
-        List<ReminderModel> reminders = mDHelber.getAllReminders();
-        for(ReminderModel r : reminders) {
-            Log.d("Reminder ID", r.getAlarmID()+"");
-            Log.d("Dialog ID", r.getDialogID()+"");
-            Log.d("Time", r.getTime()+"");
-            Log.d("Text", r.getText()+"");
-            Log.d("Active", r.isActive()+"");
-            for(Boolean b : r.getActiveForDays()){
-                Log.d("Boolen" , b + "");
-            }
-        }
-    }
 
     @Override
     public void onDestroy(){

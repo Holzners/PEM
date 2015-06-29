@@ -27,7 +27,7 @@ public class RatingToColorHelper {
             case 5:
                 return ColorsToPick.getColorByString(factorWidthColor.get(factor)).getColor5();
             default:
-                return R.color.white;
+                return R.color.transparent;
         }
     }
 

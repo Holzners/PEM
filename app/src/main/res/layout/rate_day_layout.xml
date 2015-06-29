@@ -25,31 +25,31 @@
             android:id="@+id/ratText1"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:background="@drawable/border" />
+            android:background="@drawable/border2" />
 
         <TextView
             android:id="@+id/ratText2"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:background="@drawable/border" />
+            android:background="@drawable/border2" />
 
         <TextView
             android:id="@+id/ratText3"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:background="@drawable/border" />
+            android:background="@drawable/border2" />
 
         <TextView
             android:id="@+id/ratText4"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:background="@drawable/border" />
+            android:background="@drawable/border2" />
 
         <TextView
             android:id="@+id/ratText5"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:background="@drawable/border" />
+            android:background="@drawable/border2" />
     </TableRow>
 
 
