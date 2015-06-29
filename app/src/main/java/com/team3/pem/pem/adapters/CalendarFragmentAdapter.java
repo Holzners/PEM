@@ -85,16 +85,16 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
                     cellView.setBackgroundResource(R.drawable.border);
                     GradientDrawable drawable = (GradientDrawable) cellView.getBackground();
                     drawable.setColor(cellView.getResources().getColor(
-                                    RatingToColorHelper.ratingToColor(copyOfFactors.get(0), dayEntry.ratings.get(0))));
+                                    RatingToColorHelper.ratingToColor(copyOfFactors.get(0), dayEntry.ratings.get(copyOfFactors.get(0)))));
                 }else if (copyOfFactors.size()== 2) {
                     colorView[0].setBackgroundColor(cellView.getResources().getColor(
-                            RatingToColorHelper.ratingToColor(copyOfFactors.get(0), dayEntry.ratings.get(0))));
+                            RatingToColorHelper.ratingToColor(copyOfFactors.get(0), dayEntry.ratings.get(copyOfFactors.get(0)))));
                     colorView[1].setBackgroundColor(cellView.getResources().getColor(
-                            RatingToColorHelper.ratingToColor(copyOfFactors.get(0), dayEntry.ratings.get(0))));
+                            RatingToColorHelper.ratingToColor(copyOfFactors.get(0), dayEntry.ratings.get(copyOfFactors.get(0)))));
                     colorView[2].setBackgroundColor(cellView.getResources().getColor(
-                            RatingToColorHelper.ratingToColor(copyOfFactors.get(1), dayEntry.ratings.get(1))));
+                            RatingToColorHelper.ratingToColor(copyOfFactors.get(1), dayEntry.ratings.get(copyOfFactors.get(1)))));
                     colorView[3].setBackgroundColor(cellView.getResources().getColor(
-                            RatingToColorHelper.ratingToColor(copyOfFactors.get(1), dayEntry.ratings.get(1))));
+                            RatingToColorHelper.ratingToColor(copyOfFactors.get(1), dayEntry.ratings.get(copyOfFactors.get(1)))));
                     textView.setBackgroundResource(R.drawable.border);
                     GradientDrawable drawable = (GradientDrawable) textView.getBackground();
                     drawable.setColor(cellView.getResources().getColor(R.color.transparent));
@@ -105,7 +105,7 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
                             colorView[i].setBackgroundResource(R.drawable.border);
                             GradientDrawable drawable = (GradientDrawable) colorView[i].getBackground();
                             drawable.setColor(cellView.getResources().getColor(
-                                    RatingToColorHelper.ratingToColor(copyOfFactors.get(i), dayEntry.ratings.get(i))));
+                                    RatingToColorHelper.ratingToColor(copyOfFactors.get(i), dayEntry.ratings.get(copyOfFactors.get(i)))));
                         }
                     }
             }

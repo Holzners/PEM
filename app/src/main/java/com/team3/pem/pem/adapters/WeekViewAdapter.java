@@ -107,7 +107,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
                          GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
                         gd.setColor(newRow.getResources().getColor(
                                 RatingToColorHelper.ratingToColor(factors.get(0),
-                                        entryHashMap.get(thisDate).ratings.get(0))));
+                                        entryHashMap.get(thisDate).ratings.get(factors.get(0)))));
                     } else {
                         GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
                         gd.setColor(newRow.getResources().getColor(R.color.white));
