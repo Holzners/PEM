@@ -11,12 +11,18 @@ import android.widget.TextView;
 
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.activities.MainActivity;
+import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.ColorsToPick;
+import com.team3.pem.pem.utili.DayEntry;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
+
+import hirondelle.date4j.DateTime;
 
 /**
  * Created by Stephan on 25.06.15.
@@ -90,9 +96,18 @@ public class RateDayAdapter extends ArrayAdapter {
                     new RateViewOnClickListener(rateViews[i],rateViews,position,i));
         }
 
+        FeedReaderDBHelper dbHelper = FeedReaderDBHelper.getInstance();
+        DateTime date = DateTime.today(TimeZone.getDefault());
+        DayEntry entry = dbHelper.getDatabaseEntriesDay(factors, date.getDay(), date.getMonth(), date.getYear());
+        int rating = 0;
+        if(entry != null) {
+            HashMap<String, Integer> ratings = entry.ratings;
+            rating = ratings.get(factors.get(position));
+        }
 
-        GradientDrawable gd = (GradientDrawable)  rateViews[0].getBackground();
+        GradientDrawable gd = (GradientDrawable) rateViews[(rating == 0) ? 0 : (rating-1)].getBackground();
         gd.setStroke(7, activity.getResources().getColor(R.color.black));
+        activity.selectedColor.put(factors.get(position), rating);
         return newRow;
     }
 

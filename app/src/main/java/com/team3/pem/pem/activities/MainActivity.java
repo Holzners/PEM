@@ -34,6 +34,7 @@ import com.team3.pem.pem.adapters.ViewPagerAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.openWeatherApi.RemoteWeatherFetcher;
 import com.team3.pem.pem.openWeatherApi.WeatherJSONRenderer;
+import com.team3.pem.pem.utili.DayEntry;
 import com.team3.pem.pem.utili.ReminderModel;
 import com.team3.pem.pem.view.CalendarFragment;
 import com.team3.pem.pem.view.SlidingTabLayout;
@@ -42,6 +43,7 @@ import com.team3.pem.pem.view.WeekFragment;
 
 import org.json.JSONObject;
 
+import java.sql.Date;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -104,7 +106,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         }else if(id == R.id.action_notifications){
             startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
         }else if(id == R.id.action_rateday){
-            openPopUpForDayRating();
+            showDialog(RATE_DAY_DIALOG);
         }
 
         return super.onOptionsItemSelected(item);
@@ -234,6 +236,11 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
 
             Button saveDay = (Button) dialog.findViewById(R.id.saveDay);
             final EditText editText = (EditText) dialog.findViewById(R.id.editNote);
+            List<String> factors = mDHelber.getFactors();
+            DateTime date = DateTime.today(TimeZone.getDefault());
+            DayEntry entry = mDHelber.getDatabaseEntriesDay(factors, date.getDay(), date.getMonth(), date.getYear());
+            if(entry != null)
+                editText.setText(entry.description);
 
             saveDay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -247,12 +254,6 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
             });
         }
         return dialog;
-    }
-
-    private void openPopUpForDayRating() {
-        //startActivity(new Intent(MainActivity.this, RateDayActivity.class));
-        showDialog(RATE_DAY_DIALOG);
-
     }
 
     private void checkDatabase(){
