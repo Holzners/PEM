@@ -25,12 +25,12 @@ public class YearFragment extends ListFragment {
 
     private int selectedYear;
     private Spinner yearSpinner;
-
-
-
+    private YearAdapter adapter;
     private HashMap<String ,String> factorColorMap;
     private List<Integer> years;
     public YearFragment() {
+        DateTime dateTime = DateTime.today(TimeZone.getDefault());
+        selectedYear = dateTime.getYear();
     }
 
     @Override
@@ -64,13 +64,8 @@ public class YearFragment extends ListFragment {
                 new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (years.get(position) < selectedYear) {
-                            previousYear(selectedYear - years.get(position));
-                            selectedYear =years.get(position);
-                        } else if (years.get(position)> selectedYear) {
-                            nextYear(years.get(position) - selectedYear);
-                            selectedYear = years.get(position);
-                        }
+                        changeYear(years.get(position));
+                        selectedYear = years.get(position);
                     }
 
                     @Override
@@ -80,22 +75,23 @@ public class YearFragment extends ListFragment {
                 });
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         int displayWidth = display.getWidth();
-        YearAdapter adapter = new YearAdapter((MainActivity)getActivity(), 0, displayWidth, factorColorMap);
+        adapter = new YearAdapter((MainActivity)getActivity(), 0, displayWidth, selectedYear,factorColorMap);
         this.setListAdapter(adapter);
     }
 
-    private void previousYear(int years){
-
+    private void changeYear(int year){
+        adapter.setSelectedYear(year);
     }
-    private void nextYear(int years){
 
-    }
     public HashMap<String, String> getFactorColorMap() {
         return factorColorMap;
     }
 
     public void setFactorColorMap(HashMap<String, String> factorColorMap) {
         this.factorColorMap = factorColorMap;
+    }
+    public void notifyAdapter(){
+        adapter.notifyDataSetChanged();
     }
 
 }

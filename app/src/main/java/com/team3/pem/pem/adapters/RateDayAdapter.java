@@ -40,6 +40,18 @@ public class RateDayAdapter extends ArrayAdapter {
             activity.selectedColor.put(e.getKey(),1);
         }
     }
+
+
+    public void setFactorColors(HashMap<String, String> factorColors) {
+        this.factorColors = factorColors;
+        factors.removeAll(factors);
+        for (Map.Entry<String,String> e : factorColors.entrySet()){
+            factors.add(e.getKey());
+            activity.selectedColor.put(e.getKey(),1);
+        }
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return factors.size();
