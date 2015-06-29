@@ -1,14 +1,11 @@
 package com.team3.pem.pem.activities;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
@@ -26,24 +23,19 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.roomorama.caldroid.CaldroidFragment;
 import com.team3.pem.pem.R;
-import com.team3.pem.pem.adapters.CalendarFragmentAdapter;
 import com.team3.pem.pem.adapters.RateDayAdapter;
 import com.team3.pem.pem.adapters.ViewPagerAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.openWeatherApi.RemoteWeatherFetcher;
 import com.team3.pem.pem.openWeatherApi.WeatherJSONRenderer;
 import com.team3.pem.pem.utili.DayEntry;
-import com.team3.pem.pem.utili.ReminderModel;
 import com.team3.pem.pem.view.CalendarFragment;
 import com.team3.pem.pem.view.SlidingTabLayout;
 import com.team3.pem.pem.view.SwitchFragment;
-import com.team3.pem.pem.view.WeekFragment;
 
 import org.json.JSONObject;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -232,19 +224,6 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         return dialog;
     }
 
-    private void checkDatabase(){
-        List<ReminderModel> reminders = mDHelber.getAllReminders();
-        for(ReminderModel r : reminders) {
-            Log.d("Reminder ID", r.getAlarmID()+"");
-            Log.d("Dialog ID", r.getDialogID()+"");
-            Log.d("Time", r.getTime()+"");
-            Log.d("Text", r.getText()+"");
-            Log.d("Active", r.isActive()+"");
-            for(Boolean b : r.getActiveForDays()){
-                Log.d("Boolen" , b + "");
-            }
-        }
-    }
 
     @Override
     public void onDestroy(){
