@@ -6,15 +6,14 @@
     android:layout_gravity="center">
 
     <Switch
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="New Switch"
         android:id="@+id/switch1"
         android:clickable="true"
-        android:onClick="onSwitchClicked"
         android:checked="true"
-        android:layout_gravity="right"
-        android:gravity="center"
+        android:layout_gravity="left"
+        android:gravity="left|center"
         />
 
 </LinearLayout>
