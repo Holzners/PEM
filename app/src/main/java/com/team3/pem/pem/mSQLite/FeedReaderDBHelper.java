@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
 
@@ -49,70 +51,81 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         db.execSQL(SQLiteMethods.SQL_CREATE_REMINDERS);
         db.execSQL(SQLiteMethods.SQL_CREATE_WEATHER);
 
-        ContentValues values = new ContentValues();
-        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, 22);
-        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH, 6);
-        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR, 2015);
-        values.put("Kopfschmerzen", 1);
-        values.put("Bauchschmerzen", 3);
-        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION, "Damn hard day");
+        DateTime startDate = DateTime.forDateOnly(2013, 1, 1);
+        DateTime yesterday = DateTime.today(TimeZone.getDefault());
 
-        db.insertWithOnConflict(
-                SQLiteMethods.TABLE_NAME_MAIN_TABLE,
-                "null", values, SQLiteDatabase.CONFLICT_REPLACE);
+        while (!startDate.isSameDayAs(yesterday)) {
+            ContentValues values = new ContentValues();
+            values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, startDate.getDay());
+            values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH, startDate.getMonth());
+            values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR, startDate.getYear());
+            Random rand = new Random();
 
-        ContentValues values2 = new ContentValues();
-        values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, 21);
-        values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH, 6);
-        values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR, 2015);
+            values.put("Kopfschmerzen", rand.nextInt(5) + 1);
+            values.put("Bauchschmerzen", rand.nextInt(5) + 1);
+            values.put(SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION, "Damn hard day");
 
-        values2.put("Kopfschmerzen", 4);
-        values2.put("Bauchschmerzen", 3);
-        values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION, "Damn hard day");
+            db.insertWithOnConflict(
+                    SQLiteMethods.TABLE_NAME_MAIN_TABLE,
+                    "null", values, SQLiteDatabase.CONFLICT_REPLACE);
 
-        db.insertWithOnConflict(
-                SQLiteMethods.TABLE_NAME_MAIN_TABLE,
-                "null", values2, SQLiteDatabase.CONFLICT_REPLACE);
+            ContentValues values2 = new ContentValues();
+            values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, startDate.getDay());
+            values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH, startDate.getMonth());
+            values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR, startDate.getYear());
 
-        ContentValues values3 = new ContentValues();
-        values3.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS, "Kopfschmerzen");
-        values3.put(SQLiteMethods.COLUMN_NAME_ENTRY_COLOR, ColorsToPick.BLUE.name());
+            values2.put("Kopfschmerzen", rand.nextInt(5) + 1);
+            values2.put("Bauchschmerzen", rand.nextInt(5) + 1);
+            values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION, "Damn hard day");
 
-        db.insertWithOnConflict(
-                SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
-                "null", values3, SQLiteDatabase.CONFLICT_REPLACE);
+            db.insertWithOnConflict(
+                    SQLiteMethods.TABLE_NAME_MAIN_TABLE,
+                    "null", values2, SQLiteDatabase.CONFLICT_REPLACE);
 
-        ContentValues values4 = new ContentValues();
-        values4.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS, "Bauchschmerzen");
-        values4.put(SQLiteMethods.COLUMN_NAME_ENTRY_COLOR, ColorsToPick.RED.name());
+            startDate = startDate.plusDays(1);
 
-        db.insertWithOnConflict(
-                SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
-                "null", values4, SQLiteDatabase.CONFLICT_REPLACE);
-
-        ContentValues values10  = new ContentValues();
-
-        String[] dayColumns = {
-                SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_MONDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_TUESDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_WEDNESDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_THURSDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_FRIDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY};
-        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID, 0);
-        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_DIALOG_ID,0);
-        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_TEXT,  "Tag bewerten");
-        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_TIME, "08:00");
-        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ACTIVE, 0);
-
-        for (int i = 0; i< dayColumns.length; i++){
-            values10.put(dayColumns[i], 0);
+            Log.d("Startday", startDate.toString());
+            Log.d("EndDay", yesterday.toString());
         }
+            ContentValues values3 = new ContentValues();
+            values3.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS, "Kopfschmerzen");
+            values3.put(SQLiteMethods.COLUMN_NAME_ENTRY_COLOR, ColorsToPick.BLUE.name());
 
-        db.insertWithOnConflict(
-                SQLiteMethods.TABLE_NAME_REMINDER_TABLE,
-                "null", values10, SQLiteDatabase.CONFLICT_REPLACE);
+            db.insertWithOnConflict(
+                    SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
+                    "null", values3, SQLiteDatabase.CONFLICT_REPLACE);
+
+            ContentValues values4 = new ContentValues();
+            values4.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS, "Bauchschmerzen");
+            values4.put(SQLiteMethods.COLUMN_NAME_ENTRY_COLOR, ColorsToPick.RED.name());
+
+            db.insertWithOnConflict(
+                    SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
+                    "null", values4, SQLiteDatabase.CONFLICT_REPLACE);
+
+            ContentValues values10 = new ContentValues();
+
+            String[] dayColumns = {
+                    SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY,
+                    SQLiteMethods.COLUMN_NAME_ENTRY_MONDAY,
+                    SQLiteMethods.COLUMN_NAME_ENTRY_TUESDAY,
+                    SQLiteMethods.COLUMN_NAME_ENTRY_WEDNESDAY,
+                    SQLiteMethods.COLUMN_NAME_ENTRY_THURSDAY,
+                    SQLiteMethods.COLUMN_NAME_ENTRY_FRIDAY,
+                    SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY};
+            values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID, 0);
+            values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_DIALOG_ID, 0);
+            values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_TEXT, "Tag bewerten");
+            values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_TIME, "08:00");
+            values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_ACTIVE, 0);
+
+            for (int i = 0; i < dayColumns.length; i++) {
+                values10.put(dayColumns[i], 0);
+            }
+
+            db.insertWithOnConflict(
+                    SQLiteMethods.TABLE_NAME_REMINDER_TABLE,
+                    "null", values10, SQLiteDatabase.CONFLICT_REPLACE);
 
     }
 

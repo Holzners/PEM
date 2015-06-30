@@ -138,6 +138,7 @@ public class RateDayAdapter extends ArrayAdapter {
        @Override
        public void onClick(View v) {
            int oldIndex =  activity.selectedColor.get(factors.get(factorPosition))-1;
+           oldIndex = (oldIndex == -1) ? 0 : oldIndex;
            GradientDrawable gd = (GradientDrawable)  textViews[oldIndex].getBackground();
            gd.setStroke(1, activity.getResources().getColor(R.color.black));
 

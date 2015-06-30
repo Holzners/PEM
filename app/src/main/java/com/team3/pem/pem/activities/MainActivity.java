@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.team3.pem.pem.R;
@@ -168,18 +167,6 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         // TODO Farbe/Symptom (de)aktivieren
     }
 
-    public void onSwitchClicked(View view){
-        boolean on = ((Switch) view).isChecked();
-        // TODO Switch Position
-        if (on) {
-            Log.i("onSwitchClicked","Switch isChecked");
-            updateSymptoms();
-        } else {
-            Log.i("onSwitchClicked","Switch isNotChecked");
-            updateSymptoms();
-        }
-    }
-
     @Override
     protected Dialog onCreateDialog(int id) {
         final Dialog dialog = new Dialog(MainActivity.this);
@@ -247,8 +234,15 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
     }
 
     public void switchSymptom(boolean isEnabled, String symptom){
-        factorsEnabledMap.put(symptom,isEnabled);
+        factorsEnabledMap.put(symptom, isEnabled);
         adapter.notifyFragment();
+        if (isEnabled) {
+            Log.i("onSwitchClicked","Switch isChecked");
+            updateSymptoms();
+        } else {
+            Log.i("onSwitchClicked","Switch isNotChecked");
+            updateSymptoms();
+        }
     }
     public HashMap<String, Boolean> getFactorsEnabledMap(){
         return factorsEnabledMap;
