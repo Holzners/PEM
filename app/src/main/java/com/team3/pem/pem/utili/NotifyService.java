@@ -42,7 +42,7 @@ public class NotifyService extends BroadcastReceiver {
             return;
         }
 
-        //Log.i("notif", "Notification ausgelöst");
+        //Log.i("notif", "Notification ausgeloest");
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, ID, new Intent(context, MainActivity.class), 0);
 

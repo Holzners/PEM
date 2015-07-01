@@ -16,14 +16,6 @@ import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 
 public class SwitchFragmentAdapter extends ArrayAdapter<String> {
 
-  /**  private List<SwitchSymptom> arrayList;
-    private Switch mSwitch;
-
-    public SwitchFragmentAdapter(Context context, List<SwitchSymptom> arrayList) {
-        super(context, 0, arrayList);
-        this.arrayList = arrayList;
-    }
-*/
     private MainActivity context;
     private FeedReaderDBHelper mDBHelper;
 
@@ -58,9 +50,9 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
 
         mSwitch.setOnCheckedChangeListener(new SwitchOnCheckedChangedListener(getItem(position)));
         mSwitch.setText(getItem(position));
-        mSwitch.setChecked(context.getFactorsEnabledMap().get(getItem(position)));
+        mSwitch.setChecked(mDBHelper.getFactorEnabledMap().get(getItem(position)));
         mSwitch.setOnCheckedChangeListener(new SwitchOnCheckedChangedListener(getItem(position)));
-        String string = factorWithColor.get(getItem(position));
+        String string = mDBHelper.getFactorColorMap().get(getItem(position));
 //        mSwitch.setThumbDrawable(context.get);
 //        mSwitch.setThumbDrawable(context.getDrawable(R.drawable.border));//getThumbDrawable().setColorFilter(context.getResources().getColor(R.color.yellow5), PorterDuff.Mode.MULTIPLY);
 //        mSwitch.setTrackDrawable(context.getDrawable(R.drawable.ic_action_discard));

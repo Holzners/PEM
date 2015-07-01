@@ -213,7 +213,7 @@ public class ExportActivity extends ActionBarActivity {
         cellHead.setColspan(2);
         table.addCell(cellHead);
         table.addCell("Notiz");
-        //Zeilen aus DB einfügen
+        //Zeilen aus DB einfuegen
         List<String> list = new ArrayList<String>();
         list.add(symptom);
         HashMap<DateTime, DayEntry> dbEntries = dbHelper.getDatabaseEntries(list);
