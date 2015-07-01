@@ -116,6 +116,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
                     params.height = displayWidth / 7 - 5;
                     params.width = displayWidth / 7 - 5;
                     rowViews[i].setLayoutParams(params);
+                    rowViews[i].setOnClickListener(new WeekViewClickListener(context, startDay.plusDays(i)));
                 }
             }else {
                 for(TextView t: rowViews){ t.setVisibility(View.GONE);}
@@ -156,6 +157,22 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
 
     public void setFirstDayOfSelectedWeek(DateTime firstDayOfSelectedWeek) {
         this.firstDayOfSelectedWeek = firstDayOfSelectedWeek;
+    }
+
+    public class WeekViewClickListener implements View.OnClickListener{
+
+        private MainActivity context;
+        private DateTime date;
+
+        public WeekViewClickListener(MainActivity context, DateTime date) {
+            this.context = context;
+            this.date = date;
+        }
+
+        @Override
+        public void onClick(View v) {
+            context.showRateDayPopup(date);
+        }
     }
 
 }
