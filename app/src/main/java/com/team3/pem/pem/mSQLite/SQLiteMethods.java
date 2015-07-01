@@ -33,7 +33,7 @@ public class SQLiteMethods {
     public static final String COLUMN_NAME_ENTRY_WEATHER = "Weather";
 
     public static final String TABLE_NAME_FACTOR_TABLE = "factors";
-    public static final String COLUMN_NAME_ENTRY_ID_FACTORS = "FACTOR";
+    public static final String COLUMN_NAME_ENTRY_ID_FACTORS = "factor";
     public static final String COLUMN_NAME_ENTRY_COLOR = "COLOR";
 
     public static final String TABLE_NAME_REMINDER_TABLE = "REMINDERS";

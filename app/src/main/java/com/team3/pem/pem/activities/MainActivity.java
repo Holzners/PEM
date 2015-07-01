@@ -73,6 +73,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         factorsEnabledMap = new HashMap<>();
         setContentView(R.layout.activity_main);
 
+
     }
 
     @Override
@@ -155,7 +156,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         if (!lastUpdate.equalsIgnoreCase(today)) {
             updateWeatherData();
         }
-        if(dialogListView!= null) ((RateDayAdapter)dialogListView.getAdapter()).setFactorColors(factorAsString);
+          if(dialogListView!= null) ((RateDayAdapter)dialogListView.getAdapter()).setFactorColors(factorAsString);
 //        Log.d("Heutiges Wetter", mDHelber.getWeatherData(DateTime.today(TimeZone.getDefault())));
     }
 

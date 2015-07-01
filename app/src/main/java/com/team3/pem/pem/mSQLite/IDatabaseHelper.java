@@ -105,7 +105,7 @@ public interface IDatabaseHelper {
      */
     String getWeatherData(DateTime dateTime);
 
-    void deleteFactor(String factor);
+    void deleteFactor(String factor, List<String> factorList);
 
 
 }

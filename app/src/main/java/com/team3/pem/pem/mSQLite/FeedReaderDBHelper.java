@@ -12,6 +12,7 @@ import com.team3.pem.pem.utili.ColorsToPick;
 import com.team3.pem.pem.utili.DayEntry;
 import com.team3.pem.pem.utili.ReminderModel;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -605,14 +606,29 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     }
 
     @Override
-    public void deleteFactor(String factor){
+    public void deleteFactor(String factor, List<String> factors){
+        SQLiteDatabase db = getWritableDatabase();
+
+        String[] deleteWhere = new String[]{factor};
+        db.delete(SQLiteMethods.TABLE_NAME_FACTOR_TABLE,  SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS + "=?" , deleteWhere);
+
+        factors.remove(factor);
+        String createTableCmd = SQLiteMethods.SQL_CREATE_ENTRIES;
+        String tableName = SQLiteMethods.TABLE_NAME_MAIN_TABLE;
+        try {
+            dropColumn(db, createTableCmd , tableName , factor, factors);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
     private void dropColumn(SQLiteDatabase db,
                             String createTableCmd,
                             String tableName,
-                            String colToRemove) throws java.sql.SQLException {
+                            String colToRemove,
+                            List<String> remainingFactors ) throws java.sql.SQLException {
 
         List<String> updatedTableColumns = getTableColumns(tableName, db);
         // Remove the columns we don't want anymore from the table's list of columns
@@ -625,13 +641,17 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         // Creating the table on its new format (no redundant columns)
         db.execSQL(createTableCmd);
 
+        for(String factor : remainingFactors){
+            db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, factor));
+        }
+
         // Populating the table with the data
         db.execSQL("INSERT INTO " + tableName + "(" + columnsSeperated + ") SELECT "
                 + columnsSeperated + " FROM " + tableName + "_old;");
         db.execSQL("DROP TABLE " + tableName + "_old;");
     }
 
-    public List<String> getTableColumns(String tableName, SQLiteDatabase db) {
+    private List<String> getTableColumns(String tableName, SQLiteDatabase db) {
         ArrayList<String> columns = new ArrayList<String>();
         String cmd = "pragma table_info(" + tableName + ");";
         Cursor cur = db.rawQuery(cmd, null);
