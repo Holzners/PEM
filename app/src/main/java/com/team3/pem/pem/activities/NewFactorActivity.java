@@ -1,6 +1,7 @@
 package com.team3.pem.pem.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -27,7 +28,7 @@ public class NewFactorActivity extends ActionBarActivity {
 
     EditText newFactorText;
     TextView toManySymptomsText;
-    Button saveButton;
+    FloatingActionButton FAB;
     Button deleteButton;
     FeedReaderDBHelper mDBHelper;
     Spinner colorSpinner;
@@ -38,7 +39,7 @@ public class NewFactorActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_factor);
         mDBHelper = FeedReaderDBHelper.getInstance();
-        saveButton = (Button) findViewById(R.id.saveButton);
+        FAB = (FloatingActionButton) findViewById(R.id.FAB);
         deleteButton = (Button) findViewById(R.id.delete_button);
         newFactorText =(EditText) findViewById(R.id.inputText);
         toManySymptomsText = (TextView) findViewById(R.id.toManySymptomsText);
@@ -48,7 +49,7 @@ public class NewFactorActivity extends ActionBarActivity {
 
         if(factorEntries.size() == ColorsToPick.values().length){
             toManySymptomsText.setVisibility(View.VISIBLE);
-            saveButton.setEnabled(false);
+            FAB.setEnabled(false);
             newFactorText.setEnabled(false);
         }else{
             List<String> colors =new ArrayList<>();
@@ -80,7 +81,7 @@ public class NewFactorActivity extends ActionBarActivity {
             });
 
         }
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        FAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveFactor();

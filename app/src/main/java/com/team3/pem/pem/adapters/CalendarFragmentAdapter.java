@@ -42,7 +42,6 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
     public View getView(int position, View convertView, ViewGroup parent){
 
         DateTime dateTime = this.datetimeList.get(position);
-
         List<String> copyOfFactors = new ArrayList<>();
 
         for(String s: factors){
@@ -117,6 +116,23 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
         }
         cellView.setPadding(leftPadding, topPadding, rightPadding,
                 bottomPadding);
+        cellView.setOnClickListener(new CellViewOnClickListener(context, dateTime));
         return cellView;
+    }
+
+    public class CellViewOnClickListener implements View.OnClickListener {
+
+        private DateTime date;
+        private MainActivity context;
+
+        public CellViewOnClickListener(MainActivity context, DateTime date){
+            this.date = date;
+            this.context = context;
+        }
+
+        @Override
+        public void onClick(View v) {
+            context.showRateDayPopup(date);
+        }
     }
 }
