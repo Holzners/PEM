@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
 
@@ -33,11 +32,13 @@ public class RateDayAdapter extends ArrayAdapter {
     List<String> factors;
 
     MainActivity activity;
+    DateTime date;
 
-    public RateDayAdapter(MainActivity activity, int resource, HashMap<String,String> factorColors) {
+    public RateDayAdapter(MainActivity activity, int resource, HashMap<String,String> factorColors, DateTime date) {
         super(activity, resource);
         this.activity = activity;
         this.factorColors = factorColors;
+        this.date = date;
         factors = new ArrayList<>();
         activity.selectedColor = new HashMap<>();
         for (Map.Entry<String,String> e : factorColors.entrySet()){
@@ -108,7 +109,6 @@ public class RateDayAdapter extends ArrayAdapter {
         }
 
         FeedReaderDBHelper dbHelper = FeedReaderDBHelper.getInstance();
-        DateTime date = DateTime.today(TimeZone.getDefault());
         DayEntry entry = dbHelper.getDatabaseEntriesDay(factors, date.getDay(), date.getMonth(), date.getYear());
         int rating = 1;
         if(entry != null) {
