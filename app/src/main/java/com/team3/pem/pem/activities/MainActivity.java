@@ -278,4 +278,16 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         }.start();
     }
 
+    public void goToMonth(int month , int year, String factor){
+
+        if(!factor.equals("")){
+            for(Map.Entry<String, Boolean> e : factorsEnabledMap.entrySet()){
+                if(e.getKey().equals(factor)) e.setValue(true);
+                else e.setValue(false);
+            }
+        }
+        adapter.goToMonth(month , year);
+        pager.setCurrentItem(1);
+    }
+
 }
