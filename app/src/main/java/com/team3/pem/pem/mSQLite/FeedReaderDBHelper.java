@@ -34,6 +34,10 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
     public static FeedReaderDBHelper mdbHelper;
 
+    private List<String> factorList;
+    private HashMap<String , String> factorColorMap;
+    private HashMap<String , Boolean> factorEnabledMap;
+
     private FeedReaderDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         mdbHelper = this;
@@ -54,7 +58,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         db.execSQL(SQLiteMethods.SQL_CREATE_REMINDERS);
         db.execSQL(SQLiteMethods.SQL_CREATE_WEATHER);
 
-        DateTime startDate = DateTime.forDateOnly(2013, 1, 1);
+        DateTime startDate = DateTime.forDateOnly(2014, 1, 1);
         DateTime yesterday = DateTime.today(TimeZone.getDefault());
 
         while (!startDate.isSameDayAs(yesterday)) {
@@ -150,6 +154,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
     @Override
     public void saveFactor(String factorName, String colorId) {
+        this.getFactorList();
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS, factorName);
@@ -157,7 +162,13 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
                 "null", values, SQLiteDatabase.CONFLICT_REPLACE);
-        db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, factorName));
+        if(!factorList.contains(factorName)) {
+            db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, factorName));
+            this.getFactorList().add(factorName);
+        }
+
+        this.getFactorColorMap().put(factorName,colorId);
+        this.getFactorEnabledMap().put(factorName,true);
 
     }
 
@@ -600,7 +611,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
                 null
         );
         cursor.moveToFirst();
-        String result =  cursor.getString(0);
+        String result =  (cursor.getCount() < 0) ? cursor.getString(0): "";
         cursor.close();
         return result;
     }
@@ -620,8 +631,9 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
+        this.factorList.remove(factor);
+        this.factorEnabledMap.remove(factor);
+        this.factorColorMap.remove(factor);
     }
 
     private void dropColumn(SQLiteDatabase db,
@@ -663,6 +675,26 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
         return columns;
     }
+
+    public List<String> getFactorList() {
+        if(factorList == null)  factorList = getFactors();
+        return factorList;
+    }
+
+    public HashMap<String, String> getFactorColorMap() {
+        if(factorColorMap == null) factorColorMap = getFactorsFromDatabase();
+        return factorColorMap;
+    }
+
+    public HashMap<String, Boolean> getFactorEnabledMap() {
+        if(factorEnabledMap != null) return factorEnabledMap;
+        factorEnabledMap = new HashMap<>();
+        for(String s : getFactorList()){
+            factorEnabledMap.put(s, true);
+        }
+        return factorEnabledMap;
+    }
+
 }
 
 

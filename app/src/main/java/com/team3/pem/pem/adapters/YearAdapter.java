@@ -29,39 +29,30 @@ import hirondelle.date4j.DateTime;
 public class YearAdapter extends ArrayAdapter {
     private MainActivity activity;
     private int width;
-    private HashMap<String, String> factorColorMap;
-    private List<String> factors;
     int selectedYear;
     private FeedReaderDBHelper mDBHelper;
 
-    public YearAdapter(MainActivity context, int resource, int width, int selectedYear, HashMap<String, String> factorColorMap) {
+    public YearAdapter(MainActivity context, int resource, int width, int selectedYear) {
         super(context, resource);
         this.mDBHelper = FeedReaderDBHelper.getInstance();
         this.activity = context;
         this.width = width;
         this.selectedYear = selectedYear;
-        this.factorColorMap = factorColorMap;
-        this.factors = new ArrayList<>();
-        this.factors.add("");
-        for (Map.Entry<String , String>  e : this.factorColorMap.entrySet()){
-            factors.add(e.getKey());
-        }
-
     }
     @Override
     public int getCount() {
-        return factors.size();
+        return mDBHelper.getFactorList().size()+1;
     }
 
     @Override
     public String getItem(int position) {
-        return factors.get(position);
+        return (position == 0) ? "" : mDBHelper.getFactorList().get(position-1);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        HashMap<String,Boolean> factorsEnabled = activity.getFactorsEnabledMap();
+        HashMap<String,Boolean> factorsEnabled = mDBHelper.getFactorEnabledMap();
 
 
         LayoutInflater inflater = (LayoutInflater) activity
@@ -116,15 +107,6 @@ public class YearAdapter extends ArrayAdapter {
             result[i] = averageRating;
         }
         return result;
-    }
-
-    public void setFactorColorMap(HashMap<String, String> factorColorMap){
-        this.factorColorMap = factorColorMap;
-        this.factors.retainAll(factors);
-        this.factors.add("");
-        for (Map.Entry<String , String>  e : this.factorColorMap.entrySet()){
-            factors.add(e.getKey());
-        }
     }
 
     public void setSelectedYear (int year){

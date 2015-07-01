@@ -10,9 +10,7 @@ import android.widget.Switch;
 
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.activities.MainActivity;
-
-import java.util.HashMap;
-import java.util.List;
+import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 
 public class SwitchFragmentAdapter extends ArrayAdapter<String> {
 
@@ -24,50 +22,38 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
         this.arrayList = arrayList;
     }
 */
-    private HashMap<String,String> factorWithColor;
-    private List<String> factors;
     private MainActivity context;
+    private FeedReaderDBHelper mDBHelper;
 
-  public SwitchFragmentAdapter(MainActivity context, List<String> factors , HashMap<String,String> factorWithColor) {
-      super(context,0,factors);
-      this.factorWithColor = factorWithColor;
-      this.factors = factors;
+  public SwitchFragmentAdapter(MainActivity context) {
+      super(context,0);
       this.context = context;
+      mDBHelper = FeedReaderDBHelper.getInstance();
   }
 
     @Override
     public int getCount() {
-        return factors.size();
+        return mDBHelper.getFactorList().size();
     }
 
     @Override
     public String getItem(int position) {
-        return factors.get(position);
+        return mDBHelper.getFactorList().get(position);
     }
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-      /**  SwitchSymptom switchSymptom = getItem(position);
-        if (view == null){
-            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.switch_row_layout, viewGroup, false);
-        }
-        mSwitch = (Switch) view.findViewById(R.id.switch1);
-        mSwitch.setText(switchSymptom.name);
-//        mSwitch.setColor(switchSymptom.color);
 
-        return view;
-       */
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View newView = inflater.inflate(R.layout.switch_row_layout, null);
 
         Switch mSwitch = (Switch) newView.findViewById(R.id.switch1);
-        mSwitch.setText(factors.get(position));
-        mSwitch.setChecked(context.getFactorsEnabledMap().get(factors.get(position)));
+        mSwitch.setText(getItem(position));
+        mSwitch.setChecked(mDBHelper.getFactorEnabledMap().get(getItem(position)));
 
-        mSwitch.setOnCheckedChangeListener(new SwitchOnCheckedChangedListener(factors.get(position)));
+        mSwitch.setOnCheckedChangeListener(new SwitchOnCheckedChangedListener(getItem(position)));
         return newView;
     }
 
@@ -82,7 +68,6 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             context.switchSymptom(isChecked , symptom);
-           // Toast.makeText(context, symptom + " enabled " + mSwitch.isChecked(), Toast.LENGTH_SHORT).show();
         }
     }
 }

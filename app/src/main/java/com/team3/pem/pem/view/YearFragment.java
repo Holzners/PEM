@@ -15,7 +15,6 @@ import com.team3.pem.pem.activities.MainActivity;
 import com.team3.pem.pem.adapters.YearAdapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -26,7 +25,6 @@ public class YearFragment extends ListFragment {
     private int selectedYear;
     private Spinner yearSpinner;
     private YearAdapter adapter;
-    private HashMap<String ,String> factorColorMap;
     private List<Integer> years;
     public YearFragment() {
         DateTime dateTime = DateTime.today(TimeZone.getDefault());
@@ -75,7 +73,7 @@ public class YearFragment extends ListFragment {
                 });
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         int displayWidth = display.getWidth();
-        adapter = new YearAdapter((MainActivity)getActivity(), 0, displayWidth, selectedYear,factorColorMap);
+        adapter = new YearAdapter((MainActivity)getActivity(), 0, displayWidth, selectedYear);
         this.setListAdapter(adapter);
     }
 
@@ -83,13 +81,6 @@ public class YearFragment extends ListFragment {
         adapter.setSelectedYear(year);
     }
 
-    public HashMap<String, String> getFactorColorMap() {
-        return factorColorMap;
-    }
-
-    public void setFactorColorMap(HashMap<String, String> factorColorMap) {
-        this.factorColorMap = factorColorMap;
-    }
     public void notifyAdapter(){
         adapter.notifyDataSetChanged();
     }

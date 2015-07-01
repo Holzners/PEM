@@ -78,7 +78,7 @@ public interface IDatabaseHelper {
      * Returns all saved Factors
      * @return
      */
-    List<String> getFactors ();
+     List<String> getFactors ();
 
     /**
      * Saves new Reminder in Database

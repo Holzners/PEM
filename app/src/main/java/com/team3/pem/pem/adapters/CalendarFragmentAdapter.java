@@ -26,15 +26,12 @@ import hirondelle.date4j.DateTime;
 public class CalendarFragmentAdapter extends CaldroidGridAdapter{
 
     FeedReaderDBHelper mDBHelper;
-    List<String> factors;
     MainActivity context;
 
     public CalendarFragmentAdapter(MainActivity context, int month, int year, HashMap<String, Object> caldroidData, HashMap<String, Object> extraData) {
         super(context, month, year, caldroidData, extraData);
         this.mDBHelper = FeedReaderDBHelper.getInstance();
         this.context = context;
-
-        factors = mDBHelper.getFactors();
 
     }
 
@@ -44,8 +41,8 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
         DateTime dateTime = this.datetimeList.get(position);
         List<String> copyOfFactors = new ArrayList<>();
 
-        for(String s: factors){
-            if(context.getFactorsEnabledMap().get(s)){
+        for(String s: mDBHelper.getFactorList()){
+            if(mDBHelper.getFactorEnabledMap().get(s)){
                 copyOfFactors.add(s);
             }
         }

@@ -8,8 +8,6 @@ import com.team3.pem.pem.view.CalendarFragment;
 import com.team3.pem.pem.view.WeekFragment;
 import com.team3.pem.pem.view.YearFragment;
 
-import java.util.HashMap;
-
 import hirondelle.date4j.DateTime;
 
 /**
@@ -19,14 +17,12 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
-    private HashMap<String,String> factorColorMap;
     CalendarFragment monthfragment;
     WeekFragment weekFragment;
     YearFragment yearFragment;
     // Build a Constructor and assign the passed Values to appropriate values in the class
-    public ViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumbOfTabsumb, HashMap<String,String> factorColorMap) {
+    public ViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumbOfTabsumb) {
         super(fm);
-         this.factorColorMap = factorColorMap;
         this.Titles = mTitles;
         this.NumbOfTabs = mNumbOfTabsumb;
 
@@ -42,7 +38,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         {
             weekFragment = new WeekFragment();
             weekFragment.init();
-            weekFragment.setFactorColorMap(factorColorMap);
             return weekFragment;
         }
         else if(position ==1)             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
@@ -51,7 +46,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             return monthfragment;
         }else {
             yearFragment = new YearFragment();
-            yearFragment.setFactorColorMap(factorColorMap);
             return yearFragment;
         }
 

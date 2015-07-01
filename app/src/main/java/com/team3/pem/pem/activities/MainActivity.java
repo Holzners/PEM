@@ -1,55 +1,43 @@
 package com.team3.pem.pem.activities;
 
-import android.app.Dialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.team3.pem.pem.R;
-import com.team3.pem.pem.adapters.RateDayAdapter;
 import com.team3.pem.pem.adapters.ViewPagerAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.openWeatherApi.RemoteWeatherFetcher;
 import com.team3.pem.pem.openWeatherApi.WeatherJSONRenderer;
-import com.team3.pem.pem.utili.DayEntry;
+import com.team3.pem.pem.view.DayDetailFragment;
+import com.team3.pem.pem.view.NewFactorFragment;
+import com.team3.pem.pem.view.RateDayFragment;
 import com.team3.pem.pem.view.SlidingTabLayout;
 import com.team3.pem.pem.view.SwitchFragment;
 
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
 
-//import static com.team3.pem.pem.R.id.calendarFragmentPanel;
-
-
-public class MainActivity extends ActionBarActivity implements SwitchFragment.SwitchFragmentInterface {
+public class MainActivity extends ActionBarActivity{
 
     SwitchFragment switchFragment;
-    HashMap<String, String> factorAsString;
-    HashMap<String, Boolean> factorsEnabledMap;
-    FeedReaderDBHelper mDHelber;
+    FeedReaderDBHelper mDbHelper;
 
     Toolbar toolbar;
     ViewPager pager;
@@ -61,19 +49,17 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
 
     static final int RATE_DAY_DIALOG = 0;
     public HashMap<String, Integer> selectedColor;
-    ListView dialogListView;
+
     DateTime date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FeedReaderDBHelper.appContext = this;
-        mDHelber = FeedReaderDBHelper.getInstance();
-        factorAsString = new HashMap<>();
-        factorsEnabledMap = new HashMap<>();
+        mDbHelper = FeedReaderDBHelper.getInstance();
         setContentView(R.layout.activity_main);
-
-
+        date = DateTime.today(TimeZone.getDefault());
+        selectedColor = new HashMap<>();
     }
 
     @Override
@@ -102,23 +88,12 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         return super.onOptionsItemSelected(item);
     }
 
-    public void showRateDayPopup(DateTime today) {
-        this.date = today;
-        String dateString = today.toString().replace("-", "");
-        int dateInt = Integer.parseInt(dateString.substring(0, 8));
-        showDialog(dateInt);
-    }
-
     @Override
     public void onResume() {
         super.onResume();
 
-        if (mDHelber == null) mDHelber.getInstance();
-        factorAsString = mDHelber.getFactorsFromDatabase();
+        if (mDbHelper == null) mDbHelper.getInstance();
 
-        for (Map.Entry<String, String> e : factorAsString.entrySet()) {
-            if (!factorsEnabledMap.containsKey(e.getKey())) factorsEnabledMap.put(e.getKey(), true);
-        }
         // Creating The Toolbar and setting it as the Toolbar for the activity
         initSwitchFragment();
 
@@ -128,7 +103,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         titles = getResources().getStringArray(R.array.tabs);
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, tabNumber, factorAsString);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, tabNumber);
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
@@ -156,65 +131,18 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         if (!lastUpdate.equalsIgnoreCase(today)) {
             updateWeatherData();
         }
-          if(dialogListView!= null) ((RateDayAdapter)dialogListView.getAdapter()).setFactorColors(factorAsString);
-//        Log.d("Heutiges Wetter", mDHelber.getWeatherData(DateTime.today(TimeZone.getDefault())));
+       // if(pemDialogFragment != null) ((RateDayAdapter)pemDialogFragment.getListAdapter()).notifyDataSetChanged();
+        updateSelectedColors();
+//        Log.d("Heutiges Wetter", mDbHelper.getWeatherData(DateTime.today(TimeZone.getDefault())));
     }
 
-//---------------------SwitchFragment---------------------------------
 
     public void initSwitchFragment(){
         this.switchFragment = new SwitchFragment();
-        FragmentManager f = getFragmentManager();
+        FragmentManager f = getSupportFragmentManager();
         FragmentTransaction t = f.beginTransaction();
         t.replace(R.id.switchFragmentPanel, switchFragment);
         t.commit();
-    }
-
-    @Override
-    public void updateSymptoms() {
-        // TODO Farbe/Symptom (de)aktivieren
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        final Dialog dialog = new Dialog(MainActivity.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setContentView(R.layout.rate_day_dialog);
-
-        dialogListView = (ListView) dialog.findViewById(R.id.rateDayList);
-        HashMap<String, String> factorsFromDatabase = mDHelber.getFactorsFromDatabase();
-
-        RateDayAdapter rateDayAdapteradapter = new RateDayAdapter(this, R.layout.rate_day_layout, factorsFromDatabase, date);
-        dialogListView.setAdapter(rateDayAdapteradapter);
-
-        ImageView newFactor = (ImageView) dialog.findViewById(R.id.newFactor);
-
-        newFactor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, NewFactorActivity.class));
-            }
-        });
-
-        Button saveDay = (Button) dialog.findViewById(R.id.saveDay);
-        final EditText editText = (EditText) dialog.findViewById(R.id.editNote);
-        List<String> factors = mDHelber.getFactors();
-        DayEntry entry = mDHelber.getDatabaseEntriesDay(factors, date.getDay(), date.getMonth(), date.getYear());
-        if(entry != null)
-            editText.setText(entry.description);
-
-        saveDay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("Date", date + "");
-                mDHelber.saveDay(date, selectedColor, editText.getText().toString());
-                adapter.notifyFragment();
-                dialog.dismiss();
-            }
-        });
-        return dialog;
     }
 
 
@@ -222,35 +150,19 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
     public void onDestroy(){
         super.onDestroy();
         try {
-            mDHelber.getReadableDatabase().close();
-            mDHelber.close();
+            mDbHelper.getReadableDatabase().close();
+            mDbHelper.close();
         }catch (Exception e){
             Log.e("Something went wrong", "While closing database");
         }
     }
 
-    public List<String> getSymptomList(){
-        return mDHelber.getFactors();
-    }
-
-    public HashMap<String, String> getFactorWithColor(){;
-        return factorAsString;
-    }
-
     public void switchSymptom(boolean isEnabled, String symptom){
-        factorsEnabledMap.put(symptom, isEnabled);
-        adapter.notifyFragment();
-        if (isEnabled) {
-            Log.i("onSwitchClicked","Switch isChecked");
-            updateSymptoms();
-        } else {
-            Log.i("onSwitchClicked","Switch isNotChecked");
-            updateSymptoms();
-        }
+        mDbHelper.getFactorEnabledMap().put(symptom, isEnabled);
+        refreshAdapters();
+
     }
-    public HashMap<String, Boolean> getFactorsEnabledMap(){
-        return factorsEnabledMap;
-    }
+
 
     private void updateWeatherData(){
         final Handler handler = new Handler();
@@ -261,7 +173,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
                 if(json == null){
                     handler.post(new Runnable(){
                         public void run(){
-                            Toast.makeText(MainActivity.this,"output empty",
+                            Toast.makeText(MainActivity.this,"Weather fetching failed",
                                      Toast.LENGTH_LONG).show();
                         }
                     });
@@ -270,7 +182,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
                         public void run(){
                             String s = WeatherJSONRenderer.renderWeather(json);
                             DateTime today = DateTime.today(TimeZone.getDefault());
-                            mDHelber.saveWeatherDay(today ,s);
+                            mDbHelper.saveWeatherDay(today, s);
                             SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putString(getString(R.string.last_weather_update_key), today+"");
@@ -285,7 +197,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
     public void goToMonth(int month , int year, String factor){
 
         if(!factor.equals("")){
-            for(Map.Entry<String, Boolean> e : factorsEnabledMap.entrySet()){
+            for(Map.Entry<String, Boolean> e : mDbHelper.getFactorEnabledMap().entrySet()){
                 if(e.getKey().equals(factor)) e.setValue(true);
                 else e.setValue(false);
             }
@@ -293,5 +205,38 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         adapter.goToMonth(month, year);
         pager.setCurrentItem(1);
     }
+    private void updateSelectedColors(){
+        for(String s : mDbHelper.getFactorList()){
+            if(!selectedColor.containsKey(s)) selectedColor.put(s,1);
+        }
+    }
 
+    public void saveDay(DateTime date , String description) {
+        this.mDbHelper.saveDay(date, selectedColor, description);
+        refreshAdapters();
+    }
+
+    public void showRateDayPopup(DateTime today) {
+        this.date = today;
+        RateDayFragment rateDayFragment = RateDayFragment.getInstance(today, this);
+        FragmentManager f = getSupportFragmentManager();
+        rateDayFragment.show(f, "TAG");
+
+    }
+
+    public void showNewFactorDialog(){
+        NewFactorFragment newFactorFragment = NewFactorFragment.getInstance(this);
+        FragmentManager f = getSupportFragmentManager();
+        newFactorFragment.show(f, "TAG");
+    }
+
+    public void showDetailDay(DateTime date){
+        DayDetailFragment dayDetailFragment = DayDetailFragment.newInstance(date);
+        FragmentManager f = getSupportFragmentManager();
+        dayDetailFragment.show(f, "TAG");
+    }
+
+    public void refreshAdapters(){
+        adapter.notifyFragment();
+    }
 }

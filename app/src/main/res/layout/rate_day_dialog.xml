@@ -7,7 +7,7 @@
     android:minWidth="300dp">
 
     <ListView
-        android:id="@+id/rateDayList"
+        android:id="@+id/list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -41,8 +41,8 @@
         android:text="Speichern"
         android:id="@+id/saveDay"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/rateDayList"
-        android:layout_alignEnd="@+id/rateDayList" />
+        android:layout_alignRight="@+id/newFactor"
+        android:layout_alignEnd="@+id/newFactor" />
 
     <EditText
         android:layout_width="wrap_content"

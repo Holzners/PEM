@@ -24,8 +24,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.roomorama:caldroid:2.0.0'
     compile files('libs/itextg-5.5.4.jar')
-    compile 'com.github.alamkanak:android-week-view:1.2.3'
-    compile 'joda-time:joda-time:2.3'
     compile 'com.android.support:design:22.2.0'
 
 

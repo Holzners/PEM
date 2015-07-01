@@ -15,10 +15,7 @@ import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.ColorsToPick;
 import com.team3.pem.pem.utili.DayEntry;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import hirondelle.date4j.DateTime;
 
@@ -27,45 +24,30 @@ import hirondelle.date4j.DateTime;
  */
 public class RateDayAdapter extends ArrayAdapter {
 
-    HashMap<String,String> factorColors;
-
-    List<String> factors;
-
     MainActivity activity;
     DateTime date;
+    FeedReaderDBHelper mDBHelper;
 
-    public RateDayAdapter(MainActivity activity, int resource, HashMap<String,String> factorColors, DateTime date) {
+    public RateDayAdapter(MainActivity activity, int resource, DateTime date) {
         super(activity, resource);
         this.activity = activity;
-        this.factorColors = factorColors;
+        this.mDBHelper = FeedReaderDBHelper.getInstance();
         this.date = date;
-        factors = new ArrayList<>();
         activity.selectedColor = new HashMap<>();
-        for (Map.Entry<String,String> e : factorColors.entrySet()){
-            factors.add(e.getKey());
-            activity.selectedColor.put(e.getKey(),1);
+        for (String s : mDBHelper.getFactorList()){
+            activity.selectedColor.put(s,1);
         }
     }
 
-
-    public void setFactorColors(HashMap<String, String> factorColors) {
-        this.factorColors = factorColors;
-        factors.removeAll(factors);
-        for (Map.Entry<String,String> e : factorColors.entrySet()){
-            factors.add(e.getKey());
-            activity.selectedColor.put(e.getKey(),1);
-        }
-        this.notifyDataSetChanged();
-    }
 
     @Override
     public int getCount() {
-        return factors.size();
+        return mDBHelper.getFactorList().size();
     }
 
     @Override
     public String getItem(int position) {
-        return factors.get(position);
+        return mDBHelper.getFactorList().get(position);
     }
 
     @Override
@@ -79,7 +61,7 @@ public class RateDayAdapter extends ArrayAdapter {
         View newRow = inflater.inflate(R.layout.rate_day_layout, null);
 
         TextView factorText = (TextView) newRow.findViewById(R.id.factorText);
-        factorText.setText(factors.get(position));
+        factorText.setText(getItem(position));
 
         rateViews[0] = (TextView) newRow.findViewById(R.id.ratText1);
         rateViews[1] = (TextView) newRow.findViewById(R.id.ratText2);
@@ -88,7 +70,7 @@ public class RateDayAdapter extends ArrayAdapter {
         rateViews[4] = (TextView) newRow.findViewById(R.id.ratText5);
 
 
-        String color = factorColors.get(factors.get(position));
+        String color = mDBHelper.getFactorColorMap().get(getItem(position));
         int[]colors = ColorsToPick.getColorByString(color).getAllColors();
 
         Display display = activity.getWindowManager().getDefaultDisplay();
@@ -109,16 +91,16 @@ public class RateDayAdapter extends ArrayAdapter {
         }
 
         FeedReaderDBHelper dbHelper = FeedReaderDBHelper.getInstance();
-        DayEntry entry = dbHelper.getDatabaseEntriesDay(factors, date.getDay(), date.getMonth(), date.getYear());
+        DayEntry entry = dbHelper.getDatabaseEntriesDay(mDBHelper.getFactorList(), date.getDay(), date.getMonth(), date.getYear());
         int rating = 1;
         if(entry != null) {
             HashMap<String, Integer> ratings = entry.ratings;
-            rating = ratings.get(factors.get(position));
+            rating = ratings.get(getItem(position));
         }
 
         GradientDrawable gd = (GradientDrawable) rateViews[(rating == 0) ? 0 : (rating-1)].getBackground();
         gd.setStroke(7, activity.getResources().getColor(R.color.black));
-        activity.selectedColor.put(factors.get(position), rating);
+        activity.selectedColor.put(getItem(position), rating);
         return newRow;
     }
 
@@ -137,12 +119,12 @@ public class RateDayAdapter extends ArrayAdapter {
 
        @Override
        public void onClick(View v) {
-           int oldIndex =  activity.selectedColor.get(factors.get(factorPosition))-1;
+           int oldIndex =  activity.selectedColor.get(getItem(factorPosition))-1;
            oldIndex = (oldIndex == -1) ? 0 : oldIndex;
            GradientDrawable gd = (GradientDrawable)  textViews[oldIndex].getBackground();
            gd.setStroke(1, activity.getResources().getColor(R.color.black));
 
-           activity.selectedColor.put(factors.get(factorPosition), index+1);
+           activity.selectedColor.put(getItem(factorPosition), index+1);
            GradientDrawable gdNew = (GradientDrawable)  textView.getBackground();
            gdNew.setStroke(7, activity.getResources().getColor(R.color.black));
 

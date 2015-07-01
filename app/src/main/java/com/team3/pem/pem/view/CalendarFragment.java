@@ -21,12 +21,9 @@ public class CalendarFragment extends CaldroidFragment {
 
     @Override
     public CaldroidGridAdapter getNewDatesGridAdapter(int month, int year) {
-        return new CalendarFragmentAdapter((MainActivity)getActivity(), month , year, getCaldroidData(), extraData);
+        return new CalendarFragmentAdapter((MainActivity) getActivity(), month, year, getCaldroidData(), extraData);
 
     }
-
-
-
 
     public void notifyAdapter(){
         refreshView();

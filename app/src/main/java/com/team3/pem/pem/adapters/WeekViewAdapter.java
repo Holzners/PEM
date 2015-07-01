@@ -28,28 +28,27 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
 
     FeedReaderDBHelper mDBHelper;
     MainActivity context;
-    List<String> factors;
 
     private int displayWidth;
 
     private DateTime firstDayOfSelectedWeek;
 
-    public WeekViewAdapter(MainActivity context, int resource, List<String> factors, int displaySize) {
+    public WeekViewAdapter(MainActivity context, int resource,int displaySize) {
         super(context, resource);
         this.context = context;
-        this.factors = factors;
+        this.mDBHelper = FeedReaderDBHelper.getInstance();
         this.displayWidth = displaySize;
         this.firstDayOfSelectedWeek = firstDayOfThisWeek();
     }
 
     @Override
     public int getCount() {
-        return factors.size();
+        return mDBHelper.getFactorList().size()+1;
     }
 
     @Override
     public String getItem(int position) {
-        return factors.get(position);
+        return (position == 0) ? "" : mDBHelper.getFactorList().get(position-1);
     }
 
     @Override
@@ -83,12 +82,19 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
                 params.height = displayWidth/7-5;
                 params.width = displayWidth/7-5;
                 rowViews[k].setLayoutParams(params);
+                final int finalK = k;
+                rowViews[k].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        context.showDetailDay(firstDayOfSelectedWeek.plusDays(finalK));
+                    }
+                });
             }
 
         }else {
-            if (context.getFactorsEnabledMap().get(this.factors.get(position))) {
+            if (mDBHelper.getFactorEnabledMap().get(this.getItem(position))) {
                 List<String> factors = new ArrayList<>();
-                factors.add(this.factors.get(position));
+                factors.add(this.getItem(position));
                 DateTime startDay = getFirstDayOfSelectedWeek();
                 DateTime endDay = lastDayOfThisWeek();
 
@@ -143,15 +149,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
       return getFirstDayOfSelectedWeek().plusDays(7);
     }
 
-    public List<String> getFactors() {
-        return factors;
-    }
-
-    public void setFactors(List<String> factors) {
-        this.factors = factors;
-    }
-
-    public DateTime getFirstDayOfSelectedWeek() {
+   public DateTime getFirstDayOfSelectedWeek() {
         return firstDayOfSelectedWeek;
     }
 

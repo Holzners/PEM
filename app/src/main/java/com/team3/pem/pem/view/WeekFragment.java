@@ -17,15 +17,12 @@ import com.team3.pem.pem.adapters.WeekViewAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class WeekFragment extends ListFragment{
 
     private int year;
     private int calenderWeek;
-    private HashMap<String,String> factorColorMap;
     WeekViewAdapter adapter;
     Spinner weekPicker;
 
@@ -35,7 +32,6 @@ public class WeekFragment extends ListFragment{
     }
 
     public void init(){
-        factorColorMap = new HashMap<>();
         Calendar c = Calendar.getInstance();
         year = c.get(Calendar.YEAR);
         calenderWeek = c.get(Calendar.WEEK_OF_YEAR);
@@ -87,25 +83,12 @@ public class WeekFragment extends ListFragment{
                     }
                 });
 
-        List<String> factors = new ArrayList<>();
-        factors.add("");
-        for (Map.Entry<String, String> e : factorColorMap.entrySet()) {
-            factors.add(e.getKey());
-        }
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         int displayWidth = display.getWidth();
-        adapter = new WeekViewAdapter((MainActivity)getActivity(),0,factors, displayWidth);
+        adapter = new WeekViewAdapter((MainActivity)getActivity(),0, displayWidth);
         setListAdapter(adapter);
     }
 
-
-    public HashMap<String, String> getFactorColorMap() {
-        return factorColorMap;
-    }
-
-    public void setFactorColorMap(HashMap<String, String> factorColorMap) {
-        this.factorColorMap = factorColorMap;
-    }
 
     public void nextWeek(int weeks){
         adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().plusDays(7*weeks));
