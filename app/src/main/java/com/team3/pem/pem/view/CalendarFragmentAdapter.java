@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.roomorama.caldroid.CaldroidGridAdapter;
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
-import com.team3.pem.pem.utili.DayEntry;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,11 +37,11 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
         DateTime dateTime = this.datetimeList.get(position);
         List<String> factors = new ArrayList<>();
         factors = mDBHelper.getFactors();
-        HashMap<Date, DayEntry> entryMap = mDBHelper.getDatabaseEntriesDay(factors, dateTime.getDay(), dateTime.getMonth(), dateTime.getYear());
+//        HashMap<Date, DayEntry> entryMap = mDBHelper.getDatabaseEntriesDay(factors, dateTime.getDay(), dateTime.getMonth(), dateTime.getYear());
 
         Date date = new Date(dateTime.getYear(), dateTime.getMonth(), dateTime.getDay());
 
-        DayEntry dayEntry = entryMap.get(date);
+//        DayEntry dayEntry = entryMap.get(date);
 
         LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -60,7 +59,7 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
         TextView imgView3 = (TextView) cellView.findViewById(R.id.textView3);
         TextView imgView4 = (TextView) cellView.findViewById(R.id.textView4);
 
-        if(dayEntry != null) {
+//        if(dayEntry != null) {
             Log.d("Database entry for", date +"");
 
             imgView1.setBackgroundResource(R.drawable.border);
@@ -76,7 +75,7 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
 //            drawable2.setColor(cellView.getResources().getColor(dayEntry.ratings.get(1)));
 //            drawable3.setColor(cellView.getResources().getColor(R.color.transparent));
 //            drawable4.setColor(cellView.getResources().getColor(R.color.transparent));
-        }
+//        }
 
         cellView.setPadding(leftPadding, topPadding, rightPadding,
                 bottomPadding);

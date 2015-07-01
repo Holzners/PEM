@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">PEM</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_export">Export</string>
     <string name="action_notifications">Erinnerungen</string>
@@ -9,13 +7,20 @@
     <string name="action_new_factor">Faktor anlegen</string>
 
     <string-array name="tabs">
-        <item >Week</item>
-        <item >Month</item>
-        <item >Year</item>
+        <item>Woche</item>
+        <item>Monat</item>
+        <item>Jahr</item>
     </string-array>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name = "days">
+        <item>MO</item>
+        <item>DI</item>
+        <item>MI</item>
+        <item>DO</item>
+        <item>FR</item>
+        <item>SA</item>
+        <item>SO</item>
+    </string-array>
 
     <!-- Export activity -->
     <string name="title_activity_export">ExportActivity</string>

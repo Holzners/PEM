@@ -60,7 +60,6 @@ public class RemindersAdapter extends ArrayAdapter {
         TextView time = (TextView) convertView.findViewById(R.id.zeit);
         Switch reminderSwitch = (Switch) convertView.findViewById(R.id.reminderSwitch);
         TextView[] days = new TextView[7];
-
         days[0] = (TextView) convertView.findViewById(R.id.so);
         days[1] = (TextView) convertView.findViewById(R.id.mo);
         days[2] = (TextView) convertView.findViewById(R.id.di);

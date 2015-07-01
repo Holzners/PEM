@@ -10,8 +10,7 @@
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        />
+        android:layout_width="match_parent"/>
 
     <com.team3.pem.pem.view.SlidingTabLayout
         android:id="@+id/tabs"
@@ -19,17 +18,15 @@
         android:layout_height="wrap_content"
         android:background="@color/primaryColor"/>
 
-
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
-
         android:layout_height="0dp"
         android:layout_width="match_parent"
         android:layout_weight="1"
         />
 
     <FrameLayout
-        android:padding="5dp"
+        android:padding="1dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/calender"
@@ -37,11 +34,11 @@
         />
 
     <FrameLayout
-        android:padding="1dp"
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
         android:layout_width="wrap_content"
-        android:layout_height="110dp"
+        android:layout_height="wrap_content"
         android:id="@+id/switchFragmentPanel"
         />
-
 
 </LinearLayout>

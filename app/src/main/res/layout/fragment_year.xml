@@ -5,12 +5,10 @@
     tools:context="com.team3.pem.pem.view.WeekFragment"
     android:id="@+id/tableContainer">
 
-
     <ListView
         android:layout_width="match_parent"
         android:layout_height="368dp"
         android:id="@+id/android:list"
-        android:background="@color/white"
         android:layout_gravity="left|bottom"
         android:layout_below="@+id/spinner"
         android:layout_alignParentLeft="true"
