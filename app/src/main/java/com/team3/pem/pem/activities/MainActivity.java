@@ -64,6 +64,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
     static final int RATE_DAY_DIALOG = 0;
     public HashMap<String, Integer> selectedColor;
     ListView dialogListView;
+    DateTime date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,10 +97,17 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         }else if(id == R.id.action_notifications){
             startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
         }else if(id == R.id.action_rateday){
-            showDialog(RATE_DAY_DIALOG);
+            showRateDayPopup(DateTime.today(TimeZone.getDefault()));
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showRateDayPopup(DateTime today) {
+        this.date = today;
+        String dateString = today.toString().replace("-", "");
+        int dateInt = Integer.parseInt(dateString.substring(0, 8));
+        showDialog(dateInt);
     }
 
     @Override
@@ -170,46 +178,42 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
     @Override
     protected Dialog onCreateDialog(int id) {
         final Dialog dialog = new Dialog(MainActivity.this);
-        if(id == RATE_DAY_DIALOG) {
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setCancelable(true);
-            dialog.setCanceledOnTouchOutside(true);
-            dialog.setContentView(R.layout.rate_day_dialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setContentView(R.layout.rate_day_dialog);
 
-            dialogListView = (ListView) dialog.findViewById(R.id.rateDayList);
-            HashMap<String, String> factorsFromDatabase = mDHelber.getFactorsFromDatabase();
+        dialogListView = (ListView) dialog.findViewById(R.id.rateDayList);
+        HashMap<String, String> factorsFromDatabase = mDHelber.getFactorsFromDatabase();
 
-            RateDayAdapter rateDayAdapteradapter = new RateDayAdapter(this, R.layout.rate_day_layout, factorsFromDatabase);
-            dialogListView.setAdapter(rateDayAdapteradapter);
+        RateDayAdapter rateDayAdapteradapter = new RateDayAdapter(this, R.layout.rate_day_layout, factorsFromDatabase, date);
+        dialogListView.setAdapter(rateDayAdapteradapter);
 
-            ImageView newFactor = (ImageView) dialog.findViewById(R.id.newFactor);
+        ImageView newFactor = (ImageView) dialog.findViewById(R.id.newFactor);
 
-            newFactor.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(MainActivity.this, NewFactorActivity.class));
-                }
-            });
+        newFactor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, NewFactorActivity.class));
+            }
+        });
 
-            Button saveDay = (Button) dialog.findViewById(R.id.saveDay);
-            final EditText editText = (EditText) dialog.findViewById(R.id.editNote);
-            List<String> factors = mDHelber.getFactors();
-            DateTime date = DateTime.today(TimeZone.getDefault());
-            DayEntry entry = mDHelber.getDatabaseEntriesDay(factors, date.getDay(), date.getMonth(), date.getYear());
-            if(entry != null)
-                editText.setText(entry.description);
+        Button saveDay = (Button) dialog.findViewById(R.id.saveDay);
+        final EditText editText = (EditText) dialog.findViewById(R.id.editNote);
+        List<String> factors = mDHelber.getFactors();
+        DayEntry entry = mDHelber.getDatabaseEntriesDay(factors, date.getDay(), date.getMonth(), date.getYear());
+        if(entry != null)
+            editText.setText(entry.description);
 
-            saveDay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DateTime date = DateTime.today(TimeZone.getDefault());
-                    Log.d("Date", date + "");
-                    mDHelber.saveDay(date, selectedColor, editText.getText().toString());
-                    adapter.notifyFragment();
-                    dialog.dismiss();
-                }
-            });
-        }
+        saveDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Date", date + "");
+                mDHelber.saveDay(date, selectedColor, editText.getText().toString());
+                adapter.notifyFragment();
+                dialog.dismiss();
+            }
+        });
         return dialog;
     }
 
@@ -276,6 +280,18 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
                 }
             }
         }.start();
+    }
+
+    public void goToMonth(int month , int year, String factor){
+
+        if(!factor.equals("")){
+            for(Map.Entry<String, Boolean> e : factorsEnabledMap.entrySet()){
+                if(e.getKey().equals(factor)) e.setValue(true);
+                else e.setValue(false);
+            }
+        }
+        adapter.goToMonth(month , year);
+        pager.setCurrentItem(1);
     }
 
 }
