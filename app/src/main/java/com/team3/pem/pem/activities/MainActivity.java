@@ -203,7 +203,6 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
                 @Override
                 public void onClick(View v) {
                     DateTime date = DateTime.today(TimeZone.getDefault());
-                    Log.d("Date", date + "");
                     mDHelber.saveDay(date, selectedColor, editText.getText().toString());
                     adapter.notifyFragment();
                     dialog.dismiss();
@@ -237,10 +236,8 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         factorsEnabledMap.put(symptom, isEnabled);
         adapter.notifyFragment();
         if (isEnabled) {
-            Log.i("onSwitchClicked","Switch isChecked");
             updateSymptoms();
         } else {
-            Log.i("onSwitchClicked","Switch isNotChecked");
             updateSymptoms();
         }
     }

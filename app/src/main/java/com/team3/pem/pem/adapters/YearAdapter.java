@@ -2,7 +2,6 @@ package com.team3.pem.pem.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -139,7 +138,6 @@ public class YearAdapter extends ArrayAdapter {
         private int month, year;
 
         public OnMonthClickListener(String factor , int month, int year){
-            Log.d("Year: " , year +"");
             this.factor = factor;
             this.month = month;
             this.year = year;
