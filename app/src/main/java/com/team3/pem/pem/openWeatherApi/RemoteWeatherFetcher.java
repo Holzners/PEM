@@ -87,7 +87,7 @@ public class RemoteWeatherFetcher {
                 e.printStackTrace();
             }
 
-            if (list != null & list.size() > 0) {
+            if (list != null && list.size() > 0) {
                 Address address = list.get(0);
                 city = address.getLocality();
             }
