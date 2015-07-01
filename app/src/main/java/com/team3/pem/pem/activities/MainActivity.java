@@ -148,6 +148,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
             updateWeatherData();
         }
         if(dialogListView!= null) ((RateDayAdapter)dialogListView.getAdapter()).setFactorColors(factorAsString);
+        Log.d("Heutiges Wetter", mDHelber.getWeatherData(DateTime.today(TimeZone.getDefault())));
     }
 
 //---------------------SwitchFragment---------------------------------
@@ -281,7 +282,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
                 else e.setValue(false);
             }
         }
-        adapter.goToMonth(month , year);
+        adapter.goToMonth(month, year);
         pager.setCurrentItem(1);
     }
 

@@ -236,6 +236,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             entryMap.put(date, descriptionColorMap);
             cursor.moveToNext();
         }
+        cursor.close();
         return entryMap;
     }
 
@@ -279,6 +280,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             cursor.moveToNext();
 
         }
+        cursor.close();
         return descriptionColorMap;
     }
 
@@ -323,6 +325,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             entryMap.put(date, descriptionColorMap);
             cursor.moveToNext();
         }
+        cursor.close();
         return entryMap;
     }
 
@@ -366,6 +369,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             entryMap.put(date, descriptionColorMap);
             cursor.moveToNext();
         }
+        cursor.close();
         return entryMap;
     }
 
@@ -419,6 +423,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             cursor.moveToNext();
 
         }
+        cursor.close();
         return entryMap;
     }
 
@@ -446,6 +451,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             factors.put(cursor.getString(0), cursor.getString(1));
             cursor.moveToNext();
         }
+        cursor.close();
         return factors;
     }
 
@@ -471,7 +477,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         while (!cursor.isAfterLast()) {
             factors.add(cursor.getString(0));
             cursor.moveToNext();
-        }
+        }cursor.close();
         return factors;
     }
 
@@ -564,8 +570,33 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             reminders.add(reminder);
             cursor.moveToNext();
         }
-
+        cursor.close();
         return reminders;
+    }
+
+    @Override
+    public String getWeatherData(DateTime dateTime) {
+        SQLiteDatabase dbRwad = getReadableDatabase();
+
+        String selection =
+                "(" + SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY + " = " + dateTime.getDay() + " AND " +
+                        SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH + " = " + dateTime.getMonth() + " AND " +
+                        SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR + " = " + dateTime.getYear() + ")";
+        String[] projection = {SQLiteMethods.COLUMN_NAME_ENTRY_WEATHER};
+
+        Cursor cursor = dbRwad.query(
+                SQLiteMethods.TABLE_NAME_WEATHER_TABLE,
+                projection,
+                selection,
+                null,
+                null,
+                null,
+                null
+        );
+        cursor.moveToFirst();
+        String result =  cursor.getString(0);
+        cursor.close();
+        return result;
     }
 
 }
