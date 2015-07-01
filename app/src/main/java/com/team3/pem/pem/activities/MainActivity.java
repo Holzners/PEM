@@ -29,7 +29,6 @@ import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.openWeatherApi.RemoteWeatherFetcher;
 import com.team3.pem.pem.openWeatherApi.WeatherJSONRenderer;
 import com.team3.pem.pem.utili.DayEntry;
-import com.team3.pem.pem.view.CalendarFragment;
 import com.team3.pem.pem.view.SlidingTabLayout;
 import com.team3.pem.pem.view.SwitchFragment;
 
@@ -47,7 +46,6 @@ import hirondelle.date4j.DateTime;
 
 public class MainActivity extends ActionBarActivity implements SwitchFragment.SwitchFragmentInterface {
 
-    CalendarFragment caldroidFragment;
     SwitchFragment switchFragment;
     HashMap<String, String> factorAsString;
     HashMap<String, Boolean> factorsEnabledMap;
@@ -158,6 +156,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
             updateWeatherData();
         }
         if(dialogListView!= null) ((RateDayAdapter)dialogListView.getAdapter()).setFactorColors(factorAsString);
+        Log.d("Heutiges Wetter", mDHelber.getWeatherData(DateTime.today(TimeZone.getDefault())));
     }
 
 //---------------------SwitchFragment---------------------------------
@@ -290,7 +289,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
                 else e.setValue(false);
             }
         }
-        adapter.goToMonth(month , year);
+        adapter.goToMonth(month, year);
         pager.setCurrentItem(1);
     }
 

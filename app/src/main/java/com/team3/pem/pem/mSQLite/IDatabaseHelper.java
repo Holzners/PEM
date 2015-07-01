@@ -98,4 +98,12 @@ public interface IDatabaseHelper {
      */
     List<ReminderModel> getAllReminders();
 
+    /**
+     * Returns weatherdata of day
+     * @param dateTime
+     * @return
+     */
+    String getWeatherData(DateTime dateTime);
+
+
 }

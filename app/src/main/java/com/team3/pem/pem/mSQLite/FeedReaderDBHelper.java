@@ -236,22 +236,27 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             entryMap.put(date, descriptionColorMap);
             cursor.moveToNext();
         }
+        cursor.close();
         return entryMap;
     }
 
     @Override
     public DayEntry getDatabaseEntriesDay(List<String> factors, int day, int month, int year) {
         SQLiteDatabase dbRwad = getReadableDatabase();
-        String[] projection = new String[4 + factors.size()];
-        projection[0] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY;
-        projection[1] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH;
-        projection[2] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR;
-        projection[projection.length - 1] = SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION;
+        String[] projection = null;
 
-        for (int i = 0; i < factors.size(); i++) {
-            projection[3 + i] = factors.get(i);
+        if(factors != null) {
+            projection = new String[4 + factors.size()];
+
+            projection[0] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY;
+            projection[1] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH;
+            projection[2] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR;
+            projection[projection.length - 1] = SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION;
+
+            for (int i = 0; i < factors.size(); i++) {
+                projection[3 + i] = factors.get(i);
+            }
         }
-
         String selection =
                 SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY + " = " + day + " AND " +
                         SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH + " = " + month + " AND " +
@@ -279,6 +284,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             cursor.moveToNext();
 
         }
+        cursor.close();
         return descriptionColorMap;
     }
 
@@ -323,6 +329,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             entryMap.put(date, descriptionColorMap);
             cursor.moveToNext();
         }
+        cursor.close();
         return entryMap;
     }
 
@@ -366,6 +373,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             entryMap.put(date, descriptionColorMap);
             cursor.moveToNext();
         }
+        cursor.close();
         return entryMap;
     }
 
@@ -419,6 +427,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             cursor.moveToNext();
 
         }
+        cursor.close();
         return entryMap;
     }
 
@@ -446,6 +455,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             factors.put(cursor.getString(0), cursor.getString(1));
             cursor.moveToNext();
         }
+        cursor.close();
         return factors;
     }
 
@@ -471,7 +481,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         while (!cursor.isAfterLast()) {
             factors.add(cursor.getString(0));
             cursor.moveToNext();
-        }
+        }cursor.close();
         return factors;
     }
 
@@ -564,8 +574,33 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             reminders.add(reminder);
             cursor.moveToNext();
         }
-
+        cursor.close();
         return reminders;
+    }
+
+    @Override
+    public String getWeatherData(DateTime dateTime) {
+        SQLiteDatabase dbRwad = getReadableDatabase();
+
+        String selection =
+                "(" + SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY + " = " + dateTime.getDay() + " AND " +
+                        SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH + " = " + dateTime.getMonth() + " AND " +
+                        SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR + " = " + dateTime.getYear() + ")";
+        String[] projection = {SQLiteMethods.COLUMN_NAME_ENTRY_WEATHER};
+
+        Cursor cursor = dbRwad.query(
+                SQLiteMethods.TABLE_NAME_WEATHER_TABLE,
+                projection,
+                selection,
+                null,
+                null,
+                null,
+                null
+        );
+        cursor.moveToFirst();
+        String result =  cursor.getString(0);
+        cursor.close();
+        return result;
     }
 
 }

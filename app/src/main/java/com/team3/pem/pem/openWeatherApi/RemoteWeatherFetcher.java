@@ -1,7 +1,9 @@
 package com.team3.pem.pem.openWeatherApi;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
@@ -23,12 +25,14 @@ import java.util.Locale;
  */
 public class RemoteWeatherFetcher {
 
+    private static final String CITY_KEY = "city_key";
+
     private static final String OPEN_WEATHER_MAP_API =
             "http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric";
 
     public static JSONObject getJSON(Context context) {
 
-        String city = "Munich";
+        String city = getCurrentLocation(context);
 
         try {
             URL url = new URL(String.format(OPEN_WEATHER_MAP_API, city));
@@ -64,44 +68,33 @@ public class RemoteWeatherFetcher {
     public static String getCurrentLocation(Context context) {
         Geocoder gcd = new Geocoder(context, Locale.getDefault());
         LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
-
-        boolean isGPSEnabled = locationManager
-                .isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        boolean isNetworkEnabled = locationManager
-                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        Location location = null;
-        String city = "Munich";
-        WeatherLocationListener locationListener = new WeatherLocationListener();
-        if (!isGPSEnabled && !isNetworkEnabled) {
-            locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        }
+         Location location = null;
+        SharedPreferences prefs = context.getSharedPreferences("com.team3.pem.pem",Context.MODE_PRIVATE);
+        String city = prefs.getString(CITY_KEY, "Munich");
         if (locationManager != null) {
+            Criteria criteria = new Criteria();
+            String provider = locationManager.getBestProvider(criteria, true);
             location = locationManager
-                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                            .getLastKnownLocation(provider);
         }
-        if (isGPSEnabled && location == null) {
-            locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-             if (locationManager != null) {
-                location = locationManager
-                        .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        if(location != null) {
+            List<Address> list = null;
+            try {
+                list = gcd.getFromLocation(location
+                        .getLatitude(), location.getLongitude(), 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (list != null & list.size() > 0) {
+                Address address = list.get(0);
+                city = address.getLocality();
             }
         }
-
-        List<Address> list = null;
-        try {
-            list = gcd.getFromLocation(location
-                    .getLatitude(), location.getLongitude(), 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (list != null & list.size() > 0) {
-            Address address = list.get(0);
-            city = address.getLocality();
-        }
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(CITY_KEY,city);
+        editor.commit();
         return city;
     }
 
