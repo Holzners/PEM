@@ -91,6 +91,7 @@ public class YearAdapter extends ArrayAdapter {
                         RatingToColorHelper.ratingToColor(getItem(position), ratingsMonths[i])));
 
             }
+            textViews[i].setOnClickListener(new OnMonthClickListener(getItem(position), i+1, selectedYear));
             rowContainer.addView(textViews[i]);
         }
 
@@ -129,6 +130,23 @@ public class YearAdapter extends ArrayAdapter {
     public void setSelectedYear (int year){
         this.selectedYear = year;
         this.notifyDataSetChanged();
+    }
+
+    public class OnMonthClickListener implements View.OnClickListener{
+
+        private String factor;
+        private int month, year;
+
+        public OnMonthClickListener(String factor , int month, int year){
+            this.factor = factor;
+            this.month = month;
+            this.year = year;
+        }
+
+        @Override
+        public void onClick(View v) {
+                activity.goToMonth(month ,year , factor);
+        }
     }
 
 }

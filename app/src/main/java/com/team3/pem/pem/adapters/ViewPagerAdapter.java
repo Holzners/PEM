@@ -10,6 +10,8 @@ import com.team3.pem.pem.view.YearFragment;
 
 import java.util.HashMap;
 
+import hirondelle.date4j.DateTime;
+
 /**
  * Created by Olli
  */
@@ -73,6 +75,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         if(weekFragment != null) weekFragment.notifyAdapter();
         if(monthfragment!= null) monthfragment.notifyAdapter();
         if(yearFragment != null) yearFragment.notifyAdapter();
+    }
+
+    public void goToMonth(int month , int year){
+        if(monthfragment!= null) {
+            DateTime date = DateTime.forDateOnly(year, month, 1);
+            monthfragment.moveToDateTime(date);
+        }
     }
 
 }
