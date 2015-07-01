@@ -156,7 +156,7 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
             updateWeatherData();
         }
         if(dialogListView!= null) ((RateDayAdapter)dialogListView.getAdapter()).setFactorColors(factorAsString);
-        Log.d("Heutiges Wetter", mDHelber.getWeatherData(DateTime.today(TimeZone.getDefault())));
+//        Log.d("Heutiges Wetter", mDHelber.getWeatherData(DateTime.today(TimeZone.getDefault())));
     }
 
 //---------------------SwitchFragment---------------------------------
