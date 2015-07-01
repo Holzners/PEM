@@ -60,7 +60,6 @@ public class RemindersAdapter extends ArrayAdapter {
         TextView time = (TextView) convertView.findViewById(R.id.zeit);
         Switch reminderSwitch = (Switch) convertView.findViewById(R.id.reminderSwitch);
         TextView[] days = new TextView[7];
-
         days[0] = (TextView) convertView.findViewById(R.id.so);
         days[1] = (TextView) convertView.findViewById(R.id.mo);
         days[2] = (TextView) convertView.findViewById(R.id.di);
@@ -116,7 +115,7 @@ public class RemindersAdapter extends ArrayAdapter {
                 case R.id.zeit:
                     hour = Integer.parseInt(reminderModel.getTime().substring(0, 2));
                     minute = Integer.parseInt(reminderModel.getTime().substring(3));
-                    TimePickerDialog tp = new TimePickerDialog(context, timePickerListner, hour, minute, false);
+                    TimePickerDialog tp = new TimePickerDialog(context, timePickerListner, hour, minute, true);
                     tp.show();
                     break;
                 case R.id.mo:

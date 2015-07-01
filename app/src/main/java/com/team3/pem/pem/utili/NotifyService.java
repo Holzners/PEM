@@ -13,6 +13,9 @@ import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
+
+import hirondelle.date4j.DateTime;
 
 /**
  * Created by Chris on 23.06.2015.
@@ -28,11 +31,18 @@ public class NotifyService extends BroadcastReceiver {
         boolean[] days = reminders.get(ID).getActiveForDays();
 
         Calendar calendar = Calendar.getInstance();
+        DateTime date = DateTime.today(TimeZone.getDefault());
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
-        if(!days[dayOfWeek]){
+        List<String> factors = dbHelper.getFactors();
+        DayEntry factorsDay = dbHelper.getDatabaseEntriesDay(factors, date.getDay(), date.getMonth(), date.getYear());
+
+        if(!days[dayOfWeek] || factorsDay != null){
+          //  Log.i("notif", "Notification abgebrochen");
             return;
         }
+
+        //Log.i("notif", "Notification ausgelöst");
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, ID, new Intent(context, MainActivity.class), 0);
 

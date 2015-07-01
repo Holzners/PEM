@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <TableRow
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -14,12 +13,14 @@
             android:id="@+id/factorText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25dp"/>
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            />
     </TableRow>
 
     <TableRow
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:id="@+id/ratText1"
