@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/newFactor"
         android:layout_alignParentTop="true"
-        android:src="@android:drawable/ic_menu_preferences"
+        android:src="@drawable/action_settings_blue"
         android:layout_marginRight="5dp"
         android:layout_alignParentRight="true" />
 
