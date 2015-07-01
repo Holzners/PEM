@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.team3.pem.pem.utili.ColorsToPick;
@@ -603,6 +604,45 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         return result;
     }
 
+    @Override
+    public void deleteFactor(String factor){
+
+    }
+
+    private void dropColumn(SQLiteDatabase db,
+                            String createTableCmd,
+                            String tableName,
+                            String colToRemove) throws java.sql.SQLException {
+
+        List<String> updatedTableColumns = getTableColumns(tableName, db);
+        // Remove the columns we don't want anymore from the table's list of columns
+        updatedTableColumns.remove(colToRemove);
+
+        String columnsSeperated = TextUtils.join(",", updatedTableColumns);
+
+        db.execSQL("ALTER TABLE " + tableName + " RENAME TO " + tableName + "_old;");
+
+        // Creating the table on its new format (no redundant columns)
+        db.execSQL(createTableCmd);
+
+        // Populating the table with the data
+        db.execSQL("INSERT INTO " + tableName + "(" + columnsSeperated + ") SELECT "
+                + columnsSeperated + " FROM " + tableName + "_old;");
+        db.execSQL("DROP TABLE " + tableName + "_old;");
+    }
+
+    public List<String> getTableColumns(String tableName, SQLiteDatabase db) {
+        ArrayList<String> columns = new ArrayList<String>();
+        String cmd = "pragma table_info(" + tableName + ");";
+        Cursor cur = db.rawQuery(cmd, null);
+
+        while (cur.moveToNext()) {
+            columns.add(cur.getString(cur.getColumnIndex("name")));
+        }
+        cur.close();
+
+        return columns;
+    }
 }
 
 
