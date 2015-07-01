@@ -243,16 +243,20 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     @Override
     public DayEntry getDatabaseEntriesDay(List<String> factors, int day, int month, int year) {
         SQLiteDatabase dbRwad = getReadableDatabase();
-        String[] projection = new String[4 + factors.size()];
-        projection[0] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY;
-        projection[1] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH;
-        projection[2] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR;
-        projection[projection.length - 1] = SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION;
+        String[] projection = null;
 
-        for (int i = 0; i < factors.size(); i++) {
-            projection[3 + i] = factors.get(i);
+        if(factors != null) {
+            projection = new String[4 + factors.size()];
+
+            projection[0] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY;
+            projection[1] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH;
+            projection[2] = SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR;
+            projection[projection.length - 1] = SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION;
+
+            for (int i = 0; i < factors.size(); i++) {
+                projection[3 + i] = factors.get(i);
+            }
         }
-
         String selection =
                 SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY + " = " + day + " AND " +
                         SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH + " = " + month + " AND " +
