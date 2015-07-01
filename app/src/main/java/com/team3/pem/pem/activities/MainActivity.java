@@ -105,8 +105,8 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
 
     public void showRateDayPopup(DateTime today) {
         this.date = today;
-        String dateString = today.toString();
-        int dateInt = Integer.parseInt(dateString.replace("-", ""));
+        String dateString = today.toString().replace("-", "");
+        int dateInt = Integer.parseInt(dateString.substring(0, 8));
         showDialog(dateInt);
     }
 
