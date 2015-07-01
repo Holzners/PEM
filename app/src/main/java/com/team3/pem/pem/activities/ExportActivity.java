@@ -16,20 +16,30 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.html.WebColors;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.adapters.SwitchExportAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
+import com.team3.pem.pem.utili.DayEntry;
+import com.team3.pem.pem.utili.RatingToColorHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
+
+import hirondelle.date4j.DateTime;
 
 //Importing stuff for PDF Export
 
@@ -152,12 +162,14 @@ public class ExportActivity extends ActionBarActivity {
                 file.createNewFile();
             }
             Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream(file));
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
-           // PdfPTableEvent event = new AlternatingBackground();
-            PdfPTable table = getTable();
+            for(String symptom : enabledSymptoms) {
+                PdfPTable table = getTable(symptom);
+                document.add(table);
+                document.newPage();
+            }
             //table.setTableEvent(event);
-            document.add(table);
             document.close();
             return true;
         }catch(IOException e){
@@ -169,23 +181,44 @@ public class ExportActivity extends ActionBarActivity {
         }
     }
 
-    private PdfPTable getTable(){
-        int size = 0;
-        for(String symptom : enabledSymptoms){
-            size++;
-        }
-        Log.i("EnabledSymptoms", "" + size);
-        PdfPTable table = new PdfPTable(size+2);
+    private PdfPTable getTable(String symptom){
+        PdfPTable table = new PdfPTable(new float[] {2, 2, 2, 5});
         table.setWidthPercentage(100f);
+        //Header
         table.getDefaultCell().setPadding(3);
         table.getDefaultCell().setUseAscender(true);
         table.getDefaultCell().setUseDescender(true);
+        table.getDefaultCell().setBackgroundColor(BaseColor.ORANGE);
         table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell("Datum");
-        for(int i = 0; i < size; i++) {
-            table.addCell(enabledSymptoms.get(i));
-        }
+        PdfPCell cellHead = new PdfPCell(new Phrase(symptom));
+        cellHead.setBackgroundColor(BaseColor.ORANGE);
+        cellHead.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cellHead.setColspan(2);
+        table.addCell(cellHead);
         table.addCell("Notiz");
+        //Zeilen aus DB einfügen
+        List<String> list = new ArrayList<String>();
+        list.add(symptom);
+        HashMap<DateTime, DayEntry> dbEntries = dbHelper.getDatabaseEntries(list);
+        TreeMap<DateTime, DayEntry> dbEntriesTree = new TreeMap<DateTime, DayEntry>(dbEntries);
+
+        table.getDefaultCell().setBackgroundColor(null);
+        table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+        for(TreeMap.Entry<DateTime, DayEntry> entry : dbEntriesTree.entrySet()){
+            table.addCell(entry.getKey().format("DD.MM.YYYY"));
+            HashMap<String, Integer> ratings = entry.getValue().ratings;
+            PdfPCell cell = new PdfPCell(new Phrase(""));
+            int colorID = RatingToColorHelper.ratingToColor(symptom, ratings.get(symptom).intValue());
+            String hexColor =  String.format("#%06X", (0xFFFFFF & getResources().getColor(colorID)));
+
+            cell.setBackgroundColor(WebColors.getRGBColor(hexColor));
+            table.addCell(cell);
+
+
+            table.addCell(ratings.get(symptom).toString());
+            table.addCell(entry.getValue().description);
+        }
 
         return table;
     }
