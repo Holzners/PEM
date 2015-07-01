@@ -25,6 +25,7 @@
     <!-- Export activity -->
     <string name="title_activity_export">ExportActivity</string>
     <string name="label_activity_export">Export</string>
+    <string name="loading">Exportiert Symptome ...</string>
 
     <!-- Erinnerungen activity -->
     <string name="title_activity_notifications">Erinnerungen</string>
