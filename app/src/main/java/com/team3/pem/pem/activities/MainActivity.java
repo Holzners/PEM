@@ -201,7 +201,6 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         Button saveDay = (Button) dialog.findViewById(R.id.saveDay);
         final EditText editText = (EditText) dialog.findViewById(R.id.editNote);
         List<String> factors = mDHelber.getFactors();
-        DateTime date = DateTime.today(TimeZone.getDefault());
         DayEntry entry = mDHelber.getDatabaseEntriesDay(factors, date.getDay(), date.getMonth(), date.getYear());
         if(entry != null)
             editText.setText(entry.description);
@@ -209,7 +208,6 @@ public class MainActivity extends ActionBarActivity implements SwitchFragment.Sw
         saveDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DateTime date = DateTime.today(TimeZone.getDefault());
                 Log.d("Date", date + "");
                 mDHelber.saveDay(date, selectedColor, editText.getText().toString());
                 adapter.notifyFragment();
