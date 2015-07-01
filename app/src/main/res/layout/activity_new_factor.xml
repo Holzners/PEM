@@ -24,24 +24,28 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete"
+        android:text="Remove existing Factors"
         android:id="@+id/delete_button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="25dp"
         android:layout_marginStart="25dp"
-        android:layout_marginBottom="73dp"
+        android:layout_marginBottom="25dp"
         android:textColor="#ff0f5cff"
         android:background="#00ffffff" />
 
     <android.support.design.widget.FloatingActionButton
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/ic_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_save"
         android:background="@drawable/circle"
         android:id="@+id/FAB"
-        android:layout_gravity="right|bottom" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="24dp"
+        android:layout_marginRight="24dp" />
+
 
 
 
@@ -49,10 +53,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/inputText"
+        android:hint="Enter new Factor"
         android:layout_marginBottom="35dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:layout_above="@+id/toManySymptomsText"
-        android:layout_alignLeft="@+id/delete_button"
-        android:layout_alignStart="@+id/delete_button"
         android:textColor="#ff0f5cff" />
 
     <Spinner

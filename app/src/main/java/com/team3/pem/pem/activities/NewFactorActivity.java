@@ -38,6 +38,7 @@ public class NewFactorActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_factor);
+        setTitle("Add New Factor");
         mDBHelper = FeedReaderDBHelper.getInstance();
         FAB = (FloatingActionButton) findViewById(R.id.FAB);
         deleteButton = (Button) findViewById(R.id.delete_button);
@@ -111,7 +112,7 @@ public class NewFactorActivity extends ActionBarActivity {
             mDBHelper.saveFactor(newFactorText.getText().toString(), selectedColor);
             finish();
         }else{
-            Toast.makeText(this, "Input may not be empty", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No Input!", Toast.LENGTH_LONG).show();
         }
     }
 
