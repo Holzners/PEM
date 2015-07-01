@@ -230,7 +230,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             HashMap<String, Integer> colors = new HashMap<>();
 
             for (int i = 3; i < factors.size() + 3; i++) {
-                colors.put(factors.get(i), cursor.getInt(i));
+                colors.put(factors.get(i-3), cursor.getInt(i));
             }
 
             DayEntry descriptionColorMap = new DayEntry(colors, cursor.getString(projection.length - 1));
