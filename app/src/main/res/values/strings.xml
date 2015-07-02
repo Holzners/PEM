@@ -1,8 +1,9 @@
 <resources>
     <string name="ok">Ok</string>
     <string name="cancel">Abbrechen</string>
+    <string name="save">Speichern</string>
 
-    <string name="app_name">PEM</string>
+    <string name="app_name">MedicalJournal</string>
     <string name="action_settings">Einstellungen</string>
     <string name="action_export">Export</string>
     <string name="action_notifications">Erinnerungen</string>
@@ -26,8 +27,7 @@
     </string-array>
 
     <!-- Export activity -->
-    <string name="title_activity_export">ExportActivity</string>
-    <string name="label_activity_export">Export</string>
+    <string name="label_activity_export">Exportieren</string>
     <string name="loading">Exportiert Symptome ...</string>
     <string name="emailClient">Wähle einen Email Client!</string>
     <string name="pdfFailed">Konnte kein PDF erstellen.</string>
@@ -43,19 +43,25 @@
         <item>Schlecht</item>
         <item>Sehr schlecht</item>
     </string-array>
+    <string name="inputFileName">Dateiname eingeben</string>
+    <string name="export">Exportieren</string>
+    <string name="exportAll">Alle exportieren</string>
+    <string name="fileName">Dateiname: </string>
+    <string name="mail">Send via Mail</string>
 
     <!-- Erinnerungen activity -->
     <string name="title_activity_notifications">Erinnerungen</string>
+    <string name="inputName">Bezeichnung eingeben</string>
 
     <!-- Rate day activity -->
-    <string name="title_activity_rate_day">RateDayActivity</string>
     <string name="rateDay">Tag bewerten</string>
-    <string name="saveDay">Speichern</string>
     <string name="editNote">Notiz eingeben</string>
 
     <!-- New Factor activity -->
     <string name="title_activity_new_factor">NewFactorActivity</string>
     <string name="too_many_symptoms">Du hast die maximale Anzahl an Symptomen erreicht, es muss erst ein altes entfernt werden!</string>
+    <string name="removeFactor">Faktor entfernen</string>
+    <string name="addFactor">Faktor eingeben</string>
 
     <!-- Notifications activity -->
     <string name="mo">MO</string>

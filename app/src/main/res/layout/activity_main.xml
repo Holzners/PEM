@@ -22,23 +22,20 @@
         android:id="@+id/pager"
         android:layout_height="0dp"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1"  />
 
     <FrameLayout
         android:padding="1dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/calender"
-        android:layout_below="@+id/tool_bar"
-        />
+        android:layout_below="@+id/tool_bar" />
 
     <FrameLayout
         android:paddingLeft="100dp"
         android:paddingRight="100dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/switchFragmentPanel"
-        />
+        android:id="@+id/switchFragmentPanel"       />
 
 </LinearLayout>

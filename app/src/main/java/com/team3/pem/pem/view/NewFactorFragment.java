@@ -65,7 +65,7 @@ public class NewFactorFragment extends DialogFragment {
         FAB = (FloatingActionButton) view.findViewById(R.id.FAB);
         deleteButton = (Button) view.findViewById(R.id.delete_button);
         newFactorText = (EditText) view.findViewById(R.id.inputText);
-        toManySymptomsText = (TextView) view.findViewById(R.id.toManySymptomsText);
+        toManySymptomsText = (TextView) view.findViewById(R.id.tooManySymptomsText);
         toManySymptomsText.setVisibility(View.INVISIBLE);
 
         HashMap<String, String> factorEntries = mDBHelper.getFactorsFromDatabase();

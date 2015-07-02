@@ -56,7 +56,7 @@ public class RemoveFactorFragment extends DialogFragment {
 
         mDBHelper = FeedReaderDBHelper.getInstance();
         FAB = (FloatingActionButton) view.findViewById(R.id.FAB);
-        tooManySymptomsText = (TextView) view.findViewById(R.id.toManySymptomsText);
+        tooManySymptomsText = (TextView) view.findViewById(R.id.tooManySymptomsText);
         tooManySymptomsText.setVisibility(View.INVISIBLE);
 
         HashMap<String, String> factorEntries = mDBHelper.getFactorsFromDatabase();

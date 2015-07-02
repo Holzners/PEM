@@ -8,44 +8,37 @@
     <TableRow
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
         <TextView
             android:id="@+id/factorText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            />
+            android:textAppearance="?android:attr/textAppearanceMedium"           />
     </TableRow>
 
     <TableRow
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp">
-
         <TextView
             android:id="@+id/ratText1"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:background="@drawable/border2" />
-
         <TextView
             android:id="@+id/ratText2"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:background="@drawable/border2" />
-
         <TextView
             android:id="@+id/ratText3"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:background="@drawable/border2" />
-
         <TextView
             android:id="@+id/ratText4"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:background="@drawable/border2" />
-
         <TextView
             android:id="@+id/ratText5"
             android:layout_width="20dp"

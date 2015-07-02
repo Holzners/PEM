@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/too_many_symptoms"
-        android:id="@+id/toManySymptomsText"
+        android:id="@+id/tooManySymptomsText"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
@@ -47,7 +47,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:layout_above="@+id/toManySymptomsText"
+        android:layout_above="@+id/tooManySymptomsText"
         android:textColor="#ff0f5cff"
         android:textSize="20dp"/>
 
@@ -55,6 +55,6 @@
         android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toManySymptomsText"
+        android:layout_below="@+id/tooManySymptomsText"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
