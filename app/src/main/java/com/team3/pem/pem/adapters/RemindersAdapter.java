@@ -6,18 +6,19 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TimePicker;
 
-import com.team3.pem.pem.utili.NotifyService;
 import com.team3.pem.pem.R;
+import com.team3.pem.pem.utili.NotifyService;
 import com.team3.pem.pem.utili.ReminderModel;
 
 import java.util.Calendar;
@@ -93,20 +94,20 @@ public class RemindersAdapter extends ArrayAdapter {
         private ReminderModel reminderModel;
         private int hour, minute;
 
-        public ReminderViewOnClickListener(TextView[] days, int index, ReminderModel reminderModel) {
+        public ReminderViewOnClickListener(TextView[] days, int index, ReminderModel reminder) {
             this.days = days;
             this.index = index;
-            this.reminderModel = reminderModel;
+            reminderModel = reminder;
         }
 
-        public ReminderViewOnClickListener(TextView time, ReminderModel reminderModel) {
+        public ReminderViewOnClickListener(TextView time, ReminderModel reminder) {
             this.time = time;
-            this.reminderModel = reminderModel;
+            reminderModel = reminder;
         }
 
-        public ReminderViewOnClickListener(Switch remindersSwitch, ReminderModel reminderModel) {
+        public ReminderViewOnClickListener(Switch remindersSwitch, ReminderModel reminder) {
             this.remindersSwitch = remindersSwitch;
-            this.reminderModel = reminderModel;
+            reminderModel = reminder;
         }
 
         @Override
@@ -126,7 +127,7 @@ public class RemindersAdapter extends ArrayAdapter {
                 case R.id.sa:
                 case R.id.so:
                     if (reminderModel.getActiveForDays()[index]) {
-                        days[index].setTextColor(v.getResources().getColor(R.color.accentColor));
+                        days[index].setTextColor(Color.argb(255, 109, 109, 109));
                         reminderModel.setActiveDay(index, false);
                     } else {
                         days[index].setTextColor(Color.rgb(0, 150, 255));
@@ -180,13 +181,15 @@ public class RemindersAdapter extends ArrayAdapter {
             calendar.set(Calendar.MINUTE, minute);
             calendar.set(Calendar.SECOND, 0);
             am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, pIntent);
+            Log.i("alarm", "Created alarm " + alarmID);
         }
+    }
 
-        public void cancelAlarm(int alarmID) {
-            Intent intent = new Intent(context, NotifyService.class);
-            PendingIntent sender = PendingIntent.getBroadcast(context, alarmID, intent, 0);
-            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            alarmManager.cancel(sender);
-        }
+    public void cancelAlarm(int alarmID) {
+        Intent intent = new Intent(context, NotifyService.class);
+        PendingIntent sender = PendingIntent.getBroadcast(context, alarmID, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(sender);
+        Log.i("alarm", "Canceled alarm " + alarmID);
     }
 }

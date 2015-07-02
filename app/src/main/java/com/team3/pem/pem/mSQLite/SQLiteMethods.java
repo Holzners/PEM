@@ -21,6 +21,8 @@ public class SQLiteMethods {
     public static final String CLOSE_BRACE = ") ";
     public static final String DROP_TABLE = "DROP TABLE";
     public static final String DELETE_FROM = "DELETE FROM ";
+    public static final String UPDATE = "UPDATE ";
+    public static final String SET = "SET ";
     public static final String WHERE = "WHERE ";
 
     public static final String TABLE_NAME_MAIN_TABLE = "entries";

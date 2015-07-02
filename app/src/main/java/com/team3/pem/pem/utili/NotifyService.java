@@ -28,6 +28,7 @@ public class NotifyService extends BroadcastReceiver {
 
         FeedReaderDBHelper dbHelper = FeedReaderDBHelper.getInstance();
         List<ReminderModel> reminders = dbHelper.getAllReminders();
+
         boolean[] days = reminders.get(ID).getActiveForDays();
 
         Calendar calendar = Calendar.getInstance();

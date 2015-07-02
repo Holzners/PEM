@@ -2,21 +2,31 @@ package com.team3.pem.pem.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.Toast;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.adapters.RemindersAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.ReminderModel;
 
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -25,7 +35,7 @@ public class NotificationsActivity extends ActionBarActivity {
     FeedReaderDBHelper dbHelper;
     List<ReminderModel> reminders;
     FloatingActionButton new_reminder;
-    ListView listView;
+    SwipeMenuListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +43,47 @@ public class NotificationsActivity extends ActionBarActivity {
         setContentView(R.layout.activity_notifications);
 
         dbHelper = FeedReaderDBHelper.getInstance();
-        reminders = dbHelper.getAllReminders();
+        reminders = getReminders(dbHelper.getAllReminders());
 
-        listView = (ListView) findViewById(R.id.list_reminders);
+        listView = (SwipeMenuListView) findViewById(R.id.list_reminders);
         new_reminder = (FloatingActionButton) findViewById(R.id.newReminder);
 
         final RemindersAdapter adapter = new RemindersAdapter(this, R.layout.reminders_list_layout, reminders);
         listView.setAdapter(adapter);
+
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+            @Override
+            public void create(SwipeMenu swipeMenu) {
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getApplicationContext());
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                        0x3F, 0x25)));
+                deleteItem.setWidth(dp2px(90));
+                deleteItem.setIcon(R.drawable.ic_action_discard);
+                swipeMenu.addMenuItem(deleteItem);
+            }
+        };
+        listView.setMenuCreator(creator);
+
+        listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                //  ApplicationInfo item = mAppList.get(position);
+                ReminderModel item = adapter.getItem(position);
+                switch (index) {
+                    case 0:
+                        //delete
+                        dbHelper.removeReminder(item.getAlarmID());
+                        adapter.cancelAlarm(item.getAlarmID());
+                        reminders = getReminders(dbHelper.getAllReminders());
+                        adapter.clear();
+                        adapter.addAll(reminders);
+                        adapter.notifyDataSetChanged();
+                        break;
+                }
+                return false;
+            }
+        });
 
         new_reminder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +94,7 @@ public class NotificationsActivity extends ActionBarActivity {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         NotificationsActivity.this);
 
+                alertDialogBuilder.setPositiveButton("ok", null);
                 alertDialogBuilder.setView(promptsView);
 
                 final EditText userInput = (EditText) promptsView
@@ -60,13 +105,6 @@ public class NotificationsActivity extends ActionBarActivity {
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
-                                        ReminderModel reminderModel = new ReminderModel(reminders.size(), reminders.size(), "08:00", userInput.getText().toString(),
-                                                false, new boolean[]{false, false, false, false, false, false, false});
-                                        dbHelper.saveReminder(reminderModel);
-                                        reminders = dbHelper.getAllReminders();
-                                        adapter.clear();
-                                        adapter.addAll(reminders);
-                                        adapter.notifyDataSetChanged();
                                     }
                                 })
                         .setNegativeButton("Cancel",
@@ -75,7 +113,42 @@ public class NotificationsActivity extends ActionBarActivity {
                                         dialog.cancel();
                                     }
                                 });
-                AlertDialog alertDialog = alertDialogBuilder.create();
+                final AlertDialog alertDialog = alertDialogBuilder.create();
+
+                alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(final DialogInterface dialog) {
+                        Button b = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                        b.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (userInput.getText().toString().equals("")){
+                                    Toast.makeText(NotificationsActivity.this, "No User Input", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                int alarmID = 0;
+                                for(int i = 0; i < dbHelper.getAllReminders().size(); i++){
+                                    if(dbHelper.getAllReminders().get(i).getText().equals("")) {
+                                        alarmID = i;
+                                        break;
+                                    }else{
+                                        alarmID++;
+                                    }
+                                }
+                                ReminderModel reminderModel = new ReminderModel(alarmID, alarmID, "08:00", userInput.getText().toString(),
+                                        false, new boolean[]{false, false, false, false, false, false, false});
+                                dbHelper.saveReminder(reminderModel);
+                                reminders = getReminders(dbHelper.getAllReminders());
+                                adapter.clear();
+                                adapter.addAll(reminders);
+                                adapter.notifyDataSetChanged();
+                                Log.i("reminder", "Created reminder with alarmID " + alarmID);
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                });
+
                 alertDialog.show();
             }
         });
@@ -96,5 +169,20 @@ public class NotificationsActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getResources().getDisplayMetrics());
+    }
+
+    private List<ReminderModel> getReminders(List<ReminderModel> reminders){
+        for (Iterator<ReminderModel> it = reminders.iterator(); it.hasNext(); ) {
+            ReminderModel reminderModel = it.next();
+            if(reminderModel.getText().equals("")){
+                it.remove();
+            }
+        }
+        return reminders;
     }
 }
