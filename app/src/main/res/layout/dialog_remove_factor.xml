@@ -38,17 +38,18 @@
 
 
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/inputText"
-        android:hint="Factor Eingeben"
+        android:hint="Hier werden Faktoren entfernt!"
         android:layout_marginBottom="35dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:layout_above="@+id/toManySymptomsText"
-        android:textColor="#ff0f5cff" />
+        android:textColor="#ff0f5cff"
+        android:textSize="20dp"/>
 
     <Spinner
         android:id="@+id/spinner"
