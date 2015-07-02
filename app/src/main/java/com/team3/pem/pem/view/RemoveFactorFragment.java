@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.activities.MainActivity;
+import com.team3.pem.pem.adapters.RemoveFactorAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.ColorsToPick;
 
@@ -29,28 +30,26 @@ import java.util.TimeZone;
 import hirondelle.date4j.DateTime;
 
 /**
- * Created by Stephan on 01.07.15.
+ * Created by olli on 7/2/15.
  */
-public class NewFactorFragment extends DialogFragment {
-    EditText newFactorText;
+public class RemoveFactorFragment extends DialogFragment {
     TextView toManySymptomsText;
     FloatingActionButton FAB;
-    Button deleteButton;
     FeedReaderDBHelper mDBHelper;
     Spinner colorSpinner;
     String selectedColor;
 
     MainActivity context;
 
-    public NewFactorFragment() {
+    public RemoveFactorFragment() {
 
     }
 
-    public static NewFactorFragment getInstance(MainActivity context) {
-        NewFactorFragment newFactorFragment = new NewFactorFragment();
-        newFactorFragment.context = context;
-        newFactorFragment.mDBHelper = FeedReaderDBHelper.getInstance();
-        return newFactorFragment;
+    public static RemoveFactorFragment getInstance(MainActivity context) {
+        RemoveFactorFragment removeFactorFragment = new RemoveFactorFragment();
+        removeFactorFragment.context = context;
+        removeFactorFragment.mDBHelper = FeedReaderDBHelper.getInstance();
+        return removeFactorFragment;
     }
 
     @Override
@@ -59,12 +58,10 @@ public class NewFactorFragment extends DialogFragment {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
-        View view = inflater.inflate(R.layout.dialog_new_factor, container, false);
+        View view = inflater.inflate(R.layout.dialog_remove_factor, container, false);
 
         mDBHelper = FeedReaderDBHelper.getInstance();
         FAB = (FloatingActionButton) view.findViewById(R.id.FAB);
-        deleteButton = (Button) view.findViewById(R.id.delete_button);
-        newFactorText = (EditText) view.findViewById(R.id.inputText);
         toManySymptomsText = (TextView) view.findViewById(R.id.toManySymptomsText);
         toManySymptomsText.setVisibility(View.INVISIBLE);
 
@@ -73,8 +70,6 @@ public class NewFactorFragment extends DialogFragment {
         if (factorEntries.size() == ColorsToPick.values().length) {
             toManySymptomsText.setVisibility(View.VISIBLE);
             FAB.setEnabled(false);
-            deleteButton.setEnabled(false);
-            newFactorText.setEnabled(false);
         } else {
             List<String> colors = new ArrayList<>();
             for (int i = 0; i < ColorsToPick.values().length && colors.size() < (ColorsToPick.values().length - factorEntries.size()); i++) {
@@ -112,14 +107,6 @@ public class NewFactorFragment extends DialogFragment {
             }
         });
 
-
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeFactor();
-            }
-
-        });
         return view;
     }
 
@@ -127,20 +114,12 @@ public class NewFactorFragment extends DialogFragment {
 
 
     public void saveFactor() {
-        if (!newFactorText.getText().toString().equals("")) {
-            mDBHelper.saveFactor(newFactorText.getText().toString(), selectedColor);
-            context.selectedColor.put(newFactorText.getText().toString(), 1);
-            context.refreshAdapters();
+            Toast.makeText(context, "Not Implemented Yet!", Toast.LENGTH_LONG).show();
             this.dismiss();
-            context.showRateDayPopup(DateTime.today(TimeZone.getDefault()));
-        } else {
-            Toast.makeText(context, "No Input!", Toast.LENGTH_LONG).show();
         }
     }
 
-    public void removeFactor(){
-        context.showRemoveFactorDialog();
-    }
 
 
-}
+
+

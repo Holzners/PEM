@@ -23,6 +23,7 @@ import com.team3.pem.pem.openWeatherApi.WeatherJSONRenderer;
 import com.team3.pem.pem.view.DayDetailFragment;
 import com.team3.pem.pem.view.NewFactorFragment;
 import com.team3.pem.pem.view.RateDayFragment;
+import com.team3.pem.pem.view.RemoveFactorFragment;
 import com.team3.pem.pem.view.SlidingTabLayout;
 import com.team3.pem.pem.view.SwitchFragment;
 
@@ -228,6 +229,12 @@ public class MainActivity extends ActionBarActivity{
         NewFactorFragment newFactorFragment = NewFactorFragment.getInstance(this);
         FragmentManager f = getSupportFragmentManager();
         newFactorFragment.show(f, "TAG");
+    }
+
+    public void showRemoveFactorDialog(){
+        RemoveFactorFragment removeFactorFragment = RemoveFactorFragment.getInstance(this);
+        FragmentManager f = getSupportFragmentManager();
+        removeFactorFragment.show(f, "TAG");
     }
 
     public void showDetailDay(DateTime date){

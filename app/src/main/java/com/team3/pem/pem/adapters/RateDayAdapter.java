@@ -85,7 +85,7 @@ public class RateDayAdapter extends ArrayAdapter {
 
             GradientDrawable gd = (GradientDrawable) rateViews[i].getBackground();
             gd.setColor(newRow.getResources().getColor(colors[i]));
-            gd.setStroke(1, activity.getResources().getColor(R.color.transparent));
+            gd.setStroke(2, activity.getResources().getColor(R.color.transparent));
             rateViews[i].setOnClickListener(
                     new RateViewOnClickListener(rateViews[i],rateViews,position,i));
         }
@@ -99,7 +99,7 @@ public class RateDayAdapter extends ArrayAdapter {
         }
 
         GradientDrawable gd = (GradientDrawable) rateViews[(rating == 0) ? 0 : (rating-1)].getBackground();
-        gd.setStroke(7, activity.getResources().getColor(R.color.black));
+        gd.setStroke(5, activity.getResources().getColor(R.color.black));
         activity.selectedColor.put(getItem(position), rating);
         return newRow;
     }
