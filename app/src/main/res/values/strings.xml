@@ -32,6 +32,10 @@
 
     <!-- Rate day activity -->
     <string name="title_activity_rate_day">RateDayActivity</string>
+    <string name="rateDay">Tag bewerten</string>
+    <string name="saveDay">Speichern</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="editNote">Notiz eingeben</string>
 
     <!-- New Factor activity -->
     <string name="title_activity_new_factor">NewFactorActivity</string>

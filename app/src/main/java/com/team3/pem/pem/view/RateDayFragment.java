@@ -64,6 +64,8 @@ public class RateDayFragment extends DialogFragment {
         });
 
         Button saveDay = (Button) view.findViewById(R.id.saveDay);
+        Button cancel = (Button) view.findViewById(R.id.cancel_action);
+
         final EditText editText = (EditText) view.findViewById(R.id.editNote);
         DayEntry entry = mDBHelper.getDatabaseEntriesDay(mDBHelper.getFactorList(), date.getDay(), date.getMonth(), date.getYear());
         if (entry != null)
@@ -78,6 +80,12 @@ public class RateDayFragment extends DialogFragment {
             }
         });
 
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RateDayFragment.this.dismiss();
+            }
+        });
         return view;
     }
 
