@@ -43,8 +43,7 @@
                 android:value=".activities.MainActivity" />
         </activity>
 
-        <receiver
-            android:name=".utili.NotifyService"
+        <receiver android:name=".utili.NotifyService"
             android:exported="true" >
             <intent-filter>
                 <action android:name="com.team3.pem.pem.ActionSetter" >
@@ -54,7 +53,7 @@
         <receiver android:name=".utili.NotifyBootService"
             android:enabled="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
     </application>

@@ -22,17 +22,17 @@
     <color name="green4">#42FF46</color>
     <color name="green5">#00FF00</color>
 
-    <color name="blue1">#b8bef0</color>
-    <color name="blue2">#ff8f94f0</color>
-    <color name="blue3">#ff5a61f0</color>
-    <color name="blue4">#3a44f0</color>
-    <color name="blue5">#000ff0</color>
+    <color name="blue1">#d2cbf0</color>
+    <color name="blue2">#abacff</color>
+    <color name="blue3">#7a7ff0</color>
+    <color name="blue4">#6460f4</color>
+    <color name="blue5">#001cf0</color>
 
-    <color name="yellow1">#f6ffb6</color>
-    <color name="yellow2">#feff7b</color>
-    <color name="yellow3">#fff858</color>
-    <color name="yellow4">#fff32c</color>
-    <color name="yellow5">#fff000</color>
+    <color name="yellow1">#fff9d8</color>
+    <color name="yellow2">#feffb0</color>
+    <color name="yellow3">#fff585</color>
+    <color name="yellow4">#fffa49</color>
+    <color name="yellow5">#fffb00</color>
 
     <color name="red1">#b49598</color>
     <color name="red2">#b47a7d</color>
@@ -40,16 +40,16 @@
     <color name="red4">#b43d3e</color>
     <color name="red5">#B40404</color>
 
-    <color name="violette1">#ae91b1</color>
-    <color name="violette2">#9c60b1</color>
-    <color name="violette3">#9a44b1</color>
-    <color name="violette4">#8e27b1</color>
-    <color name="violette5">#8904B1</color>
+    <color name="violette1">#b19bb1</color>
+    <color name="violette2">#ae78b1</color>
+    <color name="violette3">#ad5fb1</color>
+    <color name="violette4">#b13fb1</color>
+    <color name="violette5">#b100b0</color>
 
-    <color name="brown1">#8a7b80</color>
+    <color name="brown1">#8a7f83</color>
     <color name="brown2">#8a7569</color>
-    <color name="brown3">#8a6644</color>
-    <color name="brown4">#8a5625</color>
-    <color name="brown5">#8A4B08</color>
+    <color name="brown3">#8a6e50</color>
+    <color name="brown4">#8a7139</color>
+    <color name="brown5">#8a5200</color>
 
 </resources>

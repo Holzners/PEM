@@ -3,22 +3,17 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <TableRow
-            android:id="@+id/switch_row"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content">
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/reminderSwitch"
+        android:textSize="20sp"
+        android:checked="false"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/reminderSwitch"
-                android:textSize="20sp"
-                android:paddingRight="10sp"
-                android:paddingLeft="10sp"
-                android:checked="false" />
-        </TableRow>
-
-        <TableRow
+    <TableRow
             android:layout_height="wrap_content"
             android:layout_width="wrap_content">
 

@@ -1,18 +1,21 @@
 package com.team3.pem.pem.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.team3.pem.pem.R;
+import com.team3.pem.pem.adapters.RemindersAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.ReminderModel;
-import com.team3.pem.pem.adapters.RemindersAdapter;
 
 import java.util.List;
 
@@ -21,8 +24,7 @@ public class NotificationsActivity extends ActionBarActivity {
 
     FeedReaderDBHelper dbHelper;
     List<ReminderModel> reminders;
-    Button new_reminder;
-    EditText reminderBezeichnung;
+    FloatingActionButton new_reminder;
     ListView listView;
 
     @Override
@@ -34,8 +36,7 @@ public class NotificationsActivity extends ActionBarActivity {
         reminders = dbHelper.getAllReminders();
 
         listView = (ListView) findViewById(R.id.list_reminders);
-        new_reminder = (Button) findViewById(R.id.create_reminder);
-        reminderBezeichnung = (EditText) findViewById(R.id.reminder_bezeichnung);
+        new_reminder = (FloatingActionButton) findViewById(R.id.newReminder);
 
         final RemindersAdapter adapter = new RemindersAdapter(this, R.layout.reminders_list_layout, reminders);
         listView.setAdapter(adapter);
@@ -43,13 +44,39 @@ public class NotificationsActivity extends ActionBarActivity {
         new_reminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ReminderModel reminderModel = new ReminderModel(reminders.size(), reminders.size(), "08:00", reminderBezeichnung.getText().toString(),
-                                                                false, new boolean[]{false, false, false, false, false, false, false});
-                dbHelper.saveReminder(reminderModel);
-                reminders = dbHelper.getAllReminders();
-                adapter.clear();
-                adapter.addAll(reminders);
-                adapter.notifyDataSetChanged();
+                LayoutInflater li = LayoutInflater.from(NotificationsActivity.this);
+                View promptsView = li.inflate(R.layout.new_reminder_layout, null);
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        NotificationsActivity.this);
+
+                alertDialogBuilder.setView(promptsView);
+
+                final EditText userInput = (EditText) promptsView
+                        .findViewById(R.id.newReminderField);
+
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        ReminderModel reminderModel = new ReminderModel(reminders.size(), reminders.size(), "08:00", userInput.getText().toString(),
+                                                false, new boolean[]{false, false, false, false, false, false, false});
+                                        dbHelper.saveReminder(reminderModel);
+                                        reminders = dbHelper.getAllReminders();
+                                        adapter.clear();
+                                        adapter.addAll(reminders);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
     }
