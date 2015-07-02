@@ -134,7 +134,7 @@ public class NewFactorFragment extends DialogFragment {
             this.dismiss();
             context.showRateDayPopup(DateTime.today(TimeZone.getDefault()));
         } else {
-            Toast.makeText(context, "No Input!", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, getResources().getString(R.string.noInput), Toast.LENGTH_LONG).show();
         }
     }
 

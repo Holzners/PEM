@@ -94,7 +94,7 @@ public class NotificationsActivity extends ActionBarActivity {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         NotificationsActivity.this);
 
-                alertDialogBuilder.setPositiveButton("ok", null);
+                alertDialogBuilder.setPositiveButton(getResources().getString(R.string.ok), null);
                 alertDialogBuilder.setView(promptsView);
 
                 final EditText userInput = (EditText) promptsView
@@ -102,12 +102,12 @@ public class NotificationsActivity extends ActionBarActivity {
 
                 alertDialogBuilder
                         .setCancelable(false)
-                        .setPositiveButton("OK",
+                        .setPositiveButton(getResources().getString(R.string.ok),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
                                     }
                                 })
-                        .setNegativeButton("Cancel",
+                        .setNegativeButton(getResources().getString(R.string.cancel),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
@@ -123,7 +123,7 @@ public class NotificationsActivity extends ActionBarActivity {
                             @Override
                             public void onClick(View view) {
                                 if (userInput.getText().toString().equals("")){
-                                    Toast.makeText(NotificationsActivity.this, "No User Input", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(NotificationsActivity.this, getResources().getString(R.string.noUserInput), Toast.LENGTH_LONG).show();
                                     return;
                                 }
                                 int alarmID = 0;

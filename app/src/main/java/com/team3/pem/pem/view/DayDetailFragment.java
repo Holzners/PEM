@@ -58,10 +58,10 @@ public class DayDetailFragment extends DialogFragment {
         DayEntry entry =  mDBHelper.getDatabaseEntriesDay(mDBHelper.getFactorList(), selectedDate.getDay() , selectedDate.getMonth() ,selectedDate.getYear());
         if (entry != null) {
             ratings = entry.ratings;
-            descriptionDay.setText("Beschreibung: \n "+ entry.description);
+            descriptionDay.setText(getResources().getString(R.string.description) + "\n "+ entry.description);
         }
         String s = mDBHelper.getWeatherData(selectedDate);
-        if(s != null && !s.equals("")) weatherText.setText("Wetter: \n "+ s);
+        if(s != null && !s.equals("")) weatherText.setText(getResources().getString(R.string.weather) + "\n "+ s);
         adapter = new DayDetailAdapter(getActivity(),0,ratings);
         ListView lv= (ListView) view.findViewById(R.id.list);
         lv.setAdapter(adapter);

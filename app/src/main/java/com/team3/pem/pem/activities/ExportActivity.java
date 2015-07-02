@@ -93,13 +93,13 @@ public class ExportActivity extends ActionBarActivity {
                         email.putExtra(Intent.EXTRA_STREAM, uri);
 
                         email.setType("message/rfc822");
-                        startActivity(Intent.createChooser(email, "Choose an email client!"));
+                        startActivity(Intent.createChooser(email, getResources().getString(R.string.emailClient)));
 
                     } else {
 
                     }
                 } catch (IOException | DocumentException e) {
-                    Toast.makeText(getApplicationContext(), "Could not create pdf file", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.pdfFailed), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -164,7 +164,7 @@ public class ExportActivity extends ActionBarActivity {
         final String filePath = Environment.getExternalStorageDirectory().getPath() + "/" + name + ".pdf";
         file = new File(filePath);
         if (file.exists()) {
-            Toast.makeText(getApplicationContext(), "The file already exists", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.pdfExists), Toast.LENGTH_LONG).show();
             return false;
         }else{
             file.createNewFile();
@@ -184,7 +184,7 @@ public class ExportActivity extends ActionBarActivity {
                                 document.newPage();
                             }
                             document.close();
-                            Toast.makeText(getApplicationContext(), filePath + " created", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), filePath + getResources().getString(R.string.created), Toast.LENGTH_SHORT).show();
                             exportButton.setVisibility(View.VISIBLE);
                             loadingText.setVisibility(View.GONE);
                         }catch(FileNotFoundException | DocumentException e) {
@@ -206,13 +206,13 @@ public class ExportActivity extends ActionBarActivity {
         table.getDefaultCell().setUseDescender(true);
         table.getDefaultCell().setBackgroundColor(BaseColor.ORANGE);
         table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell("Datum");
+        table.addCell(getResources().getString(R.string.date));
         PdfPCell cellHead = new PdfPCell(new Phrase(symptom));
         cellHead.setBackgroundColor(BaseColor.ORANGE);
         cellHead.setHorizontalAlignment(Element.ALIGN_CENTER);
         cellHead.setColspan(2);
         table.addCell(cellHead);
-        table.addCell("Notiz");
+        table.addCell(getResources().getString(R.string.note));
         //Zeilen aus DB einfuegen
         List<String> list = new ArrayList<String>();
         list.add(symptom);
@@ -231,27 +231,7 @@ public class ExportActivity extends ActionBarActivity {
             cell.setBackgroundColor(WebColors.getRGBColor(hexColor));
             table.addCell(cell);
 
-            String staerke = "";
-            switch(ratings.get(symptom).toString()){
-                case "0":
-                    staerke = "Nicht definiert";
-                    break;
-                case "1":
-                    staerke = "Sehr gut";
-                    break;
-                case "2":
-                    staerke = "Gut";
-                    break;
-                case "3":
-                    staerke = "In Ordnung";
-                    break;
-                case "4":
-                    staerke = "Schlecht";
-                    break;
-                case "5":
-                    staerke = "Sehr Schlecht";
-                    break;
-            }
+            String staerke = getResources().getStringArray(R.array.rating)[ratings.get(symptom)];
             table.addCell(staerke);
             table.addCell(entry.getValue().description);
         }

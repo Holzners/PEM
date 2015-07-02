@@ -1,6 +1,9 @@
 <resources>
+    <string name="ok">Ok</string>
+    <string name="cancel">Abbrechen</string>
+
     <string name="app_name">PEM</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Einstellungen</string>
     <string name="action_export">Export</string>
     <string name="action_notifications">Erinnerungen</string>
     <string name="action_rate_day">Tag bewerten</string>
@@ -26,6 +29,20 @@
     <string name="title_activity_export">ExportActivity</string>
     <string name="label_activity_export">Export</string>
     <string name="loading">Exportiert Symptome ...</string>
+    <string name="emailClient">Wähle einen Email Client!</string>
+    <string name="pdfFailed">Konnte kein PDF erstellen.</string>
+    <string name="pdfExists">PDF existiert bereits.</string>
+    <string name="created"> wurde erstellt.</string>
+    <string name="date">Datum</string>
+    <string name="note">Notiz</string>
+    <string-array name="rating">
+        <item>Nicht definiert</item>
+        <item>Sehr gut</item>
+        <item>Gut</item>
+        <item>In Ordnung</item>
+        <item>Schlecht</item>
+        <item>Sehr schlecht</item>
+    </string-array>
 
     <!-- Erinnerungen activity -->
     <string name="title_activity_notifications">Erinnerungen</string>
@@ -34,25 +51,33 @@
     <string name="title_activity_rate_day">RateDayActivity</string>
     <string name="rateDay">Tag bewerten</string>
     <string name="saveDay">Speichern</string>
-    <string name="cancel">Abbrechen</string>
     <string name="editNote">Notiz eingeben</string>
 
     <!-- New Factor activity -->
     <string name="title_activity_new_factor">NewFactorActivity</string>
-    <string name="to_many_symptoms">Du hast die maximale Anzahl an Symptomen erreicht, es muss erst ein altes entfernt werden!</string>
+    <string name="too_many_symptoms">Du hast die maximale Anzahl an Symptomen erreicht, es muss erst ein altes entfernt werden!</string>
 
     <!-- Notifications activity -->
-    <string name="mo">Mo</string>
-    <string name="di">Di</string>
-    <string name="mi">Mi</string>
-    <string name="don">Do</string>
-    <string name="fr">Fr</string>
-    <string name="sa">Sa</string>
-    <string name="so">So</string>
+    <string name="mo">MO</string>
+    <string name="di">DI</string>
+    <string name="mi">MI</string>
+    <string name="don">DO</string>
+    <string name="fr">FR</string>
+    <string name="sa">SA</string>
+    <string name="so">SO</string>
     <string name="zeit">00:00</string>
     <string name="title_activity_reminder">ReminderActivity</string>
+    <string name="noUserInput">Keine User Eingabe</string>
 
     <!--open Weather API -->
     <string name="open_weather_maps_api_key">04f4e274ef4930db6350758fd3c9556a</string>
     <string name="last_weather_update_key">last Weather Update</string>
+    <string name="weatherFail">Weather fetching failed</string>
+
+    <!--Day detail fragment-->
+    <string name="description">Beschreibung: </string>
+    <string name="weather">Wetter: </string>
+
+    <!--New Factor Fragment -->
+    <string name="noInput">No Input</string>
 </resources>

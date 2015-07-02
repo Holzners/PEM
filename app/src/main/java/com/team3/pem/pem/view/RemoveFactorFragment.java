@@ -10,30 +10,24 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.activities.MainActivity;
-import com.team3.pem.pem.adapters.RemoveFactorAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.ColorsToPick;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.TimeZone;
-
-import hirondelle.date4j.DateTime;
 
 /**
  * Created by olli on 7/2/15.
  */
 public class RemoveFactorFragment extends DialogFragment {
-    TextView toManySymptomsText;
+    TextView tooManySymptomsText;
     FloatingActionButton FAB;
     FeedReaderDBHelper mDBHelper;
     Spinner colorSpinner;
@@ -62,13 +56,13 @@ public class RemoveFactorFragment extends DialogFragment {
 
         mDBHelper = FeedReaderDBHelper.getInstance();
         FAB = (FloatingActionButton) view.findViewById(R.id.FAB);
-        toManySymptomsText = (TextView) view.findViewById(R.id.toManySymptomsText);
-        toManySymptomsText.setVisibility(View.INVISIBLE);
+        tooManySymptomsText = (TextView) view.findViewById(R.id.toManySymptomsText);
+        tooManySymptomsText.setVisibility(View.INVISIBLE);
 
         HashMap<String, String> factorEntries = mDBHelper.getFactorsFromDatabase();
 
         if (factorEntries.size() == ColorsToPick.values().length) {
-            toManySymptomsText.setVisibility(View.VISIBLE);
+            tooManySymptomsText.setVisibility(View.VISIBLE);
             FAB.setEnabled(false);
         } else {
             List<String> colors = new ArrayList<>();
@@ -90,7 +84,6 @@ public class RemoveFactorFragment extends DialogFragment {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     selectedColor = parent.getItemAtPosition(position).toString();
-
                 }
 
                 @Override
@@ -109,9 +102,6 @@ public class RemoveFactorFragment extends DialogFragment {
 
         return view;
     }
-
-
-
 
     public void saveFactor() {
             Toast.makeText(context, "Not Implemented Yet!", Toast.LENGTH_LONG).show();

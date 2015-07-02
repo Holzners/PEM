@@ -174,7 +174,7 @@ public class MainActivity extends ActionBarActivity{
                 if(json == null){
                     handler.post(new Runnable(){
                         public void run(){
-                            Toast.makeText(MainActivity.this,"Weather fetching failed",
+                            Toast.makeText(MainActivity.this,getResources().getString(R.string.weatherFail),
                                      Toast.LENGTH_LONG).show();
                         }
                     });
@@ -222,7 +222,6 @@ public class MainActivity extends ActionBarActivity{
         RateDayFragment rateDayFragment = RateDayFragment.getInstance(today, this);
         FragmentManager f = getSupportFragmentManager();
         rateDayFragment.show(f, "TAG");
-
     }
 
     public void showNewFactorDialog(){
