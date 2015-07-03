@@ -77,12 +77,13 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
                 params.width = displayWidth/7-5;
                 rowViews[k].setLayoutParams(params);
                 final int finalK = k;
-                rowViews[k].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        context.showDetailDay(firstDayOfSelectedWeek.plusDays(finalK));
-                    }
-                });
+                if(k > 0)
+                    rowViews[k].setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            context.showDetailDay(firstDayOfSelectedWeek.plusDays(finalK));
+                        }
+                    });
             }
 
         }else {
