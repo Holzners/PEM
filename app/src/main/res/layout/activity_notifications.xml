@@ -14,4 +14,15 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true" />
 
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="android.support.design.widget.FloatingActionButton"
+        android:id="@+id/newReminder"
+        android:src="@drawable/ic_action_new"
+        android:layout_gravity="right|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/list_reminders"
+        android:layout_alignEnd="@+id/list_reminders" />
+
 </RelativeLayout>
