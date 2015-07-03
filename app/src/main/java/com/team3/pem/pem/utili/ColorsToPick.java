@@ -50,11 +50,13 @@ public enum ColorsToPick {
     }
 
     public static ColorsToPick getColorByString(String color) {
-        if (color.equalsIgnoreCase(GREEN.name())) return GREEN;
-        else if (color.equalsIgnoreCase(RED.name())) return RED;
-        else if (color.equalsIgnoreCase(BLUE.name())) return BLUE;
-        else if (color.equalsIgnoreCase(YELLOW.name())) return YELLOW;
-        else if (color.equalsIgnoreCase(BROWN.name())) return BROWN;
+        if (color!= null){
+            if (color.equalsIgnoreCase(GREEN.name())) return GREEN;
+            else if (color.equalsIgnoreCase(RED.name())) return RED;
+            else if (color.equalsIgnoreCase(BLUE.name())) return BLUE;
+            else if (color.equalsIgnoreCase(YELLOW.name())) return YELLOW;
+            else if (color.equalsIgnoreCase(BROWN.name())) return BROWN;
+        }
         return VIOLETTE;
     }
 
