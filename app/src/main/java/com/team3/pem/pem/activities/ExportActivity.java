@@ -80,6 +80,10 @@ public class ExportActivity extends ActionBarActivity {
         exportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(enabledSymptoms.isEmpty()){
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.noSymptom), Toast.LENGTH_LONG).show();
+                    return;
+                }
                 exportButton.setVisibility(View.INVISIBLE);
                 loadingText.setVisibility(View.VISIBLE);
                 final String filename = nameField.getText().toString();

@@ -49,6 +49,7 @@
     <string name="exportAll">Alle exportieren</string>
     <string name="mail">Per Mail versenden</string>
     <string name="skala">Gesundheitsskala: Sehr schlecht - Schlecht - In Ordnung - Gut - Sehr gut</string>
+    <string name="noSymptom">Kein Symptom ausgewählt</string>
 
     <!-- Erinnerungen activity -->
     <string name="title_activity_notifications">Erinnerungen</string>
