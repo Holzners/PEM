@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/switch1"
         android:clickable="true"
-        android:checked="true"
+        android:checked="false"
         android:switchMinWidth="10sp"
         android:switchPadding="10sp"
         android:layout_alignParentBottom="false"

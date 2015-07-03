@@ -35,6 +35,7 @@
     <string name="created"> wurde erstellt.</string>
     <string name="date">Datum</string>
     <string name="note">Notiz</string>
+    <string name="weatherPDF">Wetter</string>
     <string-array name="rating">
         <item>Nicht definiert</item>
         <item>Sehr gut</item>
@@ -47,6 +48,7 @@
     <string name="export">Exportieren</string>
     <string name="exportAll">Alle exportieren</string>
     <string name="mail">Per Mail versenden</string>
+    <string name="skala">Gesundheitsskala: Sehr schlecht - Schlecht - In Ordnung - Gut - Sehr gut</string>
 
     <!-- Erinnerungen activity -->
     <string name="title_activity_notifications">Erinnerungen</string>

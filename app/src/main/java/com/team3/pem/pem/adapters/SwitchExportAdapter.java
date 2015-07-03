@@ -49,10 +49,19 @@ public class SwitchExportAdapter extends ArrayAdapter<String>{
 
         Switch mSwitch = (Switch) newView.findViewById(R.id.switch1);
         mSwitch.setText(factors.get(position));
-        if(context.allChecked)
+        if(context.allChecked) {
             mSwitch.setChecked(true);
-        else
-            mSwitch.setChecked(false);
+        }
+        else {
+            for(String enabled : context.enabledSymptoms) {
+                if(mSwitch.getText().toString().equals(enabled)) {
+                    mSwitch.setChecked(true);
+                    break;
+                }
+                else
+                    mSwitch.setChecked(false);
+            }
+        }
 
         mSwitch.setOnCheckedChangeListener(new SwitchOnCheckedChangedListener(factors.get(position)));
         return newView;

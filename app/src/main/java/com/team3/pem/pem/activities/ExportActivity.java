@@ -55,7 +55,7 @@ public class ExportActivity extends ActionBarActivity {
     public boolean allChecked = false;
     File file;
     FeedReaderDBHelper dbHelper;
-    List<String> enabledSymptoms;
+    public List<String> enabledSymptoms;
     ListView listView;
     TextView loadingText;
 
@@ -94,12 +94,11 @@ public class ExportActivity extends ActionBarActivity {
 
                         email.setType("message/rfc822");
                         startActivity(Intent.createChooser(email, getResources().getString(R.string.emailClient)));
-
-                    } else {
-
                     }
                 } catch (IOException | DocumentException e) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.pdfFailed), Toast.LENGTH_SHORT).show();
+                    exportButton.setVisibility(View.VISIBLE);
+                    loadingText.setVisibility(View.GONE);
                 }
             }
         });
@@ -165,6 +164,8 @@ public class ExportActivity extends ActionBarActivity {
         file = new File(filePath);
         if (file.exists()) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.pdfExists), Toast.LENGTH_LONG).show();
+            exportButton.setVisibility(View.VISIBLE);
+            loadingText.setVisibility(View.GONE);
             return false;
         }else{
             file.createNewFile();
@@ -198,7 +199,7 @@ public class ExportActivity extends ActionBarActivity {
     }
 
     private PdfPTable getTable(String symptom){
-        PdfPTable table = new PdfPTable(new float[] {2, 2, 2, 5});
+        PdfPTable table = new PdfPTable(new float[] {2, 1, 2, 4, 4});
         table.setWidthPercentage(100f);
         //Header
         table.getDefaultCell().setPadding(3);
@@ -206,13 +207,16 @@ public class ExportActivity extends ActionBarActivity {
         table.getDefaultCell().setUseDescender(true);
         table.getDefaultCell().setBackgroundColor(BaseColor.ORANGE);
         table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.getDefaultCell().setBorderColor(BaseColor.WHITE);
         table.addCell(getResources().getString(R.string.date));
         PdfPCell cellHead = new PdfPCell(new Phrase(symptom));
+        cellHead.setBorderColor(BaseColor.WHITE);
         cellHead.setBackgroundColor(BaseColor.ORANGE);
         cellHead.setHorizontalAlignment(Element.ALIGN_CENTER);
         cellHead.setColspan(2);
         table.addCell(cellHead);
         table.addCell(getResources().getString(R.string.note));
+        table.addCell(getResources().getString(R.string.weatherPDF));
         //Zeilen aus DB einfuegen
         List<String> list = new ArrayList<String>();
         list.add(symptom);
@@ -228,13 +232,29 @@ public class ExportActivity extends ActionBarActivity {
             int colorID = RatingToColorHelper.ratingToColor(symptom, ratings.get(symptom).intValue());
             String hexColor =  String.format("#%06X", (0xFFFFFF & getResources().getColor(colorID)));
 
+            cell.setBorderColor(BaseColor.WHITE);
             cell.setBackgroundColor(WebColors.getRGBColor(hexColor));
             table.addCell(cell);
 
             String staerke = getResources().getStringArray(R.array.rating)[ratings.get(symptom)];
             table.addCell(staerke);
             table.addCell(entry.getValue().description);
+            String getWeatherData = dbHelper.getWeatherData(entry.getKey());
+            if(!getWeatherData.equals("")){
+                String[] splitWeather = getWeatherData.split("\n");
+                table.addCell(splitWeather[0] + ", " + splitWeather[1] + ", " + splitWeather[4] + " °C");
+            }else{
+                table.addCell("Keine Angabe");
+            }
         }
+
+        //Legend
+        PdfPCell cellLegend = new PdfPCell(new Phrase(getResources().getString(R.string.skala)));
+        cellLegend.setBorderColor(BaseColor.WHITE);
+        cellLegend.setColspan(4);
+        cellLegend.setPaddingTop(30);
+        table.addCell(cellLegend);
+
 
         return table;
     }

@@ -614,7 +614,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
                 null
         );
         cursor.moveToFirst();
-        String result =  (cursor.getCount() < 0) ? cursor.getString(0): "";
+        String result =  (cursor.getCount() > 0) ? cursor.getString(0): "";
         cursor.close();
         return result;
     }
