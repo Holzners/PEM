@@ -70,8 +70,9 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
         if(position == 0){
             for(int k = 0 ; k <rowViews.length; k++){
                 rowViews[k].setText(context.getResources().getStringArray(R.array.days)[k]);
+                rowViews[k].setTextColor(newRow.getResources().getColor(R.color.caldroid_gray));
                 GradientDrawable gd = (GradientDrawable) rowViews[k].getBackground();
-                gd.setColor(newRow.getResources().getColor(R.color.caldroid_lighter_gray));
+                gd.setColor(newRow.getResources().getColor(R.color.transparent));
                 ViewGroup.LayoutParams params = rowViews[k].getLayoutParams();
                 params.height = displayWidth/7-5;
                 params.width = displayWidth/7-5;

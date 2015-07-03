@@ -4,9 +4,9 @@
     <color name="transparent">#00000000</color>
     <color name="black">#000000</color>
 
-    <color name= "primaryColor">#212121</color> <!-- #30359F -->
-    <color name= "primaryColorDark">#111111</color> <!-- #30359F -->
-    <color name= "accentColor">#bdbdbd</color> <!-- #ffaf4374 -->
+    <color name= "primaryColor">#37474f</color> <!-- #30359F #212121-->
+    <color name= "primaryColorDark">#263238</color> <!-- #30359F #111111-->
+    <color name= "accentColor">#b0bec5</color> <!-- #ffaf4374 #bdbdbd-->
     <color name= "tabsScrollColor">#FFFFFF</color>
 
     <color name="green1">#c8e6c9</color><!--#cbffc8</color>-->

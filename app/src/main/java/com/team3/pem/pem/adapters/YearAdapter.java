@@ -73,8 +73,9 @@ public class YearAdapter extends ArrayAdapter {
             textViews[i].setBackgroundResource(R.drawable.border);
             if(position == 0){
                 GradientDrawable gd = (GradientDrawable)  textViews[i].getBackground();
-                gd.setColor(activity.getResources().getColor(R.color.caldroid_lighter_gray));
+                gd.setColor(activity.getResources().getColor(R.color.transparent));
                 textViews[i].setText(i + 1 + "");
+                textViews[i].setTextColor(activity.getResources().getColor(R.color.caldroid_gray));
                 textViews[i].setGravity(Gravity.CENTER);
             }else{
                 GradientDrawable gd = (GradientDrawable) textViews[i].getBackground();
