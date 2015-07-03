@@ -7,24 +7,23 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.activities.MainActivity;
 import com.team3.pem.pem.adapters.WeekViewAdapter;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class WeekFragment extends ListFragment{
 
     private int year;
     private int calenderWeek;
     WeekViewAdapter adapter;
-    Spinner weekPicker;
+//    Spinner weekPicker;
+    private ImageButton previous, next;
+    private TextView week;
 
     public WeekFragment() {
         init();
@@ -53,49 +52,79 @@ public class WeekFragment extends ListFragment{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        weekPicker = (Spinner) getView().findViewById(R.id.spinner);
-        List<Integer> weeks = new ArrayList<>();
-        for(int i = 1 ; i <= 52 ; i++){
-            weeks.add(i);
-        }
-        ArrayAdapter<Integer> spinnerAdapter = new ArrayAdapter(getActivity(),
-                android.R.layout.simple_spinner_item,weeks);
 
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        weekPicker.setAdapter(spinnerAdapter);
-        weekPicker.setSelection(calenderWeek - 1);
-        weekPicker.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if (position + 1 < calenderWeek) {
-                            previousWeek(calenderWeek - position - 1);
-                            calenderWeek = position + 1;
-                        } else if (position + 1 > calenderWeek) {
-                            nextWeek(position + 1 -calenderWeek);
-                            calenderWeek = position + 1;
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
 
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         int displayWidth = display.getWidth();
         adapter = new WeekViewAdapter((MainActivity)getActivity(),0, displayWidth);
         setListAdapter(adapter);
+
+        week = (TextView) getView().findViewById(R.id.week);
+        // TODO richtiges Format DD.-DD.MM.YYYY
+        // TODO Datum checken
+//        String firstDayOfSelectedWeek = String.valueOf(adapter.getFirstDayOfSelectedWeek());
+//        week.setText("Ab" + String.valueOf(firstDayOfSelectedWeek));
+        week.setText(String.valueOf(calenderWeek));
+
+        previous = (ImageButton) getView().findViewById(R.id.previousWeek);
+        next = (ImageButton) getView().findViewById(R.id.nextWeek);
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                previousWeek(calenderWeek);
+                week.setText(String.valueOf(calenderWeek));
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextWeek(calenderWeek);
+                week.setText(String.valueOf(calenderWeek));
+            }
+        });
+
+//        weekPicker = (Spinner) getView().findViewById(R.id.spinner);
+//        List<Integer> weeks = new ArrayList<>();
+//        for(int i = 1 ; i <= 52 ; i++){
+//            weeks.add(i);
+//        }
+//        ArrayAdapter<Integer> spinnerAdapter = new ArrayAdapter(getActivity(),
+//                android.R.layout.simple_spinner_item,weeks);
+//
+//        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        weekPicker.setAdapter(spinnerAdapter);
+//        weekPicker.setSelection(calenderWeek - 1);
+//        weekPicker.setOnItemSelectedListener(
+//                new AdapterView.OnItemSelectedListener() {
+//                    @Override
+//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                        if (position + 1 < calenderWeek) {
+//                            previousWeek(calenderWeek - position - 1);
+//                            calenderWeek = position + 1;
+//                        } else if (position + 1 > calenderWeek) {
+//                            nextWeek(position + 1 -calenderWeek);
+//                            calenderWeek = position + 1;
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onNothingSelected(AdapterView<?> parent) {
+//
+//                    }
+//                });
+
+
     }
 
 
     public void nextWeek(int weeks){
+        calenderWeek += 1;
         adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().plusDays(7*weeks));
         adapter.notifyDataSetChanged();
     }
 
     public void previousWeek(int weeks){
+        calenderWeek -= 1;
         adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().minusDays(7 * weeks));
         adapter.notifyDataSetChanged();
     }

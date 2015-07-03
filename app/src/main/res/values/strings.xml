@@ -3,7 +3,7 @@
     <string name="cancel">Abbrechen</string>
     <string name="save">Speichern</string>
 
-    <string name="app_name">MedicalJournal</string>
+    <string name="app_name">Medical Journal</string>
     <string name="action_settings">Einstellungen</string>
     <string name="action_export">Export</string>
     <string name="action_notifications">Erinnerungen</string>
