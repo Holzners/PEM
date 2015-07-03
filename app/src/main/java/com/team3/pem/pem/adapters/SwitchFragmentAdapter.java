@@ -2,6 +2,7 @@ package com.team3.pem.pem.adapters;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,10 +54,11 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
         mSwitch.setChecked(mDBHelper.getFactorEnabledMap().get(getItem(position)));
         mSwitch.setOnCheckedChangeListener(new SwitchOnCheckedChangedListener(getItem(position)));
         String string = mDBHelper.getFactorColorMap().get(getItem(position));
-//        mSwitch.setThumbDrawable(context.get);
-//        mSwitch.setThumbDrawable(context.getDrawable(R.drawable.border));//getThumbDrawable().setColorFilter(context.getResources().getColor(R.color.yellow5), PorterDuff.Mode.MULTIPLY);
-//        mSwitch.setTrackDrawable(context.getDrawable(R.drawable.ic_action_discard));
-//        mSwitch.getThumbDrawable().setTint(context.getResources().getColor(R.color.yellow5));
+//        int color = RatingToColorHelper().ratingToColor(string, 3);
+//        mSwitch.getThumbDrawable().setTint(context.getResources().getColor(R.color.violette3));
+        mSwitch.getThumbDrawable().setColorFilter(context.getResources().getColor(R.color.black), PorterDuff.Mode.MULTIPLY);
+//        mSwitch.setThumbDrawable(context.getDrawable(R.drawable.abc_btn_radio_material));
+
         return newView;
     }
 
