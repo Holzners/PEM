@@ -32,7 +32,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginStart="25dp"
         android:layout_marginBottom="25dp"
-        android:textColor="#ff0f5cff"
+        android:textColor="@color/accent_material_light"
         android:background="#00ffffff" />
 
     <view

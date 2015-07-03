@@ -46,8 +46,7 @@
     <string name="inputFileName">Dateiname eingeben</string>
     <string name="export">Exportieren</string>
     <string name="exportAll">Alle exportieren</string>
-    <string name="fileName">Dateiname: </string>
-    <string name="mail">Send via Mail</string>
+    <string name="mail">Per Mail versenden</string>
 
     <!-- Erinnerungen activity -->
     <string name="title_activity_notifications">Erinnerungen</string>
