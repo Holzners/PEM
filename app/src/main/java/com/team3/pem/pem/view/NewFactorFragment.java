@@ -139,7 +139,7 @@ public class NewFactorFragment extends DialogFragment {
     }
 
     public void removeFactor(){
-        context.showRemoveFactorDialog();
+        this.dismiss();
     }
 
 
