@@ -45,7 +45,7 @@ public class SwitchExportAdapter extends ArrayAdapter<String>{
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View newView = inflater.inflate(R.layout.switch_row_layout, null);
+        View newView = inflater.inflate(R.layout.row_switch_layout, null);
 
         Switch mSwitch = (Switch) newView.findViewById(R.id.switch1);
         mSwitch.setText(factors.get(position));

@@ -73,7 +73,7 @@ public class ExportActivity extends ActionBarActivity {
         listView = (ListView) findViewById(R.id.symptomListView);
         loadingText = (TextView) findViewById(R.id.loadingText);
 
-        final SwitchExportAdapter adapter = new SwitchExportAdapter(this, R.layout.switch_row_layout, dbHelper.getFactors());
+        final SwitchExportAdapter adapter = new SwitchExportAdapter(this, R.layout.row_switch_layout, dbHelper.getFactors());
         listView.setAdapter(adapter);
         enabledSymptoms = new ArrayList<String>();
 

@@ -48,7 +48,7 @@ public class RateDayFragment extends DialogFragment {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
-        View view = inflater.inflate(R.layout.rate_day_dialog, container, false);
+        View view = inflater.inflate(R.layout.dialog_rate_day, container, false);
         ListView lv = (ListView) view.findViewById(R.id.list);
         RateDayAdapter adapter = new RateDayAdapter(context, R.layout.rate_day_layout, date);
         lv.setAdapter(adapter);

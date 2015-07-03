@@ -36,23 +36,21 @@ import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
 
-public class MainActivity extends ActionBarActivity{
+public class MainActivity extends ActionBarActivity {
 
     SwitchFragment switchFragment;
     FeedReaderDBHelper mDbHelper;
-
     Toolbar toolbar;
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
     String titles[];
-
-    int tabNumber =3;
-
+    int tabNumber = 3;
     static final int RATE_DAY_DIALOG = 0;
     public HashMap<String, Integer> selectedColor;
-
     DateTime date;
+    private View view;
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +67,9 @@ public class MainActivity extends ActionBarActivity{
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        // Save the menu reference
+        mMenu = menu;
+        return true; //super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -80,10 +80,13 @@ public class MainActivity extends ActionBarActivity{
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if(id == R.id.action_export){
+        if (id == R.id.action_export) {
             startActivity(new Intent(MainActivity.this, ExportActivity.class));
-        }else if(id == R.id.action_reminder){
+        } else if (id == R.id.action_reminder) {
             startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
+//        } else if (id == R.id.action_delete){
+//            // TODO removeFactor(); Liste aktualisieren
+//            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -131,13 +134,13 @@ public class MainActivity extends ActionBarActivity{
         if (!lastUpdate.equalsIgnoreCase(today)) {
             updateWeatherData();
         }
-       // if(pemDialogFragment != null) ((RateDayAdapter)pemDialogFragment.getListAdapter()).notifyDataSetChanged();
+        // if(pemDialogFragment != null) ((RateDayAdapter)pemDialogFragment.getListAdapter()).notifyDataSetChanged();
         updateSelectedColors();
 //        Log.d("Heutiges Wetter", mDbHelper.getWeatherData(DateTime.today(TimeZone.getDefault())));
     }
 
 
-    public void initSwitchFragment(){
+    public void initSwitchFragment() {
         this.switchFragment = new SwitchFragment();
         FragmentManager f = getSupportFragmentManager();
         FragmentTransaction t = f.beginTransaction();
@@ -147,45 +150,45 @@ public class MainActivity extends ActionBarActivity{
 
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         try {
             mDbHelper.getReadableDatabase().close();
             mDbHelper.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("Something went wrong", "While closing database");
         }
     }
 
-    public void switchSymptom(boolean isEnabled, String symptom){
+    public void switchSymptom(boolean isEnabled, String symptom) {
         mDbHelper.getFactorEnabledMap().put(symptom, isEnabled);
         refreshAdapters();
 
     }
 
 
-    private void updateWeatherData(){
+    private void updateWeatherData() {
         final Handler handler = new Handler();
 
-        new Thread(){
-            public void run(){
+        new Thread() {
+            public void run() {
                 final JSONObject json = RemoteWeatherFetcher.getJSON(MainActivity.this);
-                if(json == null){
-                    handler.post(new Runnable(){
-                        public void run(){
-                            Toast.makeText(MainActivity.this,getResources().getString(R.string.weatherFail),
-                                     Toast.LENGTH_LONG).show();
+                if (json == null) {
+                    handler.post(new Runnable() {
+                        public void run() {
+                            Toast.makeText(MainActivity.this, getResources().getString(R.string.weatherFail),
+                                    Toast.LENGTH_LONG).show();
                         }
                     });
                 } else {
-                    handler.post(new Runnable(){
-                        public void run(){
+                    handler.post(new Runnable() {
+                        public void run() {
                             String s = WeatherJSONRenderer.renderWeather(json);
                             DateTime today = DateTime.today(TimeZone.getDefault());
                             mDbHelper.saveWeatherDay(today, s);
                             SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putString(getString(R.string.last_weather_update_key), today+"");
+                            editor.putString(getString(R.string.last_weather_update_key), today + "");
                             editor.commit();
                         }
                     });
@@ -194,58 +197,77 @@ public class MainActivity extends ActionBarActivity{
         }.start();
     }
 
-    public void goToMonth(int month , int year, String factor){
+    public void goToMonth(int month, int year, String factor) {
 
-        if(!factor.equals("")){
-            for(Map.Entry<String, Boolean> e : mDbHelper.getFactorEnabledMap().entrySet()){
-                if(e.getKey().equals(factor)) e.setValue(true);
+        if (!factor.equals("")) {
+            for (Map.Entry<String, Boolean> e : mDbHelper.getFactorEnabledMap().entrySet()) {
+                if (e.getKey().equals(factor)) e.setValue(true);
                 else e.setValue(false);
             }
         }
         adapter.goToMonth(month, year);
         pager.setCurrentItem(1);
     }
-    private void updateSelectedColors(){
-        for(String s : mDbHelper.getFactorList()){
-            if(!selectedColor.containsKey(s)) selectedColor.put(s,1);
+
+    private void updateSelectedColors() {
+        for (String s : mDbHelper.getFactorList()) {
+            if (!selectedColor.containsKey(s)) selectedColor.put(s, 1);
         }
     }
 
-    public void saveDay(DateTime date , String description) {
+    public void saveDay(DateTime date, String description) {
         this.mDbHelper.saveDay(date, selectedColor, description);
         refreshAdapters();
     }
 
-    public void showRateDay(View view){
+    public void showRateDay(View view) {
         DateTime today = DateTime.today(TimeZone.getDefault());
         showRateDayPopup(today);
     }
 
-    public void showRateDayPopup(DateTime today){
+    public void showRateDayPopup(DateTime today) {
         RateDayFragment rateDayFragment = RateDayFragment.getInstance(today, this);
         FragmentManager f = getSupportFragmentManager();
         rateDayFragment.show(f, "TAG");
     }
 
-    public void showNewFactorDialog(View view){
+    public void showNewFactorDialog(View view) {
         NewFactorFragment newFactorFragment = NewFactorFragment.getInstance(this);
         FragmentManager f = getSupportFragmentManager();
         newFactorFragment.show(f, "TAG");
     }
 
-    public void showRemoveFactorDialog(){
+    public void showRemoveFactorDialog() {
         RemoveFactorFragment removeFactorFragment = RemoveFactorFragment.getInstance(this);
         FragmentManager f = getSupportFragmentManager();
         removeFactorFragment.show(f, "TAG");
     }
 
-    public void showDetailDay(DateTime date){
+    public void showDetailDay(DateTime date) {
         DayDetailFragment dayDetailFragment = DayDetailFragment.newInstance(date);
         FragmentManager f = getSupportFragmentManager();
         dayDetailFragment.show(f, "TAG");
     }
 
-    public void refreshAdapters(){
+    public void refreshAdapters() {
         adapter.notifyFragment();
     }
+
+//    @Override
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//        super.onCreateContextMenu(menu, v, menuInfo);
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_context, menu);
+//    }
+//
+//    @Override
+//    public boolean onContextItemSelected(MenuItem item){
+//        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//        switch(item.getItemId()){
+//            case R.id.action_delete:
+////                removeFactor(info.id);
+//                return true;
+//            default: return true;
+//        }
+//    }
 }

@@ -53,7 +53,7 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            cellView = inflater.inflate(R.layout.cell_view_layout, null);
+            cellView = inflater.inflate(R.layout.row_month_layout, null);
         }
 
 

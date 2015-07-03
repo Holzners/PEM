@@ -57,7 +57,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View newRow = inflater.inflate(R.layout.table_row_week, null);
+        View newRow = inflater.inflate(R.layout.row_week_table, null);
         TextView[] rowViews = new TextView[7];
         rowViews[0] = (TextView) newRow.findViewById(R.id.rowTextView1);
         rowViews[1] = (TextView) newRow.findViewById(R.id.rowTextView2);

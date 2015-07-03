@@ -22,7 +22,7 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.team3.pem.pem.R;
-import com.team3.pem.pem.adapters.RemindersAdapter;
+import com.team3.pem.pem.adapters.NotificationsAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.ReminderModel;
 
@@ -48,7 +48,7 @@ public class NotificationsActivity extends ActionBarActivity {
         listView = (SwipeMenuListView) findViewById(R.id.list_reminders);
         new_reminder = (FloatingActionButton) findViewById(R.id.newReminder);
 
-        final RemindersAdapter adapter = new RemindersAdapter(this, R.layout.reminders_list_layout, reminders);
+        final NotificationsAdapter adapter = new NotificationsAdapter(this, R.layout.row_reminder_layout, reminders);
         listView.setAdapter(adapter);
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
@@ -91,12 +91,12 @@ public class NotificationsActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 LayoutInflater li = LayoutInflater.from(NotificationsActivity.this);
-                View promptsView = li.inflate(R.layout.new_reminder_layout, null);
+                View promptsView = li.inflate(R.layout.dialog_new_reminder, null);
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         NotificationsActivity.this);
 
-                alertDialogBuilder.setPositiveButton(getResources().getString(R.string.ok), null);
+                alertDialogBuilder.setPositiveButton(getResources().getString(R.string.action_ok), null);
                 alertDialogBuilder.setView(promptsView);
 
                 final EditText userInput = (EditText) promptsView
@@ -104,12 +104,12 @@ public class NotificationsActivity extends ActionBarActivity {
 
                 alertDialogBuilder
                         .setCancelable(false)
-                        .setPositiveButton(getResources().getString(R.string.ok),
+                        .setPositiveButton(getResources().getString(R.string.action_ok),
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
                                     }
                                 })
-                        .setNegativeButton(getResources().getString(R.string.cancel),
+                        .setNegativeButton(getResources().getString(R.string.action_cancel),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
@@ -124,16 +124,16 @@ public class NotificationsActivity extends ActionBarActivity {
                         b.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if (userInput.getText().toString().equals("")){
+                                if (userInput.getText().toString().equals("")) {
                                     Toast.makeText(NotificationsActivity.this, getResources().getString(R.string.noUserInput), Toast.LENGTH_LONG).show();
                                     return;
                                 }
                                 int alarmID = 0;
-                                for(int i = 0; i < dbHelper.getAllReminders().size(); i++){
-                                    if(dbHelper.getAllReminders().get(i).getText().equals("")) {
+                                for (int i = 0; i < dbHelper.getAllReminders().size(); i++) {
+                                    if (dbHelper.getAllReminders().get(i).getText().equals("")) {
                                         alarmID = i;
                                         break;
-                                    }else{
+                                    } else {
                                         alarmID++;
                                     }
                                 }
@@ -187,4 +187,5 @@ public class NotificationsActivity extends ActionBarActivity {
         }
         return reminders;
     }
+
 }

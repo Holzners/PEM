@@ -16,6 +16,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.utili.NotifyService;
@@ -27,13 +28,13 @@ import java.util.List;
 /**
  * Created by Chris on 26.06.2015.
  */
-public class RemindersAdapter extends ArrayAdapter {
+public class NotificationsAdapter extends ArrayAdapter {
 
     Context context;
     List<ReminderModel> reminders;
     int resource;
 
-    public RemindersAdapter(Context context, int resource, List<ReminderModel> reminders) {
+    public NotificationsAdapter(Context context, int resource, List<ReminderModel> reminders) {
         super(context, resource, reminders);
         this.context = context;
         this.reminders = reminders;
@@ -56,7 +57,7 @@ public class RemindersAdapter extends ArrayAdapter {
         ReminderModel reminderModel = getItem(position);
 
         if(convertView == null)
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.reminders_list_layout, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_reminder_layout, parent, false);
 
         TextView time = (TextView) convertView.findViewById(R.id.zeit);
         Switch reminderSwitch = (Switch) convertView.findViewById(R.id.reminderSwitch);
@@ -82,6 +83,16 @@ public class RemindersAdapter extends ArrayAdapter {
 
         time.setOnClickListener(new ReminderViewOnClickListener(time, reminderModel));
         reminderSwitch.setOnCheckedChangeListener(new ReminderViewOnClickListener(reminderSwitch, reminderModel));
+
+
+        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(context, " long press ", Toast.LENGTH_SHORT).show();
+
+                return true;
+            }
+        });
 
         return convertView;
     }

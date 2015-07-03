@@ -57,7 +57,7 @@ public class YearAdapter extends ArrayAdapter {
 
         LayoutInflater inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View newRow = inflater.inflate(R.layout.year_row_layout, null);
+        View newRow = inflater.inflate(R.layout.row_year_layout, null);
         TableRow rowContainer = (TableRow)newRow.findViewById(R.id.yearContainer);
         TextView [] textViews = new TextView[12];
         int[] ratingsMonths = new int[12];

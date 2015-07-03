@@ -1,7 +1,8 @@
 <resources>
-    <string name="ok">Ok</string>
-    <string name="cancel">Abbrechen</string>
-    <string name="save">Speichern</string>
+    <string name="action_ok">Ok</string>
+    <string name="action_cancel">Abbrechen</string>
+    <string name="action_save">Speichern</string>
+    <string name="action_delete">Löschen</string>
 
     <string name="app_name">Medical Journal</string>
     <string name="action_settings">Einstellungen</string>
@@ -17,13 +18,13 @@
     </string-array>
 
     <string-array name = "days">
-        <item>MO</item>
-        <item>DI</item>
-        <item>MI</item>
-        <item>DO</item>
-        <item>FR</item>
-        <item>SA</item>
-        <item>SO</item>
+        <item>MO.</item>
+        <item>DI.</item>
+        <item>MI.</item>
+        <item>DO.</item>
+        <item>FR.</item>
+        <item>SA.</item>
+        <item>SO.</item>
     </string-array>
 
     <!-- Export activity -->

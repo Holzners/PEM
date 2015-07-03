@@ -39,11 +39,10 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View newView = inflater.inflate(R.layout.switch_row_layout, null);
+        View newView = inflater.inflate(R.layout.row_switch_layout, null);
 
         Switch mSwitch = (Switch) newView.findViewById(R.id.switch1);
         mSwitch.setText(getItem(position));
@@ -53,11 +52,22 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
         mSwitch.setText(getItem(position));
         mSwitch.setChecked(mDBHelper.getFactorEnabledMap().get(getItem(position)));
         mSwitch.setOnCheckedChangeListener(new SwitchOnCheckedChangedListener(getItem(position)));
+
         String string = mDBHelper.getFactorColorMap().get(getItem(position));
         int color = RatingToColorHelper.ratingToColor(string, 3);
         mSwitch.getThumbDrawable().setTint(color);
 //        mSwitch.getTrackDrawable().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 //        mSwitch.setThumbDrawable(context.getDrawable(R.drawable.abc_btn_radio_material));
+
+//        mSwitch.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                Toast.makeText(context,"LOOONG CLICK",Toast.LENGTH_SHORT).show();
+//                context.invalidateOptionsMenu();
+//                return true;
+//            }
+//        });
+
         return newView;
     }
 

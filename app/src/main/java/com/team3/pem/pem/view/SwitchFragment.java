@@ -14,7 +14,7 @@ import com.team3.pem.pem.R;
 import com.team3.pem.pem.activities.MainActivity;
 import com.team3.pem.pem.adapters.SwitchFragmentAdapter;
 
-public class SwitchFragment extends ListFragment {
+public class SwitchFragment extends ListFragment { //implements View.OnCreateContextMenuListener{
 
     private ListAdapter mAdapter;
 
@@ -25,7 +25,6 @@ public class SwitchFragment extends ListFragment {
         FloatingActionButton newFactorRating = (FloatingActionButton) newView.findViewById(R.id.newFactorRating);
         FloatingActionButton newFactor = (FloatingActionButton) newView.findViewById(R.id.newFactor);
         newFactor.setContentDescription("HALLO");
-
         newFactorRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,9 +32,12 @@ public class SwitchFragment extends ListFragment {
             }
         });
 
-        return newView;
+//        ListView mListView = (ListView) container.findViewById(R.id.list);
+//        registerForContextMenu(mListView);
 
+        return newView;
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -43,5 +45,11 @@ public class SwitchFragment extends ListFragment {
         setListAdapter(mAdapter);
     }
 
+//    @Override
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+//        super.onCreateContextMenu(menu, v, menuInfo);
+//        MenuInflater inflater = getActivity().getMenuInflater();
+//        inflater.inflate(R.menu.menu_context, menu);
+//    }
 
 }
