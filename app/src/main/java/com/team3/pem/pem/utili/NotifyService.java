@@ -35,10 +35,16 @@ public class NotifyService extends BroadcastReceiver {
         DateTime date = DateTime.today(TimeZone.getDefault());
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
-        List<String> factors = dbHelper.getFactors();
-        DayEntry factorsDay = dbHelper.getDatabaseEntriesDay(factors, date.getDay(), date.getMonth(), date.getYear());
+        //Tag bewerten erinnnerung
+        if(ID == 0) {
+            List<String> factors = dbHelper.getFactors();
+            DayEntry factorsDay = dbHelper.getDatabaseEntriesDay(factors, date.getDay(), date.getMonth(), date.getYear());
+            if(factorsDay != null){
+                return;
+            }
+        }
 
-        if(!days[dayOfWeek] || factorsDay != null){
+        if(!days[dayOfWeek]){
           //  Log.i("notif", "Notification abgebrochen");
             return;
         }

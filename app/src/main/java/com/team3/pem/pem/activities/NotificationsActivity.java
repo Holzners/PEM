@@ -73,6 +73,10 @@ public class NotificationsActivity extends ActionBarActivity {
                 switch (index) {
                     case 0:
                         //delete
+                        if(item.getAlarmID() == 0){
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.cantdelete), Toast.LENGTH_LONG).show();
+                            return false;
+                        }
                         dbHelper.removeReminder(item.getAlarmID());
                         adapter.cancelAlarm(item.getAlarmID());
                         reminders = getReminders(dbHelper.getAllReminders());
