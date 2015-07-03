@@ -2,11 +2,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
-    <item android:id="@+id/action_export" android:title="@string/action_export"
-        android:orderInCategory="101" app:showAsAction="never" />
-    <item android:id="@+id/action_notifications" android:title="@string/action_notifications"
-        android:orderInCategory="101" app:showAsAction="never" />
+    <item android:id="@+id/action_reminder"
+        android:icon="@drawable/ic_action_alarms"
+        android:title="@string/action_notifications"
+        app:showAsAction="ifRoom"  />
 
-    <item android:id="@+id/action_rateday" android:title="@string/action_rate_day"
-        android:orderInCategory="101" app:showAsAction="never" />
+    <item android:id="@+id/action_exporting"
+        android:icon="@drawable/ic_action_send_now"
+        android:title="@string/action_export"
+        app:showAsAction="ifRoom"  />
+
+    <item android:id="@+id/action_export"
+        android:title="@string/action_export"
+        android:orderInCategory="101"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_notifications"
+        android:title="@string/action_notifications"
+        android:orderInCategory="101"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_rateday"
+        android:title="@string/action_rate_day"
+        android:orderInCategory="101"
+        app:showAsAction="never" />
 </menu>

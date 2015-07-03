@@ -6,8 +6,18 @@
     tools:context="com.team3.pem.pem.view.SwitchFragment">
 
     <ListView android:id="@android:id/list"
+        android:paddingRight="120dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"  />
+
+    <view
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        class="android.support.design.widget.FloatingActionButton"
+        android:id="@+id/newReminder"
+        android:src="@drawable/ic_action_new"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="right|bottom" />
 
 </FrameLayout>
 
