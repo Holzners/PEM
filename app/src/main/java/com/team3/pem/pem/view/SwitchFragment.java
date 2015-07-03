@@ -2,7 +2,9 @@ package com.team3.pem.pem.view;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,19 @@ public class SwitchFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_switch_list, container, false);
+        View newView = inflater.inflate(R.layout.fragment_switch_list, container, false);
+        FloatingActionButton newFactorRating = (FloatingActionButton) newView.findViewById(R.id.newFactorRating);
+        FloatingActionButton newFactor = (FloatingActionButton) newView.findViewById(R.id.newFactor);
+        newFactor.setContentDescription("HALLO");
+
+        newFactorRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("TEST", "TEST");
+            }
+        });
+
+        return newView;
 
     }
     @Override

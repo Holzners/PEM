@@ -246,7 +246,7 @@ public class ExportActivity extends ActionBarActivity {
             String getWeatherData = dbHelper.getWeatherData(entry.getKey());
             if(!getWeatherData.equals("")){
                 String[] splitWeather = getWeatherData.split("\n");
-                table.addCell(splitWeather[0] + ", " + splitWeather[1] + ", " + splitWeather[4] + " °C");
+                table.addCell(splitWeather[0] + ", " + splitWeather[1] + ", " + splitWeather[4] + " C");
             }else{
                 table.addCell("Keine Angabe");
             }

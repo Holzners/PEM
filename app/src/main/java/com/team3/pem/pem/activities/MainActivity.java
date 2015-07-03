@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.team3.pem.pem.R;
@@ -83,13 +84,7 @@ public class MainActivity extends ActionBarActivity{
             startActivity(new Intent(MainActivity.this, ExportActivity.class));
         }else if(id == R.id.action_reminder){
             startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
-        }else if(id == R.id.newFactorRating || id == R.id.action_rateDay){
-            showRateDayPopup(DateTime.today(TimeZone.getDefault()));
         }
-        else if (id == R.id.action_addFactor) {
-            showNewFactorDialog();
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -221,14 +216,18 @@ public class MainActivity extends ActionBarActivity{
         refreshAdapters();
     }
 
-    public void showRateDayPopup(DateTime today) {
-        this.date = today;
+    public void showRateDay(View view){
+        DateTime today = DateTime.today(TimeZone.getDefault());
+        showRateDayPopup(today);
+    }
+
+    public void showRateDayPopup(DateTime today){
         RateDayFragment rateDayFragment = RateDayFragment.getInstance(today, this);
         FragmentManager f = getSupportFragmentManager();
         rateDayFragment.show(f, "TAG");
     }
 
-    public void showNewFactorDialog(){
+    public void showNewFactorDialog(View view){
         NewFactorFragment newFactorFragment = NewFactorFragment.getInstance(this);
         FragmentManager f = getSupportFragmentManager();
         newFactorFragment.show(f, "TAG");

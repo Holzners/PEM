@@ -11,14 +11,4 @@
         android:icon="@drawable/ic_action_send_now"
         android:title="@string/action_export"
         app:showAsAction="ifRoom"  />
-
-    <item android:id="@+id/action_rateDay"
-        android:icon="@drawable/ic_action_new"
-        android:title="@string/action_rate_day"
-        app:showAsAction="ifRoom"/>
-
-    <item android:id="@+id/action_addFactor"
-        android:icon="@drawable/ic_action_new_label"
-        android:title="@string/action_new_factor"
-        app:showAsAction="ifRoom"/>
 </menu>
