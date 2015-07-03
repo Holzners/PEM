@@ -53,18 +53,6 @@
     <!-- Erinnerungen activity -->
     <string name="title_activity_notifications">Erinnerungen</string>
     <string name="inputName">Bezeichnung eingeben</string>
-
-    <!-- Rate day activity -->
-    <string name="rateDay">Tag bewerten</string>
-    <string name="editNote">Notiz eingeben</string>
-
-    <!-- New Factor activity -->
-    <string name="title_activity_new_factor">NewFactorActivity</string>
-    <string name="too_many_symptoms">Du hast die maximale Anzahl an Symptomen erreicht, es muss erst ein altes entfernt werden!</string>
-    <string name="removeFactor">Faktor entfernen</string>
-    <string name="addFactor">Faktor eingeben</string>
-
-    <!-- Notifications activity -->
     <string name="mo">MO</string>
     <string name="di">DI</string>
     <string name="mi">MI</string>
@@ -75,6 +63,17 @@
     <string name="zeit">00:00</string>
     <string name="title_activity_reminder">ReminderActivity</string>
     <string name="noUserInput">Keine User Eingabe</string>
+    <string name="cantdelete">Kann nicht gelöscht werden</string>
+
+    <!-- Rate day activity -->
+    <string name="rateDay">Tag bewerten</string>
+    <string name="editNote">Notiz eingeben</string>
+
+    <!-- New Factor activity -->
+    <string name="title_activity_new_factor">NewFactorActivity</string>
+    <string name="too_many_symptoms">Du hast die maximale Anzahl an Symptomen erreicht, es muss erst ein altes entfernt werden!</string>
+    <string name="removeFactor">Faktor entfernen</string>
+    <string name="addFactor">Faktor eingeben</string>
 
     <!--open Weather API -->
     <string name="open_weather_maps_api_key">04f4e274ef4930db6350758fd3c9556a</string>
