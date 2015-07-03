@@ -34,7 +34,7 @@ import hirondelle.date4j.DateTime;
 public class NewFactorFragment extends DialogFragment {
     EditText newFactorText;
     TextView toManySymptomsText;
-    FloatingActionButton FAB;
+    Button FAB;
     Button deleteButton;
     FeedReaderDBHelper mDBHelper;
     Spinner colorSpinner;
@@ -62,7 +62,7 @@ public class NewFactorFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_new_factor, container, false);
 
         mDBHelper = FeedReaderDBHelper.getInstance();
-        FAB = (FloatingActionButton) view.findViewById(R.id.FAB);
+        FAB = (Button) view.findViewById(R.id.FAB);
         deleteButton = (Button) view.findViewById(R.id.delete_button);
         newFactorText = (EditText) view.findViewById(R.id.inputText);
         toManySymptomsText = (TextView) view.findViewById(R.id.tooManySymptomsText);
