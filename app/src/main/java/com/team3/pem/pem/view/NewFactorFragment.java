@@ -1,7 +1,6 @@
 package com.team3.pem.pem.view;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,16 +23,13 @@ import com.team3.pem.pem.utili.ColorsToPick;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.TimeZone;
-
-import hirondelle.date4j.DateTime;
 
 /**
  * Created by Stephan on 01.07.15.
  */
 public class NewFactorFragment extends DialogFragment {
     EditText newFactorText;
-    TextView toManySymptomsText;
+    TextView tooManySymptomsText;
     Button FAB;
     Button deleteButton;
     FeedReaderDBHelper mDBHelper;
@@ -65,13 +61,13 @@ public class NewFactorFragment extends DialogFragment {
         FAB = (Button) view.findViewById(R.id.FAB);
         deleteButton = (Button) view.findViewById(R.id.delete_button);
         newFactorText = (EditText) view.findViewById(R.id.inputText);
-        toManySymptomsText = (TextView) view.findViewById(R.id.tooManySymptomsText);
-        toManySymptomsText.setVisibility(View.INVISIBLE);
+        tooManySymptomsText = (TextView) view.findViewById(R.id.tooManySymptomsText);
+        tooManySymptomsText.setVisibility(View.INVISIBLE);
 
         HashMap<String, String> factorEntries = mDBHelper.getFactorsFromDatabase();
 
         if (factorEntries.size() == ColorsToPick.values().length) {
-            toManySymptomsText.setVisibility(View.VISIBLE);
+            tooManySymptomsText.setVisibility(View.VISIBLE);
             FAB.setEnabled(false);
             deleteButton.setEnabled(false);
             newFactorText.setEnabled(false);
@@ -122,17 +118,14 @@ public class NewFactorFragment extends DialogFragment {
         });
         return view;
     }
-
-
-
-
+    
     public void saveFactor() {
         if (!newFactorText.getText().toString().equals("")) {
             mDBHelper.saveFactor(newFactorText.getText().toString(), selectedColor);
             context.selectedColor.put(newFactorText.getText().toString(), 1);
             context.refreshAdapters();
             this.dismiss();
-            context.showRateDayPopup(DateTime.today(TimeZone.getDefault()));
+//            context.showRateDayPopup(DateTime.today(TimeZone.getDefault()));
         } else {
             Toast.makeText(context, getResources().getString(R.string.noInput), Toast.LENGTH_LONG).show();
         }

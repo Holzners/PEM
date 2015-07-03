@@ -56,6 +56,7 @@ public class MainActivity extends ActionBarActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         FeedReaderDBHelper.appContext = this;
         mDbHelper = FeedReaderDBHelper.getInstance();
         setContentView(R.layout.activity_main);
@@ -80,10 +81,13 @@ public class MainActivity extends ActionBarActivity{
         //noinspection SimplifiableIfStatement
         if(id == R.id.action_export){
             startActivity(new Intent(MainActivity.this, ExportActivity.class));
-        }else if(id == R.id.action_notifications){
+        }else if(id == R.id.action_reminder){
             startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
-        }else if(id == R.id.action_rateday){
+        }else if(id == R.id.newFactorRating || id == R.id.action_rateDay){
             showRateDayPopup(DateTime.today(TimeZone.getDefault()));
+        }
+        else if (id == R.id.action_addFactor) {
+            showNewFactorDialog();
         }
 
         return super.onOptionsItemSelected(item);

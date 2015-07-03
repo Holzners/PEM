@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.team3.pem.pem.R;
@@ -53,15 +52,15 @@ public class RateDayFragment extends DialogFragment {
         RateDayAdapter adapter = new RateDayAdapter(context, R.layout.rate_day_layout, date);
         lv.setAdapter(adapter);
 
-        ImageView newFactor = (ImageView) view.findViewById(R.id.newFactor);
-
-        newFactor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.showNewFactorDialog();
-                RateDayFragment.this.dismiss();
-            }
-        });
+//        ImageView newFactor = (ImageView) view.findViewById(R.id.newFactor);
+//
+//        newFactor.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                context.showNewFactorDialog();
+//                RateDayFragment.this.dismiss();
+//            }
+//        });
 
         Button saveDay = (Button) view.findViewById(R.id.saveDay);
         Button cancel = (Button) view.findViewById(R.id.cancel_action);

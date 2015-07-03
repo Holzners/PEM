@@ -10,7 +10,7 @@
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"/>
+        android:layout_width="match_parent" />
 
     <com.team3.pem.pem.view.SlidingTabLayout
         android:id="@+id/tabs"
@@ -31,7 +31,7 @@
         android:id="@+id/calender"
         android:layout_below="@+id/tool_bar" />
 
-    <FrameLayout
+    <TableLayout
         android:paddingLeft="80dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

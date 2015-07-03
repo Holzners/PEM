@@ -1,24 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.team3.pem.pem.view.SwitchFragment">
 
     <ListView android:id="@android:id/list"
-        android:paddingRight="120dp"
-        android:layout_width="wrap_content"
+        android:paddingRight="80dp"
+        android:layout_width="328dp"
         android:layout_height="wrap_content"  />
 
-    <view
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        class="android.support.design.widget.FloatingActionButton"
-        android:id="@+id/newFactorRating"
-        android:src="@drawable/ic_action_new"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="right|bottom" />
-
-</FrameLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_gravity="bottom|right">
+        <view
+            class="android.support.design.widget.FloatingActionButton"
+            android:id="@+id/newFactor"
+            android:text="Faktor anlegen"
+            android:contentDescription="neuen Faktor"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_go_to_today"
+            android:layout_gravity="center"
+            android:layout_above="@+id/newFactorRating"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+        <view
+            class="android.support.design.widget.FloatingActionButton"
+            android:id="@+id/newRating"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_go_to_today"
+            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            />
+        <view
+            class="android.support.design.widget.FloatingActionButton"
+            android:id="@+id/newFactorRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_new"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+    </LinearLayout>
+</GridLayout>
 
 
