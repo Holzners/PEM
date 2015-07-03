@@ -6,9 +6,8 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.activities.MainActivity;
@@ -23,8 +22,9 @@ import hirondelle.date4j.DateTime;
 public class YearFragment extends ListFragment {
 
     private int selectedYear;
-    private Spinner yearSpinner;
     private YearAdapter adapter;
+    private TextView year;
+    private ImageButton previous, next;
     private List<Integer> years;
     public YearFragment() {
         DateTime dateTime = DateTime.today(TimeZone.getDefault());
@@ -46,31 +46,36 @@ public class YearFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        yearSpinner = (Spinner) getView().findViewById(R.id.spinner);
+//        yearSpinner = (Spinner) getView().findViewById(R.id.spinner);
+
+        year = (TextView) getView().findViewById(R.id.year);
+        year.setText(String.valueOf(selectedYear));
+
+        previous = (ImageButton) getView().findViewById(R.id.previousYear);
+        next = (ImageButton) getView().findViewById(R.id.nextYear);
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeYear(selectedYear-1);
+                selectedYear = selectedYear-1;
+                year.setText(String.valueOf(selectedYear));
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeYear(selectedYear+1);
+                selectedYear = selectedYear+1;
+                year.setText(String.valueOf(selectedYear));
+            }
+        });
+
+
         years = new ArrayList<>();
         DateTime today = DateTime.today(TimeZone.getDefault());
         for(int i = 2010 ; i <= today.getYear() ; i++){
             years.add(i);
         }
-        ArrayAdapter<Integer> spinnerAdapter = new ArrayAdapter(getActivity(),
-                android.R.layout.simple_spinner_item, years);
-
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        yearSpinner.setAdapter(spinnerAdapter);
-        yearSpinner.setSelection(years.indexOf(selectedYear));
-        yearSpinner.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        changeYear(years.get(position));
-                        selectedYear = years.get(position);
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         int displayWidth = display.getWidth();
         adapter = new YearAdapter((MainActivity)getActivity(), 0, displayWidth, selectedYear);
