@@ -25,18 +25,20 @@
         android:layout_weight="1" />
 
     <FrameLayout
+        android:id="@+id/calender"
         android:padding="1dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/calender"
         android:layout_below="@+id/tool_bar" />
 
     <TableLayout
-        android:paddingLeft="20dp"
-        android:layout_marginRight="110dp"
-        android:layout_marginBottom="10dp"
+        android:id="@+id/switchFragmentPanel"
+        android:layout_gravity="bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/switchFragmentPanel"       />
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="150dp"
+        />
 
 </LinearLayout>
