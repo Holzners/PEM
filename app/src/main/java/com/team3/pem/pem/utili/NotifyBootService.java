@@ -19,8 +19,8 @@ public class NotifyBootService extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             FeedReaderDBHelper dbHelper = FeedReaderDBHelper.getInstance();
-            List<ReminderModel> reminders = dbHelper.getAllReminders();
-            for(ReminderModel reminder : reminders){
+            List<NotificationModel> reminders = dbHelper.getAllReminders();
+            for(NotificationModel reminder : reminders){
                 if(reminders.get(reminder.getAlarmID()).isActive()) {
                     int hour = Integer.parseInt(reminder.getTime().substring(0, 2));
                     int minute = Integer.parseInt(reminder.getTime().substring(3));

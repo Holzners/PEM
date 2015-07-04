@@ -10,7 +10,7 @@ import android.util.Log;
 
 import com.team3.pem.pem.utili.ColorsToPick;
 import com.team3.pem.pem.utili.DayEntry;
-import com.team3.pem.pem.utili.ReminderModel;
+import com.team3.pem.pem.utili.NotificationModel;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -499,7 +499,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     }
 
     @Override
-    public void saveReminder(ReminderModel reminder) {
+    public void saveReminder(NotificationModel reminder) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -543,8 +543,8 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     }
 
     @Override
-    public List<ReminderModel> getAllReminders() {
-        List<ReminderModel> reminders = new ArrayList<>();
+    public List<NotificationModel> getAllReminders() {
+        List<NotificationModel> reminders = new ArrayList<>();
         SQLiteDatabase dbRwad = getReadableDatabase();
 
         String[] projection = {
@@ -586,7 +586,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             for (int i = 0; i < activeForDays.length; i++) {
                 activeForDays[i] = (cursor.getInt(5 + i) == 1);
             }
-            ReminderModel reminder = new ReminderModel(alarmID, dialogId, time, text, isActive, activeForDays);
+            NotificationModel reminder = new NotificationModel(alarmID, dialogId, time, text, isActive, activeForDays);
             reminders.add(reminder);
             cursor.moveToNext();
         }

@@ -27,7 +27,7 @@ public class NotifyService extends BroadcastReceiver {
         final int ID = intent.getIntExtra("id", 0);
 
         FeedReaderDBHelper dbHelper = FeedReaderDBHelper.getInstance();
-        List<ReminderModel> reminders = dbHelper.getAllReminders();
+        List<NotificationModel> reminders = dbHelper.getAllReminders();
 
         boolean[] days = reminders.get(ID).getActiveForDays();
 

@@ -1,7 +1,7 @@
 package com.team3.pem.pem.mSQLite;
 
 import com.team3.pem.pem.utili.DayEntry;
-import com.team3.pem.pem.utili.ReminderModel;
+import com.team3.pem.pem.utili.NotificationModel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -84,7 +84,7 @@ public interface IDatabaseHelper {
      * Saves new Reminder in Database
      * @param reminder
      */
-    void saveReminder(ReminderModel reminder);
+    void saveReminder(NotificationModel reminder);
 
     /**
      * removes Reminder from Database
@@ -96,7 +96,7 @@ public interface IDatabaseHelper {
      * return all saved Reminders in Database
      * @return
      */
-    List<ReminderModel> getAllReminders();
+    List<NotificationModel> getAllReminders();
 
     /**
      * Returns weatherdata of day

@@ -20,7 +20,7 @@ import android.widget.TimePicker;
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.activities.NotificationsActivity;
 import com.team3.pem.pem.utili.NotifyService;
-import com.team3.pem.pem.utili.ReminderModel;
+import com.team3.pem.pem.utili.NotificationModel;
 
 import java.util.Calendar;
 import java.util.List;
@@ -31,10 +31,10 @@ import java.util.List;
 public class NotificationsAdapter extends ArrayAdapter {
 
     NotificationsActivity context;
-    List<ReminderModel> reminders;
+    List<NotificationModel> reminders;
     int resource;
 
-    public NotificationsAdapter(NotificationsActivity context, int resource, List<ReminderModel> reminders) {
+    public NotificationsAdapter(NotificationsActivity context, int resource, List<NotificationModel> reminders) {
         super(context, resource, reminders);
         this.context = context;
         this.reminders = reminders;
@@ -48,13 +48,13 @@ public class NotificationsAdapter extends ArrayAdapter {
     }
 
     @Override
-    public ReminderModel getItem(int position) {
+    public NotificationModel getItem(int position) {
         return reminders.get(position);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ReminderModel reminderModel = getItem(position);
+        NotificationModel reminderModel = getItem(position);
 
         if(convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_reminder_layout, parent, false);
@@ -101,21 +101,21 @@ public class NotificationsAdapter extends ArrayAdapter {
         private TextView[] days;
         private int index;
         private Switch remindersSwitch;
-        private ReminderModel reminderModel;
+        private NotificationModel reminderModel;
         private int hour, minute;
 
-        public ReminderViewOnClickListener(TextView[] days, int index, ReminderModel reminder) {
+        public ReminderViewOnClickListener(TextView[] days, int index, NotificationModel reminder) {
             this.days = days;
             this.index = index;
             reminderModel = reminder;
         }
 
-        public ReminderViewOnClickListener(TextView time, ReminderModel reminder) {
+        public ReminderViewOnClickListener(TextView time, NotificationModel reminder) {
             this.time = time;
             reminderModel = reminder;
         }
 
-        public ReminderViewOnClickListener(Switch remindersSwitch, ReminderModel reminder) {
+        public ReminderViewOnClickListener(Switch remindersSwitch, NotificationModel reminder) {
             this.remindersSwitch = remindersSwitch;
             reminderModel = reminder;
         }

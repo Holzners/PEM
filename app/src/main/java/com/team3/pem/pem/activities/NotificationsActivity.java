@@ -2,8 +2,6 @@ package com.team3.pem.pem.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
@@ -24,7 +22,7 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.adapters.NotificationsAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
-import com.team3.pem.pem.utili.ReminderModel;
+import com.team3.pem.pem.utili.NotificationModel;
 
 import java.util.Iterator;
 import java.util.List;
@@ -33,7 +31,7 @@ import java.util.List;
 public class NotificationsActivity extends ActionBarActivity {
 
     FeedReaderDBHelper dbHelper;
-    List<ReminderModel> reminders;
+    List<NotificationModel> reminders;
     FloatingActionButton new_reminder;
     SwipeMenuListView listView;
     boolean contextMenuOn = false;
@@ -58,9 +56,9 @@ public class NotificationsActivity extends ActionBarActivity {
             @Override
             public void create(SwipeMenu swipeMenu) {
                 SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
-                deleteItem.setBackground(new ColorDrawable(Color.TRANSPARENT));
+                deleteItem.setBackground(getResources().getColor(R.color.primaryColor));
                 deleteItem.setWidth(dp2px(90));
-                deleteItem.setIcon(R.drawable.ic_action_discard);
+                deleteItem.setIcon(R.drawable.ic_action_discard_holo_dark);
                 swipeMenu.addMenuItem(deleteItem);
             }
         };
@@ -70,7 +68,7 @@ public class NotificationsActivity extends ActionBarActivity {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 //  ApplicationInfo item = mAppList.get(position);
-                ReminderModel item = adapter.getItem(position);
+                NotificationModel item = adapter.getItem(position);
                 switch (index) {
                     case 0:
                         //delete
@@ -140,7 +138,7 @@ public class NotificationsActivity extends ActionBarActivity {
                                         alarmID++;
                                     }
                                 }
-                                ReminderModel reminderModel = new ReminderModel(alarmID, alarmID, "08:00", userInput.getText().toString(),
+                                NotificationModel reminderModel = new NotificationModel(alarmID, alarmID, "08:00", userInput.getText().toString(),
                                         false, new boolean[]{false, false, false, false, false, false, false});
                                 dbHelper.saveReminder(reminderModel);
                                 reminders = getReminders(dbHelper.getAllReminders());
@@ -171,9 +169,9 @@ public class NotificationsActivity extends ActionBarActivity {
                 getResources().getDisplayMetrics());
     }
 
-    private List<ReminderModel> getReminders(List<ReminderModel> reminders){
-        for (Iterator<ReminderModel> it = reminders.iterator(); it.hasNext(); ) {
-            ReminderModel reminderModel = it.next();
+    private List<NotificationModel> getReminders(List<NotificationModel> reminders){
+        for (Iterator<NotificationModel> it = reminders.iterator(); it.hasNext(); ) {
+            NotificationModel reminderModel = it.next();
             if(reminderModel.getText().equals("")){
                 it.remove();
             }
@@ -188,7 +186,7 @@ public class NotificationsActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_edit){
-            // TODO Namen ändern
+            // TODO Namen aendern
             Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT).show();
             setContextMenuOn(false);
             invalidateOptionsMenu();

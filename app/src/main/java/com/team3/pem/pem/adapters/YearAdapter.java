@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
 
@@ -87,6 +88,9 @@ public class YearAdapter extends ArrayAdapter {
             rowContainer.addView(textViews[i]);
         }
 
+        // Markierung des heutigen Tages
+        int i = DateTime.today(TimeZone.getDefault()).getMonth();
+        textViews[i-1].setTextColor(newRow.getResources().getColor(R.color.primaryColor));
         return newRow;
     }
 

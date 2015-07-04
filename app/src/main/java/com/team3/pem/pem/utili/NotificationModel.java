@@ -5,7 +5,7 @@ import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 /**
  * Created by Stephan on 25.06.15.
  */
-public class ReminderModel {
+public class NotificationModel {
 
     private int dialogID;
 
@@ -22,7 +22,7 @@ public class ReminderModel {
 
     private FeedReaderDBHelper dbHelper;
 
-    public ReminderModel( int alarmID,int dialogID , String time, String text, boolean isActive, boolean[] activeForDays) {
+    public NotificationModel(int alarmID, int dialogID, String time, String text, boolean isActive, boolean[] activeForDays) {
         this.dialogID = dialogID;
         this.time = time;
         this.isActive = isActive;

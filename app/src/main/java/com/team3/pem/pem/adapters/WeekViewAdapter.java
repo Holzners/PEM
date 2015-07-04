@@ -2,6 +2,7 @@ package com.team3.pem.pem.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,8 +106,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
                 for (int i = 0; i < rowViews.length; i++) {
                     DateTime thisDate = startDay.plusDays(i);
                     if (entryHashMap.containsKey(thisDate)) {
-
-                         GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
+                        GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
                         gd.setColor(newRow.getResources().getColor(
                                 RatingToColorHelper.ratingToColor(factors.get(0),
                                         entryHashMap.get(thisDate).ratings.get(factors.get(0)))));
@@ -124,6 +124,13 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
                 for(TextView t: rowViews){ t.setVisibility(View.GONE);}
             }
         }
+        // Markierung des heutigen Tages
+        int i = DateTime.today(TimeZone.getDefault()).getWeekDay(); //1..7 für So..Sa
+        if (i==1) i+=6;
+        else i-=1;
+        Log.i("WEEKDAY", String.valueOf(i));
+        rowViews[i-1].setTextColor(newRow.getResources().getColor(R.color.primaryColor));
+
         return newRow;
     }
 

@@ -68,8 +68,6 @@ public class MainActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         // Save the menu reference
         mMenu = menu;
-        Log.i ("onCreateOptionsMenu","called");
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -91,7 +89,7 @@ public class MainActivity extends ActionBarActivity {
             setContextMenuOn(false);
             invalidateOptionsMenu();
         } else if (id == R.id.action_edit){
-            // TODO Fenster, wo Farbe und Name erneut eingestellt werden können.
+            // TODO Fenster, wo Farbe und Name erneut eingestellt werden kï¿½nnen.
             Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT).show();
             setContextMenuOn(false);
             invalidateOptionsMenu();
@@ -263,9 +261,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu){
-        Log.i("onPrepareOptionsMenu","called");
         if (contextMenuOn){
-            Log.i("onPrepareOptionsMenu", "contextMenuOn");
             getmMenu().clear();
             getMenuInflater().inflate(R.menu.menu_context, getmMenu());
         }
