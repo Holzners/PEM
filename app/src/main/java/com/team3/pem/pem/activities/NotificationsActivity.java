@@ -36,6 +36,9 @@ public class NotificationsActivity extends ActionBarActivity {
     List<ReminderModel> reminders;
     FloatingActionButton new_reminder;
     SwipeMenuListView listView;
+    boolean contextMenuOn = false;
+    Menu mMenu;
+    NotificationsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,7 @@ public class NotificationsActivity extends ActionBarActivity {
         listView = (SwipeMenuListView) findViewById(R.id.list_reminders);
         new_reminder = (FloatingActionButton) findViewById(R.id.newReminder);
 
-        final NotificationsAdapter adapter = new NotificationsAdapter(this, R.layout.row_reminder_layout, reminders);
+        adapter = new NotificationsAdapter(this, R.layout.row_reminder_layout, reminders);
         listView.setAdapter(adapter);
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
@@ -160,17 +163,7 @@ public class NotificationsActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_notifications, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private int dp2px(int dp) {
@@ -188,4 +181,38 @@ public class NotificationsActivity extends ActionBarActivity {
         return reminders;
     }
 
+        @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_edit){
+            // TODO Namen ändern
+            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT);
+            setContextMenuOn(false);
+            invalidateOptionsMenu();
+        } else if (id == R.id.action_delete){
+            // TODO deleteReminder(); Liste aktualisieren
+            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT);
+            setContextMenuOn(false);
+            invalidateOptionsMenu();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        Log.i("onPrepareOptionsMenu","called");
+        if (contextMenuOn){
+            Log.i("onPrepareOptionsMenu", "contextMenuOn");
+            menu.clear();
+            getMenuInflater().inflate(R.menu.menu_context, menu);
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void setContextMenuOn(boolean contextMenuOn) {
+        this.contextMenuOn = contextMenuOn;
+    }
 }

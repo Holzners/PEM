@@ -59,15 +59,14 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
 //        mSwitch.getTrackDrawable().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 //        mSwitch.setThumbDrawable(context.getDrawable(R.drawable.abc_btn_radio_material));
 
-//        mSwitch.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                Toast.makeText(context,"LOOONG CLICK",Toast.LENGTH_SHORT).show();
-//                context.invalidateOptionsMenu();
-//                return true;
-//            }
-//        });
-
+        mSwitch.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                context.setContextMenuOn(true);
+                context.invalidateOptionsMenu();
+                return true;
+            }
+        });
         return newView;
     }
 

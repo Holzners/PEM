@@ -16,9 +16,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.team3.pem.pem.R;
+import com.team3.pem.pem.activities.NotificationsActivity;
 import com.team3.pem.pem.utili.NotifyService;
 import com.team3.pem.pem.utili.ReminderModel;
 
@@ -30,11 +30,11 @@ import java.util.List;
  */
 public class NotificationsAdapter extends ArrayAdapter {
 
-    Context context;
+    NotificationsActivity context;
     List<ReminderModel> reminders;
     int resource;
 
-    public NotificationsAdapter(Context context, int resource, List<ReminderModel> reminders) {
+    public NotificationsAdapter(NotificationsActivity context, int resource, List<ReminderModel> reminders) {
         super(context, resource, reminders);
         this.context = context;
         this.reminders = reminders;
@@ -84,12 +84,11 @@ public class NotificationsAdapter extends ArrayAdapter {
         time.setOnClickListener(new ReminderViewOnClickListener(time, reminderModel));
         reminderSwitch.setOnCheckedChangeListener(new ReminderViewOnClickListener(reminderSwitch, reminderModel));
 
-
-        convertView.setOnLongClickListener(new View.OnLongClickListener() {
+        reminderSwitch.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(context, " long press ", Toast.LENGTH_SHORT).show();
-
+                context.setContextMenuOn(true);
+                context.invalidateOptionsMenu();
                 return true;
             }
         });

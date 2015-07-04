@@ -49,13 +49,12 @@ public class MainActivity extends ActionBarActivity {
     static final int RATE_DAY_DIALOG = 0;
     public HashMap<String, Integer> selectedColor;
     DateTime date;
-    private View view;
-    private Menu mMenu;
+    Menu mMenu;
+    boolean contextMenuOn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         FeedReaderDBHelper.appContext = this;
         mDbHelper = FeedReaderDBHelper.getInstance();
         setContentView(R.layout.activity_main);
@@ -69,7 +68,9 @@ public class MainActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         // Save the menu reference
         mMenu = menu;
-        return true; //super.onCreateOptionsMenu(menu);
+        Log.i ("onCreateOptionsMenu","called");
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -84,9 +85,16 @@ public class MainActivity extends ActionBarActivity {
             startActivity(new Intent(MainActivity.this, ExportActivity.class));
         } else if (id == R.id.action_reminder) {
             startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
-//        } else if (id == R.id.action_delete){
-//            // TODO removeFactor(); Liste aktualisieren
-//            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT);
+        } else if (id == R.id.action_delete){
+            // TODO removeFactor(); Liste aktualisieren
+            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT);
+            setContextMenuOn(false);
+            invalidateOptionsMenu();
+        } else if (id == R.id.action_edit){
+            // TODO Fenster, wo Farbe und Name erneut eingestellt werden können.
+            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT);
+            setContextMenuOn(false);
+            invalidateOptionsMenu();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -253,21 +261,22 @@ public class MainActivity extends ActionBarActivity {
         adapter.notifyFragment();
     }
 
-//    @Override
-//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-//        super.onCreateContextMenu(menu, v, menuInfo);
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_context, menu);
-//    }
-//
-//    @Override
-//    public boolean onContextItemSelected(MenuItem item){
-//        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-//        switch(item.getItemId()){
-//            case R.id.action_delete:
-////                removeFactor(info.id);
-//                return true;
-//            default: return true;
-//        }
-//    }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        Log.i("onPrepareOptionsMenu","called");
+        if (contextMenuOn){
+            Log.i("onPrepareOptionsMenu", "contextMenuOn");
+            getmMenu().clear();
+            getMenuInflater().inflate(R.menu.menu_context, getmMenu());
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void setContextMenuOn(boolean contextMenuOn) {
+        this.contextMenuOn = contextMenuOn;
+    }
+
+    public Menu getmMenu() {
+        return mMenu;
+    }
 }

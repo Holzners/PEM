@@ -3,6 +3,7 @@
     <string name="action_cancel">Abbrechen</string>
     <string name="action_save">Speichern</string>
     <string name="action_delete">Löschen</string>
+    <string name="action_editSymptom">Bearbeiten</string>
 
     <string name="app_name">Medical Journal</string>
     <string name="action_settings">Einstellungen</string>

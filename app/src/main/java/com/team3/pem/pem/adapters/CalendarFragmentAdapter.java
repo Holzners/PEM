@@ -68,10 +68,10 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
             TextView colorView[];
 
                 colorView = new TextView[4];
-                colorView[0] = (TextView) cellView.findViewById(R.id.textView);
-                colorView[1] = (TextView) cellView.findViewById(R.id.textView2);
-                colorView[2] = (TextView) cellView.findViewById(R.id.textView3);
-                colorView[3] = (TextView) cellView.findViewById(R.id.textView4);
+                colorView[0] = (TextView) cellView.findViewById(R.id.tvTopLeft);
+                colorView[1] = (TextView) cellView.findViewById(R.id.tvTopRight);
+                colorView[2] = (TextView) cellView.findViewById(R.id.tvBottomLeft);
+                colorView[3] = (TextView) cellView.findViewById(R.id.tvBottomRight);
                 //TextView tv = (TextView) cellView.findViewById(R.id.textView5);   //Print date in Cell
                 // tv.setText(dateTime.getDay()+"");
 
