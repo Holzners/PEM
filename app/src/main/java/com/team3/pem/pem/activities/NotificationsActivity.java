@@ -94,7 +94,7 @@ public class NotificationsActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 LayoutInflater li = LayoutInflater.from(NotificationsActivity.this);
-                View promptsView = li.inflate(R.layout.dialog_new_reminder, null);
+                View promptsView = li.inflate(R.layout.dialog_new_notification, null);
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         NotificationsActivity.this);

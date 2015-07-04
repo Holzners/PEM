@@ -12,44 +12,44 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_gravity="bottom|right">
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="@dimen/fab_labels_margin">
         <view
             class="android.support.design.widget.FloatingActionButton"
             android:id="@+id/newFactor"
             android:text="Faktor anlegen"
             android:contentDescription="neuen Faktor"
-            android:layout_width="50dp"
+            android:layout_width="@dimen/fab_size_normal"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_action_new_label"
             android:layout_gravity="center"
             android:layout_above="@+id/newFactorRating"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:onClick="showNewFactorDialog"/>
+            android:layout_marginBottom="@dimen/fab_labels_margin"
+            android:onClick="showNewFactorDialog"            />
         <view
             class="android.support.design.widget.FloatingActionButton"
             android:id="@+id/newRating"
-            android:layout_width="50dp"
+            android:layout_width="@dimen/fab_size_normal"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_action_new_event"
             android:layout_gravity="center"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:onClick="showRateDay"
-            />
+            android:layout_marginBottom="@dimen/fab_labels_margin"
+            android:onClick="showRateDay"          />
         <view
             class="android.support.design.widget.FloatingActionButton"
             android:id="@+id/newFactorRating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:src="@drawable/ic_action_new"
+            android:layout_width="@dimen/fab_size_normal"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="@dimen/fab_labels_margin"/>
     </LinearLayout>
 </GridLayout>
 
