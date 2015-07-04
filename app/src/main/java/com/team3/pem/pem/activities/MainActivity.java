@@ -3,8 +3,6 @@ package com.team3.pem.pem.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -213,7 +211,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void switchSymptom(boolean isEnabled, String symptom) {
         mDbHelper.getFactorEnabledMap().put(symptom, isEnabled);
         refreshAdapters();
-
     }
 
 
@@ -301,6 +298,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     public void refreshAdapters() {
         adapter.notifyFragment();
+        switchFragment.notifyAdapter();
     }
 
     @Override

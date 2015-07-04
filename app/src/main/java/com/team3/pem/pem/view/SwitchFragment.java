@@ -6,7 +6,6 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.activities.MainActivity;
@@ -14,7 +13,7 @@ import com.team3.pem.pem.adapters.SwitchFragmentAdapter;
 
 public class SwitchFragment extends ListFragment {
 
-    private ListAdapter mAdapter;
+    private SwitchFragmentAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,5 +36,9 @@ public class SwitchFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
         mAdapter = new SwitchFragmentAdapter(((MainActivity)getActivity()));
         setListAdapter(mAdapter);
+    }
+
+    public void notifyAdapter(){
+        mAdapter.notifyDataSetChanged();
     }
 }
