@@ -57,7 +57,7 @@ public class NotificationsActivity extends ActionBarActivity {
             @Override
             public void create(SwipeMenu swipeMenu) {
                 SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
-                deleteItem.setBackground(new ColorDrawable(R.color.primaryColor));
+                deleteItem.setBackground(new ColorDrawable(R.color.red4));
                 deleteItem.setWidth(dp2px(90));
                 deleteItem.setIcon(R.drawable.ic_action_discard_holo_dark);
                 swipeMenu.addMenuItem(deleteItem);

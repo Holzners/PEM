@@ -3,6 +3,7 @@ package com.team3.pem.pem.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -14,8 +15,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.adapters.ViewPagerAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
@@ -36,7 +41,7 @@ import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
     SwitchFragment switchFragment;
     FeedReaderDBHelper mDbHelper;
@@ -46,6 +51,10 @@ public class MainActivity extends ActionBarActivity {
     SlidingTabLayout tabs;
     String titles[];
     int tabNumber = 3;
+    private static final String TAG_NEW_EVENT = "newEvent";
+    private static final String TAG_NEW_FACTOR = "newFactor";
+
+
     static final int RATE_DAY_DIALOG = 0;
     public HashMap<String, Integer> selectedColor;
     DateTime date;
@@ -60,6 +69,40 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         date = DateTime.today(TimeZone.getDefault());
         selectedColor = new HashMap<>();
+
+        ImageView imageview = new ImageView(this); // Create an icon
+        imageview.setImageResource(R.drawable.ic_action_new);
+
+        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
+                .setBackgroundDrawable(R.drawable.button_action_dark_touch)
+                .setContentView(imageview)
+                .build();
+
+        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
+
+        ImageView iconNewFactor = new ImageView(this);
+        iconNewFactor.setImageResource(R.drawable.ic_action_new_label);
+
+        ImageView iconNewEvent = new ImageView(this);
+        iconNewEvent.setImageResource(R.drawable.ic_action_new_event);
+
+
+        SubActionButton buttonNewEvent = itemBuilder.setContentView(iconNewEvent).build();
+        SubActionButton buttonNewFactor = itemBuilder.setContentView(iconNewFactor).build();
+        buttonNewEvent.setOnClickListener(this);
+        buttonNewFactor.setOnClickListener(this);
+
+        buttonNewEvent.setTag(TAG_NEW_EVENT);
+        buttonNewFactor.setTag(TAG_NEW_FACTOR);
+
+
+        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(buttonNewFactor)
+                .addSubActionView(buttonNewEvent)
+                .attachTo(actionButton)
+                .setStartAngle(225)
+                .setEndAngle(270)
+                .build();
     }
 
     @Override
@@ -83,14 +126,14 @@ public class MainActivity extends ActionBarActivity {
             startActivity(new Intent(MainActivity.this, ExportActivity.class));
         } else if (id == R.id.action_reminder) {
             startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
-        } else if (id == R.id.action_delete){
+        } else if (id == R.id.action_delete) {
             // TODO removeFactor(); Liste aktualisieren
-            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Not implemented yet.", Toast.LENGTH_SHORT).show();
             setContextMenuOn(false);
             invalidateOptionsMenu();
-        } else if (id == R.id.action_edit){
+        } else if (id == R.id.action_edit) {
             // TODO Fenster, wo Farbe und Name erneut eingestellt werden k�nnen.
-            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Not implemented yet.", Toast.LENGTH_SHORT).show();
             setContextMenuOn(false);
             invalidateOptionsMenu();
         }
@@ -260,8 +303,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu){
-        if (contextMenuOn){
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (contextMenuOn) {
             getmMenu().clear();
             getMenuInflater().inflate(R.menu.menu_context, getmMenu());
         }
@@ -274,5 +317,18 @@ public class MainActivity extends ActionBarActivity {
 
     public Menu getmMenu() {
         return mMenu;
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        if(view.getTag().equals(TAG_NEW_EVENT)){
+            showRateDay(view);
+        }
+
+        if(view.getTag().equals(TAG_NEW_FACTOR)){
+            showNewFactorDialog(view);
+        }
+
     }
 }

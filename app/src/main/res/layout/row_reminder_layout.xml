@@ -1,84 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <Switch
+        android:id="@+id/reminderSwitch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/reminderSwitch"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:checked="false"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:checked="false"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TableRow
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/zeit"
             android:id="@+id/zeit"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp" />
+            android:text="@string/zeit"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/mo"
             android:id="@+id/mo"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="30sp"
-            android:layout_marginTop="10sp" />
+            android:layout_marginTop="10sp"
+            android:text="@string/mo"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/di"
             android:id="@+id/di"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp" />
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/mi"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/di"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
             android:id="@+id/mi"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp" />
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/don"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/mi"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
             android:id="@+id/don"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp" />
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fr"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/don"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
             android:id="@+id/fr"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp" />
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sa"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/fr"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
             android:id="@+id/sa"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp" />
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/so"
-            android:id="@+id/so"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:text="@string/sa"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/so"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/so"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </TableRow>
 </LinearLayout>

@@ -180,8 +180,9 @@ public class NotificationsAdapter extends ArrayAdapter {
             minute = Integer.parseInt(reminderModel.getTime().substring(3));
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(context, NotifyService.class);
-            intent.putExtra("title", reminderModel.getText());
+            intent.putExtra("title", reminderModel.getText() );
             intent.putExtra("id", alarmID);
+
             PendingIntent pIntent = PendingIntent.getBroadcast(context, alarmID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             //Set the alarm to start at specified time
