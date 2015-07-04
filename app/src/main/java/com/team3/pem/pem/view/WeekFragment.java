@@ -113,13 +113,13 @@ public class WeekFragment extends ListFragment{
 
 
     public void nextWeek(int weeks){
-        calenderWeek += 1;
+//        calenderWeek += 1;
         adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().plusDays(7*weeks));
         adapter.notifyDataSetChanged();
     }
 
     public void previousWeek(int weeks){
-        calenderWeek -= 1;
+//        calenderWeek -= 1;
         adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().minusDays(7 * weeks));
         adapter.notifyDataSetChanged();
     }

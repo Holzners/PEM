@@ -9,7 +9,7 @@
         android:paddingRight="80dp"
         android:layout_width="328dp"
         android:layout_height="wrap_content"  />
-
+<!--
     <LinearLayout
         android:orientation="vertical"
         android:layout_gravity="bottom|right"
@@ -51,6 +51,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="@dimen/fab_labels_margin"/>
     </LinearLayout>
+    -->
 </GridLayout>
 
 
