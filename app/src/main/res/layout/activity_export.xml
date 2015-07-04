@@ -55,13 +55,14 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="@string/export"
         android:id="@+id/button_export"
         android:textColor="@color/accent_material_light"
         android:background="#00ffffff"
         android:layout_below="@+id/switch_mail"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
 
     <TextView
         android:layout_width="wrap_content"
