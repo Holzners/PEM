@@ -60,26 +60,21 @@ public class WeekFragment extends ListFragment{
         setListAdapter(adapter);
 
         week = (TextView) getView().findViewById(R.id.week);
-        // TODO richtiges Format DD.-DD.MM.YYYY
-        // TODO Datum checken
-//        String firstDayOfSelectedWeek = String.valueOf(adapter.getFirstDayOfSelectedWeek());
-//        week.setText("Ab" + String.valueOf(firstDayOfSelectedWeek));
-        week.setText(String.valueOf(calenderWeek));
-
+        setTitle();
         previous = (ImageButton) getView().findViewById(R.id.previousWeek);
         next = (ImageButton) getView().findViewById(R.id.nextWeek);
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 previousWeek(calenderWeek);
-                week.setText(String.valueOf(calenderWeek));
+                setTitle();
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 nextWeek(calenderWeek);
-                week.setText(String.valueOf(calenderWeek));
+                setTitle();
             }
         });
 
@@ -147,5 +142,17 @@ public class WeekFragment extends ListFragment{
 
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
+    }
+
+    private String getWeekNr () {
+        return String.valueOf(calenderWeek);
+    }
+
+    private String getFirstDay() {
+        return String.valueOf(adapter.getFirstDayOfSelectedWeek().format("DD.MM.YYYY"));
+    }
+
+    private void setTitle(){
+        week.setText(getWeekNr() + " ab " + getFirstDay());
     }
 }
