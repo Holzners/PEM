@@ -6,8 +6,8 @@
     tools:context="com.team3.pem.pem.view.SwitchFragment">
 
     <ListView android:id="@android:id/list"
-        android:paddingRight="80dp"
-        android:layout_width="328dp"
+        android:paddingRight="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"  />
 <!--
     <LinearLayout
