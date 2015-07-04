@@ -61,8 +61,8 @@ public class RateDayFragment extends DialogFragment {
 //            }
 //        });
 
-        Button saveDay = (Button) view.findViewById(R.id.buttonSaveDay);
-        Button cancel = (Button) view.findViewById(R.id.cancel_action);
+        Button saveDay = (Button) view.findViewById(R.id.button_save_day);
+        Button cancel = (Button) view.findViewById(R.id.button_cancel);
 
         final EditText editText = (EditText) view.findViewById(R.id.editNote);
         DayEntry entry = mDBHelper.getDatabaseEntriesDay(mDBHelper.getFactorList(), date.getDay(), date.getMonth(), date.getYear());

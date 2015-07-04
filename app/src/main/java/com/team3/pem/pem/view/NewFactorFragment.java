@@ -58,8 +58,8 @@ public class NewFactorFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_new_factor, container, false);
 
         mDBHelper = FeedReaderDBHelper.getInstance();
-        FAB = (Button) view.findViewById(R.id.FAB);
-        deleteButton = (Button) view.findViewById(R.id.delete_button);
+        FAB = (Button) view.findViewById(R.id.button_save_factor);
+        deleteButton = (Button) view.findViewById(R.id.button_cancel);
         newFactorText = (EditText) view.findViewById(R.id.inputText);
         tooManySymptomsText = (TextView) view.findViewById(R.id.tooManySymptomsText);
         tooManySymptomsText.setVisibility(View.INVISIBLE);

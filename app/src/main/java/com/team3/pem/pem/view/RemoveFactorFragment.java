@@ -55,7 +55,7 @@ public class RemoveFactorFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_remove_factor, container, false);
 
         mDBHelper = FeedReaderDBHelper.getInstance();
-        FAB = (FloatingActionButton) view.findViewById(R.id.FAB);
+        FAB = (FloatingActionButton) view.findViewById(R.id.button_save_factor);
         tooManySymptomsText = (TextView) view.findViewById(R.id.tooManySymptomsText);
         tooManySymptomsText.setVisibility(View.INVISIBLE);
 

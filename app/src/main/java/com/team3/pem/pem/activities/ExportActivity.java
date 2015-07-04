@@ -66,10 +66,10 @@ public class ExportActivity extends ActionBarActivity {
 
         dbHelper = FeedReaderDBHelper.getInstance();
 
-        exportButton = (Button) findViewById(R.id.exportbutton);
+        exportButton = (Button) findViewById(R.id.button_export);
         nameField = (EditText) findViewById(R.id.nameField);
-        mailSwitch = (Switch) findViewById(R.id.mailswitch);
-        exportAll = (Switch) findViewById(R.id.exportSwitch);
+        mailSwitch = (Switch) findViewById(R.id.switch_mail);
+        exportAll = (Switch) findViewById(R.id.switch_export);
         listView = (ListView) findViewById(R.id.symptomListView);
         loadingText = (TextView) findViewById(R.id.loadingText);
 

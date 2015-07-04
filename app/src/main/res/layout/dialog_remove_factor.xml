@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         class="android.support.design.widget.FloatingActionButton"
         android:src="@drawable/ic_action_discard"
-        android:id="@+id/FAB"
+        android:id="@+id/button_save_factor"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="24dp"

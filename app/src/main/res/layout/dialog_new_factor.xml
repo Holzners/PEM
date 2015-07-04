@@ -25,27 +25,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_cancel"
-        android:id="@+id/delete_button"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="24dp"
+        android:id="@+id/button_cancel"
         android:textColor="@color/accent_material_light"
-        android:background="#00ffffff" />
+        android:background="#00ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/button_save_factor"
+        android:layout_marginRight="20dp"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Speichern"
-        android:id="@+id/FAB"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="24dp"
-        android:layout_marginRight="24dp"
+        android:id="@+id/button_save_factor"
         android:textColor="@color/accent_material_light"
-        android:background="#00ffffff" />
+        android:background="#00ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
 
     <EditText
         android:layout_width="wrap_content"

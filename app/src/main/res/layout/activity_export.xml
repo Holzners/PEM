@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/exportAll"
-        android:id="@+id/exportSwitch"
+        android:id="@+id/switch_export"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_below="@+id/nameField"
         android:layout_alignParentLeft="true"
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/symptomListView"
-        android:layout_below="@+id/exportSwitch"
+        android:layout_below="@+id/switch_export"
         android:layout_marginLeft="20dp"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="50dp"/>
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/mail"
-        android:id="@+id/mailswitch"
+        android:id="@+id/switch_mail"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:switchMinWidth="50sp"
         android:switchPadding="50sp"
@@ -58,11 +58,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/export"
-        android:id="@+id/exportbutton"
+        android:id="@+id/button_export"
         android:textColor="@color/accent_material_light"
         android:background="#00ffffff"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/mailswitch"/>
+        android:layout_below="@+id/switch_mail"
+        android:layout_alignParentRight="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -73,6 +73,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:visibility="invisible"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/mailswitch"/>
+        android:layout_below="@+id/switch_mail"/>
 
 </RelativeLayout>

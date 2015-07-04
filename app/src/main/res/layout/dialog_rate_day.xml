@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/rateDay"
-        android:id="@+id/tvRateDay"
+        android:id="@+id/text_view_rate_day"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -25,19 +25,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_save"
-        android:id="@+id/buttonSaveDay"
+        android:id="@+id/button_save_day"
         android:textColor="@color/accent_material_light"
         android:background="#00ffffff"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/editNote"
-        android:layout_alignEnd="@+id/editNote" />
+        android:layout_alignParentRight="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editNote"
         android:hint="@string/editNote"
-        android:layout_above="@+id/buttonSaveDay"
+        android:layout_above="@+id/button_save_day"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
@@ -47,12 +46,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_cancel"
-        android:id="@+id/cancel_action"
+        android:id="@+id/button_cancel"
         android:textColor="@color/accent_material_light"
         android:background="#00ffffff"
-        android:layout_alignTop="@+id/buttonSaveDay"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/button_save_day"
+        android:layout_marginRight="20dp"
+        />
 
     <ListView
         android:id="@+id/list"
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
-        android:layout_below="@+id/tvRateDay"
+        android:layout_below="@+id/text_view_rate_day"
         android:layout_above="@+id/editNote"/>
 
 </RelativeLayout>
