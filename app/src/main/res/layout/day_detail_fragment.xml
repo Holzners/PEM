@@ -2,32 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/weatherText"
+        android:layout_marginLeft="@dimen/abc_dialog_padding_material"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
+        android:id="@+id/right"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginRight="@dimen/abc_dialog_padding_material"
+        android:layout_marginLeft="@dimen/abc_dialog_padding_material"
+        android:layout_marginBottom="@dimen/abc_dialog_padding_material">
        <TextView
             android:id="@+id/descriptionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"/>
-        <TextView
-            android:id="@+id/weatherText"
-            android:text="@string/noDataAvailable"
+        <ListView
+            android:id="@+id/list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/descriptionText"/>
+            android:layout_below="@+id/descriptionText"
+            android:layout_marginBottom="@dimen/abc_dialog_padding_material" />
+
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/weatherText"
-        android:layout_marginBottom="20dp"/>
+
+
 
 
 </LinearLayout>

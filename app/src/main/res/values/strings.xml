@@ -84,7 +84,7 @@
     <string name="weatherFail">Weather fetching failed</string>
 
     <!--Day detail fragment-->
-    <string name="description">Beschreibung: </string>
+    <!--<string name="rating">Bewertung: </string>-->
     <string name="weather">Wetter: </string>
     <string name="noDataAvailable">Keine Daten verfügbar.</string>
 

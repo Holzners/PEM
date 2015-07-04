@@ -21,7 +21,6 @@ public class WeekFragment extends ListFragment{
     private int year;
     private int calenderWeek;
     WeekViewAdapter adapter;
-//    Spinner weekPicker;
     private ImageButton previous, next;
     private TextView week;
 
@@ -56,7 +55,7 @@ public class WeekFragment extends ListFragment{
 
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         int displayWidth = display.getWidth();
-        adapter = new WeekViewAdapter((MainActivity)getActivity(),0, displayWidth);
+        adapter = new WeekViewAdapter((MainActivity) getActivity(), 0, displayWidth);
         setListAdapter(adapter);
 
         week = (TextView) getView().findViewById(R.id.week);
@@ -77,7 +76,7 @@ public class WeekFragment extends ListFragment{
                 setTitle();
             }
         });
-
+    }
 //        weekPicker = (Spinner) getView().findViewById(R.id.spinner);
 //        List<Integer> weeks = new ArrayList<>();
 //        for(int i = 1 ; i <= 52 ; i++){
@@ -107,9 +106,6 @@ public class WeekFragment extends ListFragment{
 //
 //                    }
 //                });
-
-
-    }
 
 
     public void nextWeek(int weeks){

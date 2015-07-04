@@ -52,17 +52,19 @@ public class DayDetailFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.day_detail_fragment, container, false);
 
         weatherText = (TextView) view.findViewById(R.id.weatherText);
+        weatherText.setText(getResources().getString(R.string.weather) +"\n "+ getResources().getString(R.string.noDataAvailable));
+
         descriptionDay = (TextView)view.findViewById(R.id.descriptionText);
         HashMap<String, Integer> ratings = new HashMap<>();
         DayEntry entry =  mDBHelper.getDatabaseEntriesDay(mDBHelper.getFactorList(), selectedDate.getDay() , selectedDate.getMonth() ,selectedDate.getYear());
         if (entry != null) {
             ratings = entry.ratings;
-            descriptionDay.setText(getResources().getString(R.string.description) + "\n "+ entry.description);
+            descriptionDay.setText(entry.description);
         }
         String s = mDBHelper.getWeatherData(selectedDate);
         if(s != null && !s.equals("")) weatherText.setText(getResources().getString(R.string.weather) + "\n "+ s);
         adapter = new DayDetailAdapter(getActivity(),0,ratings);
-        ListView lv= (ListView) view.findViewById(R.id.list);
+        ListView lv = (ListView) view.findViewById(R.id.list);
         lv.setAdapter(adapter);
 
         return view;
