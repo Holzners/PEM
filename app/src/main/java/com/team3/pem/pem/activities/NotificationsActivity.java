@@ -189,12 +189,12 @@ public class NotificationsActivity extends ActionBarActivity {
         int id = item.getItemId();
         if (id == R.id.action_edit){
             // TODO Namen ändern
-            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT);
+            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT).show();
             setContextMenuOn(false);
             invalidateOptionsMenu();
         } else if (id == R.id.action_delete){
             // TODO deleteReminder(); Liste aktualisieren
-            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT);
+            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT).show();
             setContextMenuOn(false);
             invalidateOptionsMenu();
         }

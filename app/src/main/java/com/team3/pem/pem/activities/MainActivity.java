@@ -87,12 +87,12 @@ public class MainActivity extends ActionBarActivity {
             startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
         } else if (id == R.id.action_delete){
             // TODO removeFactor(); Liste aktualisieren
-            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT);
+            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT).show();
             setContextMenuOn(false);
             invalidateOptionsMenu();
         } else if (id == R.id.action_edit){
             // TODO Fenster, wo Farbe und Name erneut eingestellt werden können.
-            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT);
+            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT).show();
             setContextMenuOn(false);
             invalidateOptionsMenu();
         }
