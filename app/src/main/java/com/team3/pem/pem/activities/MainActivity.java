@@ -99,8 +99,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 .addSubActionView(buttonNewFactor)
                 .addSubActionView(buttonNewEvent)
                 .attachTo(actionButton)
-                .setStartAngle(240)
-                .setEndAngle(270)
+                .setStartAngle(257)
+                .setEndAngle(283)
                 .build();
     }
 
