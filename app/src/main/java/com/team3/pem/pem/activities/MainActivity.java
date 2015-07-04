@@ -74,7 +74,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         imageview.setImageResource(R.drawable.ic_action_new);
 
         FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
-                .setBackgroundDrawable(R.drawable.button_action_dark_touch)
+                .setBackgroundDrawable(R.drawable.button_action_accent_selector)
                 .setContentView(imageview)
                 .build();
 
