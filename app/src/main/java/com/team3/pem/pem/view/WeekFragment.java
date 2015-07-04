@@ -153,6 +153,6 @@ public class WeekFragment extends ListFragment{
     }
 
     private void setTitle(){
-        week.setText(getWeekNr() + " ab " + getFirstDay());
+        week.setText(getWeekNr());
     }
 }

@@ -52,7 +52,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:layout_above="@+id/tooManySymptomsText"
-        android:textColor="#ff0f5cff" />
+        android:singleLine="true"/>
 
     <Spinner
         android:id="@+id/spinner"

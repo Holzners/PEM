@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-   <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/descriptionText"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No Data available"
-        android:layout_toRightOf="@+id/descriptionText"
-        android:id="@+id/weatherText"/>
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="20dp">
+       <TextView
+            android:id="@+id/descriptionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"/>
+        <TextView
+            android:id="@+id/weatherText"
+            android:text="@string/noDataAvailable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/descriptionText"/>
+    </LinearLayout>
 
     <ListView
+        android:id="@+id/list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/weatherText"
-        android:id="@+id/list"
-        android:layout_gravity="center_horizontal|bottom" />
+        android:layout_marginBottom="20dp"/>
 
 
-</RelativeLayout>
+</LinearLayout>

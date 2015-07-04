@@ -86,6 +86,7 @@
     <!--Day detail fragment-->
     <string name="description">Beschreibung: </string>
     <string name="weather">Wetter: </string>
+    <string name="noDataAvailable">Keine Daten verfügbar.</string>
 
     <!--New Factor Fragment -->
     <string name="noInput">No Input</string>

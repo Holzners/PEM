@@ -25,8 +25,7 @@ import hirondelle.date4j.DateTime;
 public class DayDetailFragment extends DialogFragment {
 
     private DateTime selectedDate;
-    TextView descriptionDay;
-    TextView weatherText;
+    TextView descriptionDay, weatherText;
     DayDetailAdapter adapter;
     private FeedReaderDBHelper mDBHelper;
 
@@ -47,7 +46,7 @@ public class DayDetailFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getDialog().getWindow().setTitle(selectedDate + "");
+        getDialog().getWindow().setTitle(selectedDate.format("DD.MM.YYYY"));
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
         View view = inflater.inflate(R.layout.day_detail_fragment, container, false);

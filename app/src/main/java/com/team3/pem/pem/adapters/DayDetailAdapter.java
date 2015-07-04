@@ -2,7 +2,6 @@ package com.team3.pem.pem.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,10 +54,9 @@ public class DayDetailAdapter extends ArrayAdapter {
         if(factorRatingMap.containsKey(item)){
             int integer = factorRatingMap.get(item);
             int color = RatingToColorHelper.ratingToColor(item, integer);
-            Log.i("ITEM + COLOR", item + " " + Integer.toHexString(color) + " " + integer);
-            gd.setColor(color);
+            gd.setColor(getContext().getResources().getColor(color));
         }
-        else gd.setColor(RatingToColorHelper.ratingToColor(getItem(position),0));
+        else gd.setColor(getContext().getResources().getColor(R.color.caldroid_white));
         return newRow;
     }
 
