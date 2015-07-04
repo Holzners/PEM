@@ -89,7 +89,7 @@ public class MainActivity extends ActionBarActivity {
             setContextMenuOn(false);
             invalidateOptionsMenu();
         } else if (id == R.id.action_edit){
-            // TODO Fenster, wo Farbe und Name erneut eingestellt werden k�nnen.
+            // TODO Fenster, wo Farbe und Name erneut eingestellt werden koennen.
             Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT).show();
             setContextMenuOn(false);
             invalidateOptionsMenu();
