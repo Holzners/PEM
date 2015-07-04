@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -72,6 +73,7 @@ public class ExportActivity extends ActionBarActivity {
         exportAll = (Switch) findViewById(R.id.switch_export);
         listView = (ListView) findViewById(R.id.symptomListView);
         loadingText = (TextView) findViewById(R.id.loadingText);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         final SwitchExportAdapter adapter = new SwitchExportAdapter(this, R.layout.row_switch_layout, dbHelper.getFactors());
         listView.setAdapter(adapter);

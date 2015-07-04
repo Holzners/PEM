@@ -8,7 +8,7 @@
         app:showAsAction="ifRoom"  />
 
     <item android:id="@+id/action_export"
-        android:icon="@drawable/ic_action_import_export_holo_dark"
+        android:icon="@drawable/ic_file_download_white_48dp"
         android:title="@string/action_export"
         app:showAsAction="ifRoom"  />
 </menu>

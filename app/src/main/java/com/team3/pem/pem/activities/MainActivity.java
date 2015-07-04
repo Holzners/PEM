@@ -3,6 +3,7 @@ package com.team3.pem.pem.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;

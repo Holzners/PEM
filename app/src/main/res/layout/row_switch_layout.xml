@@ -12,7 +12,7 @@
         android:clickable="true"
         android:checked="false"
         android:switchMinWidth="10sp"
-        android:switchPadding="10sp"
+        android:switchPadding="10dp"
         android:layout_alignParentBottom="false"
         android:layout_centerHorizontal="false"
         android:layout_alignParentLeft="false"
