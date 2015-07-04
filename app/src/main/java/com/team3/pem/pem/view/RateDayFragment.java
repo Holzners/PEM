@@ -63,7 +63,7 @@ public class RateDayFragment extends DialogFragment {
 //            }
 //        });
 
-        Button saveDay = (Button) view.findViewById(R.id.saveDay);
+        Button saveDay = (Button) view.findViewById(R.id.buttonSaveDay);
         Button cancel = (Button) view.findViewById(R.id.cancel_action);
 
         final EditText editText = (EditText) view.findViewById(R.id.editNote);

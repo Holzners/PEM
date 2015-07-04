@@ -49,10 +49,10 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:switchMinWidth="50sp"
         android:switchPadding="50sp"
-        android:layout_above="@+id/exportbutton"
         android:layout_below="@+id/symptomListView"
         android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true"   />
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="50dp"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -61,23 +61,18 @@
         android:id="@+id/exportbutton"
         android:textColor="@color/accent_material_light"
         android:background="#00ffffff"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginTop="50dp"/>
+        android:layout_below="@+id/mailswitch"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/loadingText"
-        android:layout_alignParentBottom="true"
-        android:layout_alignTop="@+id/exportbutton"
-        android:layout_marginTop="8dp"
         android:text="@string/loading"
         android:textStyle="italic"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_centerHorizontal="true"
         android:visibility="invisible"
-        android:layout_marginBottom="50dp"/>
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/mailswitch"/>
 
 </RelativeLayout>
