@@ -65,14 +65,14 @@ public class WeekFragment extends ListFragment{
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                previousWeek(calenderWeek);
+                previousWeek(1);
                 setTitle();
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextWeek(calenderWeek);
+                nextWeek(1);
                 setTitle();
             }
         });
@@ -109,15 +109,17 @@ public class WeekFragment extends ListFragment{
 
 
     public void nextWeek(int weeks){
-//        calenderWeek += 1;
+        calenderWeek += 1;
         adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().plusDays(7*weeks));
         adapter.notifyDataSetChanged();
+        setTitle();
     }
 
     public void previousWeek(int weeks){
-//        calenderWeek -= 1;
+        calenderWeek -= 1;
         adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().minusDays(7 * weeks));
         adapter.notifyDataSetChanged();
+        setTitle();
     }
 
     public int getYear() {
