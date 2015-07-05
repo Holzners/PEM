@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.activities.MainActivity;
@@ -63,6 +64,8 @@ public class RateDayFragment extends DialogFragment {
 
         Button saveDay = (Button) view.findViewById(R.id.button_save_day);
         Button cancel = (Button) view.findViewById(R.id.button_cancel);
+        TextView currentDate = (TextView) view.findViewById(R.id.rateDayDate);
+        currentDate.setText(date.format("DD.MM.YYYY"));
 
         final EditText editText = (EditText) view.findViewById(R.id.editNote);
         DayEntry entry = mDBHelper.getDatabaseEntriesDay(mDBHelper.getFactorList(), date.getDay(), date.getMonth(), date.getYear());

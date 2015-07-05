@@ -63,4 +63,15 @@
         android:layout_below="@+id/text_view_rate_day"
         android:layout_above="@+id/editNote"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rateDayDate"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:singleLine="false"
+        android:textStyle="italic"
+        android:layout_marginTop="10dp" />
+
 </RelativeLayout>
