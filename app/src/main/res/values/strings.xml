@@ -67,6 +67,7 @@
     <string name="title_activity_reminder">ReminderActivity</string>
     <string name="noUserInput">Keine User Eingabe</string>
     <string name="cantdelete">Kann nicht gelöscht werden</string>
+    <string name="cantedit">Kann nicht bearbeitet werden</string>
 
     <!-- Rate day activity -->
     <string name="rateDay">Tag bewerten</string>

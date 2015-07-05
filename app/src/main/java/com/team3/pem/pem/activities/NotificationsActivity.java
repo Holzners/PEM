@@ -38,6 +38,7 @@ public class NotificationsActivity extends ActionBarActivity {
     boolean contextMenuOn = false;
     Menu mMenu;
     NotificationsAdapter adapter;
+    EditText userInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,13 @@ public class NotificationsActivity extends ActionBarActivity {
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
             public void create(SwipeMenu swipeMenu) {
+                //edit
+                SwipeMenuItem editItem = new SwipeMenuItem(getApplicationContext());
+                editItem.setBackground(new ColorDrawable(R.color.accentColor));
+                editItem.setWidth(dp2px(90));
+                editItem.setIcon(R.drawable.ic_action_edit_holo_dark);
+                swipeMenu.addMenuItem(editItem);
+                //delete
                 SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
                 deleteItem.setBackground(new ColorDrawable(R.color.transparent));
                 deleteItem.setWidth(dp2px(90));
@@ -69,14 +77,48 @@ public class NotificationsActivity extends ActionBarActivity {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 //  ApplicationInfo item = mAppList.get(position);
-                NotificationModel item = adapter.getItem(position);
+                final NotificationModel item = adapter.getItem(position);
                 switch (index) {
                     case 0:
+                        //edit
+                        if(item.getAlarmID() == 0){
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.cantedit), Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+                        final AlertDialog alertDialog = createDialog();
+                        userInput.setText(item.getText());
+                        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                            @Override
+                            public void onShow(final DialogInterface dialog) {
+                                Button b = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                                b.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        if (userInput.getText().toString().equals("")) {
+                                            Toast.makeText(NotificationsActivity.this, getResources().getString(R.string.noUserInput), Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
+                                        NotificationModel reminderModel = new NotificationModel(item.getAlarmID(), item.getAlarmID(), item.getTime(), userInput.getText().toString(),
+                                                item.isActive(), item.getActiveForDays());
+                                        dbHelper.saveReminder(reminderModel);
+                                        reminders = getReminders(dbHelper.getAllReminders());
+                                        adapter.clear();
+                                        adapter.addAll(reminders);
+                                        adapter.notifyDataSetChanged();
+                                        dialog.dismiss();
+                                    }
+                                });
+                            }
+                        });
+                        alertDialog.show();
+                        break;
+                    case 1:
                         //delete
                         if(item.getAlarmID() == 0){
                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.cantdelete), Toast.LENGTH_LONG).show();
                             return false;
                         }
+
                         dbHelper.removeReminder(item.getAlarmID());
                         adapter.cancelAlarm(item.getAlarmID());
                         reminders = getReminders(dbHelper.getAllReminders());
@@ -92,32 +134,7 @@ public class NotificationsActivity extends ActionBarActivity {
         new_reminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayoutInflater li = LayoutInflater.from(NotificationsActivity.this);
-                View promptsView = li.inflate(R.layout.dialog_new_notification, null);
-
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                        NotificationsActivity.this);
-
-                alertDialogBuilder.setPositiveButton(getResources().getString(R.string.action_ok), null);
-                alertDialogBuilder.setView(promptsView);
-
-                final EditText userInput = (EditText) promptsView
-                        .findViewById(R.id.newReminderField);
-
-                alertDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton(getResources().getString(R.string.action_ok),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                    }
-                                })
-                        .setNegativeButton(getResources().getString(R.string.action_cancel),
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                final AlertDialog alertDialog = alertDialogBuilder.create();
+                final AlertDialog alertDialog = createDialog();
 
                 alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
@@ -186,17 +203,6 @@ public class NotificationsActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_edit){
-            // TODO Namen aendern
-            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT).show();
-            setContextMenuOn(false);
-            invalidateOptionsMenu();
-        } else if (id == R.id.action_delete){
-            // TODO deleteReminder(); Liste aktualisieren
-            Toast.makeText(this,"Not implemented yet.",Toast.LENGTH_SHORT).show();
-            setContextMenuOn(false);
-            invalidateOptionsMenu();
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -213,5 +219,36 @@ public class NotificationsActivity extends ActionBarActivity {
 
     public void setContextMenuOn(boolean contextMenuOn) {
         this.contextMenuOn = contextMenuOn;
+    }
+
+    private AlertDialog createDialog(){
+        LayoutInflater li = LayoutInflater.from(NotificationsActivity.this);
+        View promptsView = li.inflate(R.layout.dialog_new_notification, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                NotificationsActivity.this);
+
+        alertDialogBuilder.setPositiveButton(getResources().getString(R.string.action_ok), null);
+        alertDialogBuilder.setView(promptsView);
+
+        userInput = (EditText) promptsView
+                .findViewById(R.id.newReminderField);
+
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton(getResources().getString(R.string.action_ok),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        })
+                .setNegativeButton(getResources().getString(R.string.action_cancel),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+
+        return alertDialog;
     }
 }

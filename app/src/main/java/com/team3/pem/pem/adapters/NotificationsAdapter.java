@@ -84,15 +84,6 @@ public class NotificationsAdapter extends ArrayAdapter {
         time.setOnClickListener(new ReminderViewOnClickListener(time, reminderModel));
         reminderSwitch.setOnCheckedChangeListener(new ReminderViewOnClickListener(reminderSwitch, reminderModel));
 
-        reminderSwitch.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                context.setContextMenuOn(true);
-                context.invalidateOptionsMenu();
-                return true;
-            }
-        });
-
         return convertView;
     }
 
