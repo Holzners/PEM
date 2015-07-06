@@ -3,6 +3,7 @@ package com.team3.pem.pem.view;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import com.team3.pem.pem.activities.MainActivity;
 import com.team3.pem.pem.adapters.WeekViewAdapter;
 
 import java.util.Calendar;
+
+import hirondelle.date4j.DateTime;
 
 public class WeekFragment extends ListFragment{
 
@@ -51,7 +54,6 @@ public class WeekFragment extends ListFragment{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
 
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         int displayWidth = display.getWidth();
@@ -151,6 +153,20 @@ public class WeekFragment extends ListFragment{
     }
 
     private void setTitle(){
-        week.setText(getWeekNr());
+        DateTime firstDay = adapter.getFirstDayOfSelectedWeek();
+        DateTime lastDay = adapter.lastDayOfThisWeek();
+        String sFirstDay = firstDay.format("DD");
+        String sLastDay = lastDay.format("DD.MM.YYYY");
+        String monthFirstDay = "";
+        String yearFirstDay = "";
+        if(firstDay.getMonth() != lastDay.getMonth()) {
+            monthFirstDay = "." + firstDay.format("MM");
+
+            if (!(firstDay.getYear()+"").equals(lastDay.getYear()+"")) {
+                Log.d("Not Equal", firstDay.getYear()+ " " +  lastDay.getYear());
+                yearFirstDay = "." + firstDay.format("YYYY");
+            }
+        }
+        week.setText(sFirstDay + monthFirstDay+ yearFirstDay+ " - " +sLastDay);
     }
 }

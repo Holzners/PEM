@@ -17,6 +17,7 @@ import com.team3.pem.pem.utili.RatingToColorHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
 
@@ -73,10 +74,6 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
                 colorView[2] = (TextView) cellView.findViewById(R.id.tvBottomLeft);
                 colorView[3] = (TextView) cellView.findViewById(R.id.tvBottomRight);
 
-//                TextView tv = (TextView) cellView.findViewById(R.id.tvMonthCell1);   //Print date in Cell
-//                tv.setText("" + dateTime.getDay());
-//                tv.setTextColor(context.getResources().getColor(R.color.primaryColor));
-
             if (dayEntry != null ) {
                 if(copyOfFactors.size()== 1){
                     for(TextView t : colorView){
@@ -111,6 +108,12 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
                 cellView.setBackgroundResource(R.drawable.border);
                 GradientDrawable drawable = (GradientDrawable) cellView.getBackground();
                 drawable.setColor(cellView.getResources().getColor(R.color.white));
+
+            if(dateTime.isSameDayAs(DateTime.today(TimeZone.getDefault()))){
+                cellView.setBackgroundResource(R.drawable.border_red);
+                GradientDrawable gd = (GradientDrawable) cellView.getBackground();
+                gd.setColor(cellView.getResources().getColor(R.color.white));
+            }
 
         }
         cellView.setPadding(leftPadding, topPadding, rightPadding,

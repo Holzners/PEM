@@ -68,7 +68,12 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
         rowViews[6] = (TextView) newRow.findViewById(R.id.rowTextView7);
 
         if(position == 0){
+            DateTime today = DateTime.today(TimeZone.getDefault());
+            DateTime dateOfWeekday =firstDayOfSelectedWeek;
             for(int k = 0 ; k <rowViews.length; k++){
+
+
+
                 rowViews[k].setText(context.getResources().getStringArray(R.array.days)[k]);
                 rowViews[k].setTextColor(newRow.getResources().getColor(R.color.caldroid_gray));
                 GradientDrawable gd = (GradientDrawable) rowViews[k].getBackground();
@@ -77,6 +82,12 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
                 params.height = displayWidth/7-5;
                 params.width = displayWidth/7-5;
                 rowViews[k].setLayoutParams(params);
+
+                // Markierung des heutigen Tages
+                if(today.isSameDayAs(dateOfWeekday))
+                    rowViews[k].setTextColor(newRow.getResources().getColor(R.color.primaryColor));
+
+                dateOfWeekday = dateOfWeekday.plusDays(1);
                 final int finalK = k;
                 if(k > 0)
                     rowViews[k].setOnClickListener(new View.OnClickListener() {
@@ -119,15 +130,12 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
                     rowViews[i].setLayoutParams(params);
                     rowViews[i].setOnClickListener(new WeekViewClickListener(context, startDay.plusDays(i)));
                 }
-            }else {
-                for(TextView t: rowViews){ t.setVisibility(View.GONE);}
+            } else {
+                for (TextView t : rowViews) {
+                    t.setVisibility(View.GONE);
+                }
             }
         }
-        // Markierung des heutigen Tages
-        int i = DateTime.today(TimeZone.getDefault()).getWeekDay(); //1..7 für So..Sa
-        if (i==1) i+=6;
-        else i-=1;
-        rowViews[i-1].setTextColor(newRow.getResources().getColor(R.color.primaryColor));
 
         return newRow;
     }
@@ -146,7 +154,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
     }
 
 
-    private DateTime lastDayOfThisWeek() {
+    public DateTime lastDayOfThisWeek() {
       return getFirstDayOfSelectedWeek().plusDays(7);
     }
 
