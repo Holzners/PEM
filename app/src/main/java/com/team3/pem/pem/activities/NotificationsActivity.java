@@ -36,7 +36,6 @@ public class NotificationsActivity extends ActionBarActivity {
     FloatingActionButton new_reminder;
     SwipeMenuListView listView;
     boolean contextMenuOn = false;
-    Menu mMenu;
     NotificationsAdapter adapter;
     EditText userInput;
 
@@ -202,7 +201,6 @@ public class NotificationsActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
 

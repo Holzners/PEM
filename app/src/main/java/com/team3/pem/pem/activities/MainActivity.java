@@ -57,8 +57,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private static final String TAG_NEW_FACTOR = "newFactor";
     Switch selectedSwitch;
 
-
-    static final int RATE_DAY_DIALOG = 0;
     public HashMap<String, Integer> selectedColor;
     DateTime date;
     Menu mMenu;
@@ -167,7 +165,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onResume() {
         super.onResume();
 
-        if (mDbHelper == null) mDbHelper.getInstance();
+        if (mDbHelper == null)
+            mDbHelper = FeedReaderDBHelper.getInstance();
 
         // Creating The Toolbar and setting it as the Toolbar for the activity
         initSwitchFragment();
@@ -260,7 +259,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                             SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putString(getString(R.string.last_weather_update_key), today + "");
-                            editor.commit();
+                            editor.apply();
                         }
                     });
                 }

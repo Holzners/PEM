@@ -112,11 +112,7 @@ public class ExportActivity extends ActionBarActivity {
         mailSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    switchOn = true;
-                } else {
-                    switchOn = false;
-                }
+                switchOn = isChecked;
             }
         });
 
