@@ -65,9 +65,9 @@ public class NotificationsActivity extends ActionBarActivity {
                 swipeMenu.addMenuItem(editItem);
                 //delete
                 SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
-                deleteItem.setBackground(new ColorDrawable(R.color.transparent));
+                deleteItem.setBackground(new ColorDrawable(R.color.accentColor));
                 deleteItem.setWidth(dp2px(90));
-                deleteItem.setIcon(R.drawable.ic_action_discard);
+                deleteItem.setIcon(R.drawable.ic_action_discard_holo_dark);
                 swipeMenu.addMenuItem(deleteItem);
             }
         };

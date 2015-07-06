@@ -1,18 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin">
-
+    android:padding="@dimen/abc_dialog_padding_material">
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tableColorContainer"
         android:layout_alignParentTop="true">
-
     </TableRow>
 
     <TextView
@@ -49,7 +44,6 @@
         android:layout_alignParentEnd="true" />
 
     <Button
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_cancel"
@@ -57,7 +51,7 @@
         android:textColor="@color/accent_material_light"
         android:background="#00ffffff"
         android:layout_alignTop="@+id/button_save_factor"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_toLeftOf="@id/button_save_factor"
+        android:layout_marginRight="@dimen/action_button_margin"/>
 
 </RelativeLayout>
