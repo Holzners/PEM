@@ -89,8 +89,10 @@ public class YearAdapter extends ArrayAdapter {
         }
 
         // Markierung des heutigen Tages
-        int i = DateTime.today(TimeZone.getDefault()).getMonth();
-        textViews[i-1].setTextColor(newRow.getResources().getColor(R.color.primaryColor));
+        if((selectedYear+"").equals( DateTime.today(TimeZone.getDefault()).getYear()+"")) {
+            int i = DateTime.today(TimeZone.getDefault()).getMonth();
+            textViews[i - 1].setTextColor(newRow.getResources().getColor(R.color.primaryColor));
+        }
         return newRow;
     }
 
