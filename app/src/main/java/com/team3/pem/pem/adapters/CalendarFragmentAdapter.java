@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.roomorama.caldroid.CaldroidGridAdapter;
@@ -75,6 +76,10 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
                 colorView[3] = (TextView) cellView.findViewById(R.id.tvBottomRight);
 
             if (dayEntry != null ) {
+                if(dayEntry.description != null && !dayEntry.description.equals("")){
+                    ImageView imgView = (ImageView) cellView.findViewById(R.id.imageStarView);
+                    imgView.setVisibility(View.VISIBLE);
+                }
                 if(copyOfFactors.size()== 1){
                     for(TextView t : colorView){
                        t.setBackgroundColor(cellView.getResources().getColor(

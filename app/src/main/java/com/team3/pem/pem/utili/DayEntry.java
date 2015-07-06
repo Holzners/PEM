@@ -7,7 +7,7 @@ import java.util.HashMap;
  */
 public class DayEntry {
     public HashMap<String, Integer> ratings;
-    public String description;
+    public String description = "";
 
     public DayEntry(HashMap<String,Integer> ratings, String description){
         this.description = description;
