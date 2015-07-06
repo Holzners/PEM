@@ -12,9 +12,10 @@ public class CalendarFragment extends CaldroidFragment {
 
     public CalendarFragment(){
         super();
-        this.enableSwipe =false;
         Bundle args = new Bundle();
         args.putInt(CaldroidFragment.THEME_RESOURCE, R.style.CaldroidDefaultDark);
+        args.putBoolean(CaldroidFragment.ENABLE_SWIPE, false);
+        args.putInt(CaldroidFragment.START_DAY_OF_WEEK, CaldroidFragment.MONDAY);
         this.setArguments(args);
     }
 

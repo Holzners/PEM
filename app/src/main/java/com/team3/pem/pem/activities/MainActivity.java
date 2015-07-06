@@ -1,6 +1,8 @@
 package com.team3.pem.pem.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
@@ -51,9 +55,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     int tabNumber = 3;
     private static final String TAG_NEW_EVENT = "newEvent";
     private static final String TAG_NEW_FACTOR = "newFactor";
+    Switch selectedSwitch;
 
-
-    static final int RATE_DAY_DIALOG = 0;
     public HashMap<String, Integer> selectedColor;
     DateTime date;
     Menu mMenu;
@@ -90,6 +93,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         buttonNewEvent.setOnClickListener(this);
         buttonNewFactor.setOnClickListener(this);
 
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.contentPanel);
+        mainLayout.setOnClickListener(this);
+
         buttonNewEvent.setTag(TAG_NEW_EVENT);
         buttonNewFactor.setTag(TAG_NEW_FACTOR);
 
@@ -125,18 +131,32 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         } else if (id == R.id.action_reminder) {
             startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
         } else if (id == R.id.action_delete) {
-            // TODO removeFactor(); Liste aktualisieren
-            Toast.makeText(this, "Not implemented yet.", Toast.LENGTH_SHORT).show();
-            setContextMenuOn(false);
+            final String switchName = selectedSwitch.getText().toString();
+            new AlertDialog.Builder(this)
+                    .setTitle("Symptom löschen")
+                    .setMessage("Bist du sicher, dass du " + switchName + " löschen möchtest?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            mDbHelper.deleteFactor(switchName, mDbHelper.getFactors());
+                            refreshAdapters();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+            setContextMenuOn(false, null);
             invalidateOptionsMenu();
         } else if (id == R.id.action_edit) {
-            // TODO Fenster, wo Farbe und Name erneut eingestellt werden k�nnen.
-            Toast.makeText(this, "Not implemented yet.", Toast.LENGTH_SHORT).show();
-            setContextMenuOn(false);
+            String color = mDbHelper.getFactorColorMap().get(selectedSwitch.getText().toString());
+            NewFactorFragment newFactorFragment = NewFactorFragment.getInstance(this, selectedSwitch.getText().toString(), color);
+            FragmentManager f = getSupportFragmentManager();
+            newFactorFragment.show(f, "TAG");
+            setContextMenuOn(false, null);
             invalidateOptionsMenu();
-            //  NewFactorFragment newFactorFragment = NewFactorFragment.getInstance(this, factor, color);
-            //FragmentManager f = getSupportFragmentManager();
-            // newFactorFragment.show(f, "TAG");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -145,7 +165,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onResume() {
         super.onResume();
 
-        if (mDbHelper == null) mDbHelper.getInstance();
+        if (mDbHelper == null)
+            mDbHelper = FeedReaderDBHelper.getInstance();
 
         // Creating The Toolbar and setting it as the Toolbar for the activity
         initSwitchFragment();
@@ -238,7 +259,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                             SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putString(getString(R.string.last_weather_update_key), today + "");
-                            editor.commit();
+                            editor.apply();
                         }
                     });
                 }
@@ -280,12 +301,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         rateDayFragment.show(f, "TAG");
     }
 
-    public void showNewFactorDialog(View view) {
+    public void showNewFactorDialog() {
         NewFactorFragment newFactorFragment = NewFactorFragment.getInstance(this, null, null);
         FragmentManager f = getSupportFragmentManager();
         newFactorFragment.show(f, "TAG");
     }
-
     public void showDetailDay(DateTime date) {
         DayDetailFragment dayDetailFragment = DayDetailFragment.newInstance(date);
         FragmentManager f = getSupportFragmentManager();
@@ -306,8 +326,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         return super.onPrepareOptionsMenu(menu);
     }
 
-    public void setContextMenuOn(boolean contextMenuOn) {
+    public void setContextMenuOn(boolean contextMenuOn, Switch selectedSwitch) {
         this.contextMenuOn = contextMenuOn;
+        this.selectedSwitch = selectedSwitch;
     }
 
     public Menu getmMenu() {
@@ -316,14 +337,19 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        if(view.getId() == R.id.contentPanel){
+            if(this.contextMenuOn) {
+                setContextMenuOn(false, null);
+                invalidateOptionsMenu();
+            }
+        }else {
+            if (view.getTag().equals(TAG_NEW_EVENT)) {
+                showRateDay(view);
+            }
 
-        if(view.getTag().equals(TAG_NEW_EVENT)){
-            showRateDay(view);
+            if (view.getTag().equals(TAG_NEW_FACTOR)) {
+                showNewFactorDialog();
+            }
         }
-
-        if(view.getTag().equals(TAG_NEW_FACTOR)){
-            showNewFactorDialog(view);
-        }
-
     }
 }

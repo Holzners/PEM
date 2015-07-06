@@ -45,7 +45,7 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
 
         View newView = inflater.inflate(R.layout.row_switch_layout, null);
 
-        Switch mSwitch = (Switch) newView.findViewById(R.id.switch1);
+        final Switch mSwitch = (Switch) newView.findViewById(R.id.switch1);
         mSwitch.setText(getItem(position));
         mSwitch.setChecked(mDBHelper.getFactorEnabledMap().get(getItem(position)));
         mSwitch.setOnCheckedChangeListener(new SwitchOnCheckedChangedListener(getItem(position)));
@@ -57,7 +57,7 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
         mSwitch.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                context.setContextMenuOn(true);
+                context.setContextMenuOn(true, mSwitch);
                 context.invalidateOptionsMenu();
                 return true;
             }

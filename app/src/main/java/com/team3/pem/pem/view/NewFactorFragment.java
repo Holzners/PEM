@@ -29,9 +29,6 @@ import java.util.List;
  */
 public class NewFactorFragment extends DialogFragment {
     private EditText newFactorText;
-    private TextView tooManySymptomsText;
-    private Button saveButton;
-    private Button cancelButton;
     private FeedReaderDBHelper mDBHelper;
     private String selectedColor = "";
     private TableRow tableRow;
@@ -67,10 +64,10 @@ public class NewFactorFragment extends DialogFragment {
         mDBHelper = FeedReaderDBHelper.getInstance();
         HashMap<String, String> factorEntries = mDBHelper.getFactorsFromDatabase();
 
-        saveButton = (Button) view.findViewById(R.id.button_save_factor);
-        cancelButton = (Button) view.findViewById(R.id.button_cancel);
+        Button saveButton = (Button) view.findViewById(R.id.button_save_factor);
+        Button cancelButton = (Button) view.findViewById(R.id.button_cancel);
         newFactorText = (EditText) view.findViewById(R.id.inputText);
-        tooManySymptomsText = (TextView) view.findViewById(R.id.tooManySymptomsText);
+        TextView tooManySymptomsText = (TextView) view.findViewById(R.id.tooManySymptomsText);
         tooManySymptomsText.setVisibility(View.INVISIBLE);
         tableRow = (TableRow) view.findViewById(R.id.tableColorContainer);
 
@@ -98,22 +95,17 @@ public class NewFactorFragment extends DialogFragment {
             }
             initTable();
         }
-
-
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveFactor();
             }
         });
-
-
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeFactor();
+                dismiss();
             }
-
         });
         return view;
     }
@@ -124,14 +116,9 @@ public class NewFactorFragment extends DialogFragment {
             context.selectedColor.put(newFactorText.getText().toString(), 1);
             context.refreshAdapters();
             this.dismiss();
-//            context.showRateDayPopup(DateTime.today(TimeZone.getDefault()));
         } else {
             Toast.makeText(context, getResources().getString(R.string.noInput), Toast.LENGTH_LONG).show();
         }
-    }
-
-    public void removeFactor(){
-        this.dismiss();
     }
 
     public void initTable(){
