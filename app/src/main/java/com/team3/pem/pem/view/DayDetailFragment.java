@@ -28,11 +28,13 @@ public class DayDetailFragment extends DialogFragment {
     TextView descriptionDay, weatherText;
     DayDetailAdapter adapter;
     private FeedReaderDBHelper mDBHelper;
+    String day;
 
-    public static DayDetailFragment newInstance(DateTime selectedDate) {
+    public static DayDetailFragment newInstance(DateTime selectedDate, String day) {
         DayDetailFragment fragment = new DayDetailFragment();
         fragment.selectedDate = selectedDate;
         fragment.mDBHelper = FeedReaderDBHelper.getInstance();
+        fragment.day = day;
         return fragment;
     }
 
@@ -46,7 +48,7 @@ public class DayDetailFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getDialog().getWindow().setTitle(selectedDate.format("DD.MM.YYYY"));
+        getDialog().getWindow().setTitle(day + ", " + selectedDate.format("DD.MM.YYYY"));
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
         View view = inflater.inflate(R.layout.day_detail_fragment, container, false);
@@ -59,7 +61,7 @@ public class DayDetailFragment extends DialogFragment {
         DayEntry entry =  mDBHelper.getDatabaseEntriesDay(mDBHelper.getFactorList(), selectedDate.getDay() , selectedDate.getMonth() ,selectedDate.getYear());
         if (entry != null) {
             ratings = entry.ratings;
-            descriptionDay.setText(entry.description);
+            descriptionDay.setText("\"" + entry.description + "\"");
         }
         String s = mDBHelper.getWeatherData(selectedDate);
         if(s != null && !s.equals("")) weatherText.setText(getResources().getString(R.string.weather) + "\n "+ s);

@@ -306,8 +306,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         FragmentManager f = getSupportFragmentManager();
         newFactorFragment.show(f, "TAG");
     }
-    public void showDetailDay(DateTime date) {
-        DayDetailFragment dayDetailFragment = DayDetailFragment.newInstance(date);
+    public void showDetailDay(DateTime date, String day) {
+        DayDetailFragment dayDetailFragment = DayDetailFragment.newInstance(date, day);
         FragmentManager f = getSupportFragmentManager();
         dayDetailFragment.show(f, "TAG");
     }

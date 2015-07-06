@@ -2,6 +2,7 @@ package com.team3.pem.pem.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -64,7 +65,7 @@ public class NotificationsActivity extends ActionBarActivity {
                 swipeMenu.addMenuItem(editItem);
                 //delete
                 SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
-                deleteItem.setBackground(new ColorDrawable(R.color.accentColor));
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(255, 0, 0)));
                 deleteItem.setWidth(dp2px(90));
                 deleteItem.setIcon(R.drawable.ic_action_discard_holo_dark);
                 swipeMenu.addMenuItem(deleteItem);

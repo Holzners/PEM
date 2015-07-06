@@ -71,9 +71,6 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
             DateTime today = DateTime.today(TimeZone.getDefault());
             DateTime dateOfWeekday =firstDayOfSelectedWeek;
             for(int k = 0 ; k <rowViews.length; k++){
-
-
-
                 rowViews[k].setText(context.getResources().getStringArray(R.array.days)[k]);
                 rowViews[k].setTextColor(newRow.getResources().getColor(R.color.caldroid_gray));
                 GradientDrawable gd = (GradientDrawable) rowViews[k].getBackground();
@@ -89,13 +86,12 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
 
                 dateOfWeekday = dateOfWeekday.plusDays(1);
                 final int finalK = k;
-                if(k > 0)
-                    rowViews[k].setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            context.showDetailDay(firstDayOfSelectedWeek.plusDays(finalK));
-                        }
-                    });
+                rowViews[k].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        context.showDetailDay(firstDayOfSelectedWeek.plusDays(finalK), context.getResources().getStringArray(R.array.days)[finalK]);
+                    }
+                });
             }
 
         }else {
