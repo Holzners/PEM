@@ -532,9 +532,6 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     @Override
     public void removeReminder(int iD) {
         SQLiteDatabase db = getWritableDatabase();
-        /*String DELETE = SQLiteMethods.DELETE_FROM + SQLiteMethods.TABLE_NAME_REMINDER_TABLE +
-                SQLiteMethods.SPACE + SQLiteMethods.SPACE + SQLiteMethods.WHERE +
-                SQLiteMethods.COLUMN_NAME_ENTRY_ID + " = " + iD;*/
 
         String UPDATE  = SQLiteMethods.UPDATE + SQLiteMethods.TABLE_NAME_REMINDER_TABLE +
                 SQLiteMethods.SPACE + SQLiteMethods.SET + SQLiteMethods.COLUMN_NAME_ENTRY_TEXT + " = ''" +
@@ -634,9 +631,9 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        this.factorList.remove(factor);
-        this.factorEnabledMap.remove(factor);
-        this.factorColorMap.remove(factor);
+        getFactorList().remove(factor);
+        getFactorEnabledMap().remove(factor);
+        getFactorColorMap().remove(factor);
     }
 
     private void dropColumn(SQLiteDatabase db,
