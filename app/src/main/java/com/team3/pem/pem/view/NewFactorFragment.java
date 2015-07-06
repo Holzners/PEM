@@ -38,15 +38,21 @@ public class NewFactorFragment extends DialogFragment {
     private MainActivity context;
     private List<String> colors;
     private int selectedIndex = -1;
+    private String factor;
     private TextView[] tvs;
     public NewFactorFragment() {
 
     }
 
-    public static NewFactorFragment getInstance(MainActivity context) {
+    public static NewFactorFragment getInstance(MainActivity context, String factor, String color ) {
         NewFactorFragment newFactorFragment = new NewFactorFragment();
         newFactorFragment.context = context;
         newFactorFragment.mDBHelper = FeedReaderDBHelper.getInstance();
+        if(factor!= null && color != null){
+            newFactorFragment.selectedColor = color;
+            newFactorFragment.factor = factor;
+        }
+
         return newFactorFragment;
     }
 
@@ -68,7 +74,6 @@ public class NewFactorFragment extends DialogFragment {
         tooManySymptomsText.setVisibility(View.INVISIBLE);
         tableRow = (TableRow) view.findViewById(R.id.tableColorContainer);
 
-
         if (factorEntries.size() == ColorsToPick.values().length) {
             tooManySymptomsText.setVisibility(View.VISIBLE);
             tableRow.setVisibility(View.INVISIBLE);
@@ -85,8 +90,15 @@ public class NewFactorFragment extends DialogFragment {
                     Log.d("Color vergeben", ColorsToPick.values()[i].name());
                 }
             }
+            if(selectedColor != null && factor != null){
+                newFactorText.setText(factor);
+                newFactorText.setEnabled(false);
+                colors.add(selectedColor);
+                selectedIndex = colors.indexOf(selectedColor);
+            }
             initTable();
         }
+
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,9 +148,12 @@ public class NewFactorFragment extends DialogFragment {
             if(i < colors.size()){
                 gd.setColor(getActivity().getResources().getColor(ColorsToPick.getColorByString(colors.get(i)).getColor3()));
                 tvs[i].setOnClickListener(new OnColorClickListener(i));
+
             }
             else gd.setColor(getResources().getColor(R.color.bright_foreground_disabled_material_light));
-            gd.setStroke(2, getActivity().getResources().getColor(R.color.transparent));
+
+            if(i == selectedIndex) gd.setStroke(2, getActivity().getResources().getColor(R.color.black));
+            else gd.setStroke(2, getActivity().getResources().getColor(R.color.transparent));
             tvs[i].setBackground(gd);
             tableRow.addView(tvs[i]);
         }
