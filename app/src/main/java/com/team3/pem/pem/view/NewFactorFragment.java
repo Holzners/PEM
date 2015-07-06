@@ -1,17 +1,17 @@
 package com.team3.pem.pem.view;
 
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,16 +28,17 @@ import java.util.List;
  * Created by Stephan on 01.07.15.
  */
 public class NewFactorFragment extends DialogFragment {
-    EditText newFactorText;
-    TextView tooManySymptomsText;
-    Button FAB;
-    Button deleteButton;
-    FeedReaderDBHelper mDBHelper;
-    Spinner colorSpinner;
-    String selectedColor;
-
-    MainActivity context;
-
+    private EditText newFactorText;
+    private TextView tooManySymptomsText;
+    private Button saveButton;
+    private Button cancelButton;
+    private FeedReaderDBHelper mDBHelper;
+    private String selectedColor = "";
+    private TableRow tableRow;
+    private MainActivity context;
+    private List<String> colors;
+    private int selectedIndex = -1;
+    private TextView[] tvs;
     public NewFactorFragment() {
 
     }
@@ -58,21 +59,25 @@ public class NewFactorFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_new_factor, container, false);
 
         mDBHelper = FeedReaderDBHelper.getInstance();
-        FAB = (Button) view.findViewById(R.id.button_save_factor);
-        deleteButton = (Button) view.findViewById(R.id.button_cancel);
+        HashMap<String, String> factorEntries = mDBHelper.getFactorsFromDatabase();
+
+        saveButton = (Button) view.findViewById(R.id.button_save_factor);
+        cancelButton = (Button) view.findViewById(R.id.button_cancel);
         newFactorText = (EditText) view.findViewById(R.id.inputText);
         tooManySymptomsText = (TextView) view.findViewById(R.id.tooManySymptomsText);
         tooManySymptomsText.setVisibility(View.INVISIBLE);
+        tableRow = (TableRow) view.findViewById(R.id.tableColorContainer);
 
-        HashMap<String, String> factorEntries = mDBHelper.getFactorsFromDatabase();
 
         if (factorEntries.size() == ColorsToPick.values().length) {
             tooManySymptomsText.setVisibility(View.VISIBLE);
-            FAB.setEnabled(false);
-            deleteButton.setEnabled(false);
+            tableRow.setVisibility(View.INVISIBLE);
+            newFactorText.setVisibility(View.INVISIBLE);
+            saveButton.setEnabled(false);
+            cancelButton.setEnabled(true);
             newFactorText.setEnabled(false);
         } else {
-            List<String> colors = new ArrayList<>();
+            colors = new ArrayList<>();
             for (int i = 0; i < ColorsToPick.values().length && colors.size() < (ColorsToPick.values().length - factorEntries.size()); i++) {
                 if (!factorEntries.containsValue(ColorsToPick.values()[i].name())) {
                     colors.add(ColorsToPick.values()[i].name());
@@ -80,28 +85,10 @@ public class NewFactorFragment extends DialogFragment {
                     Log.d("Color vergeben", ColorsToPick.values()[i].name());
                 }
             }
-
-
-            colorSpinner = (Spinner) view.findViewById(R.id.spinner);
-            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, colors);
-            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            colorSpinner.setAdapter(dataAdapter);
-
-            colorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    selectedColor = parent.getItemAtPosition(position).toString();
-
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
-
+            initTable();
         }
-        FAB.setOnClickListener(new View.OnClickListener() {
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveFactor();
@@ -109,7 +96,7 @@ public class NewFactorFragment extends DialogFragment {
         });
 
 
-        deleteButton.setOnClickListener(new View.OnClickListener() {
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 removeFactor();
@@ -120,7 +107,7 @@ public class NewFactorFragment extends DialogFragment {
     }
     
     public void saveFactor() {
-        if (!newFactorText.getText().toString().equals("")) {
+        if (!newFactorText.getText().toString().equals("") && !selectedColor.equals("") ) {
             mDBHelper.saveFactor(newFactorText.getText().toString(), selectedColor);
             context.selectedColor.put(newFactorText.getText().toString(), 1);
             context.refreshAdapters();
@@ -135,5 +122,52 @@ public class NewFactorFragment extends DialogFragment {
         this.dismiss();
     }
 
+    public void initTable(){
+        tvs = new TextView[ColorsToPick.values().length];
+        int i;
+        for(i = 0; i < tvs.length; i++){
+            tvs[i] = new TextView(getActivity());
 
+            Display display = getActivity().getWindowManager().getDefaultDisplay();
+            int size =  display.getWidth()/(ColorsToPick.values().length+2);
+            tvs[i].setLayoutParams(new TableRow.LayoutParams(size, size));
+
+            GradientDrawable gd = new GradientDrawable();
+            if(i < colors.size()){
+                gd.setColor(getActivity().getResources().getColor(ColorsToPick.getColorByString(colors.get(i)).getColor3()));
+                tvs[i].setOnClickListener(new OnColorClickListener(i));
+            }
+            else gd.setColor(getResources().getColor(R.color.bright_foreground_disabled_material_light));
+            gd.setStroke(2, getActivity().getResources().getColor(R.color.transparent));
+            tvs[i].setBackground(gd);
+            tableRow.addView(tvs[i]);
+        }
+    }
+
+    private class OnColorClickListener implements View.OnClickListener{
+
+       private  int indexElement;
+
+        private OnColorClickListener(int i){
+            indexElement = i;
+        }
+
+        @Override
+        public void onClick(View v) {
+            int oldI = NewFactorFragment.this.selectedIndex;
+            if(oldI > -1 && oldI != this.indexElement) {
+                GradientDrawable gdOld = (GradientDrawable) tvs[oldI].getBackground();
+                gdOld.setStroke(2, getActivity().getResources().getColor(R.color.transparent));
+            }
+                NewFactorFragment.this.selectedIndex = indexElement;
+                NewFactorFragment.this.selectedColor = colors.get(indexElement);
+            Log.d("Index", indexElement + " " + selectedColor);
+
+            GradientDrawable gd =  (GradientDrawable) tvs[indexElement].getBackground();
+            gd.setColor(getActivity().getResources().getColor(ColorsToPick.getColorByString(colors.get(indexElement)).getColor3()));
+            gd.setStroke(2, getActivity().getResources().getColor(R.color.black));
+
+
+        }
+    }
 }
