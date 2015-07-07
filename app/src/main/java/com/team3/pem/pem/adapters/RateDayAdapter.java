@@ -74,8 +74,8 @@ public class RateDayAdapter extends ArrayAdapter {
         int[]colors = ColorsToPick.getColorByString(color).getAllColors();
 
         Display display = activity.getWindowManager().getDefaultDisplay();
-        int width = display.getWidth()/7;
-        int height = display.getWidth()/7;
+        int width = display.getWidth()/8;
+        int height = display.getWidth()/8;
 
         for (int i = 0 ; i < colors.length && i < rateViews.length ; i++){
             ViewGroup.LayoutParams params =rateViews[i].getLayoutParams();

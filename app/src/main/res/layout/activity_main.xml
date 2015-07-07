@@ -34,9 +34,9 @@
         android:id="@+id/switchFragmentPanel"
         android:layout_gravity="bottom"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="12dp"
         android:layout_marginRight="110dp"
         />
 

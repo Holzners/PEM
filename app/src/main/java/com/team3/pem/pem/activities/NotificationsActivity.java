@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -15,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -34,7 +34,6 @@ public class NotificationsActivity extends ActionBarActivity {
 
     FeedReaderDBHelper dbHelper;
     List<NotificationModel> reminders;
-    FloatingActionButton new_reminder;
     SwipeMenuListView listView;
     boolean contextMenuOn = false;
     NotificationsAdapter adapter;
@@ -49,10 +48,17 @@ public class NotificationsActivity extends ActionBarActivity {
         reminders = getReminders(dbHelper.getAllReminders());
 
         listView = (SwipeMenuListView) findViewById(R.id.list_reminders);
-        new_reminder = (FloatingActionButton) findViewById(R.id.newReminder);
 
         adapter = new NotificationsAdapter(this, R.layout.row_reminder_layout, reminders);
         listView.setAdapter(adapter);
+
+        ImageView imageview = new ImageView(this); // Create an icon
+        imageview.setImageResource(R.drawable.ic_action_new);
+
+        com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton actionButton = new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.Builder(this)
+                .setBackgroundDrawable(R.drawable.button_action_accent_selector)
+                .setContentView(imageview)
+                .build();
 
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
@@ -131,7 +137,7 @@ public class NotificationsActivity extends ActionBarActivity {
             }
         });
 
-        new_reminder.setOnClickListener(new View.OnClickListener() {
+        actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final AlertDialog alertDialog = createDialog();

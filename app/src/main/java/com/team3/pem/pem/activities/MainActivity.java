@@ -98,14 +98,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         buttonNewEvent.setTag(TAG_NEW_EVENT);
         buttonNewFactor.setTag(TAG_NEW_FACTOR);
+        buttonNewEvent.setX(200);
 
 
         FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
                 .addSubActionView(buttonNewFactor)
                 .addSubActionView(buttonNewEvent)
                 .attachTo(actionButton)
-                .setStartAngle(257)
-                .setEndAngle(283)
+                .setRadius(215)
+                .setStartAngle(252)
+                .setEndAngle(288)
                 .build();
     }
 
@@ -146,7 +148,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                             dialog.dismiss();
                         }
                     })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIcon(R.drawable.alert)
                     .show();
             setContextMenuOn(false, null);
             invalidateOptionsMenu();
