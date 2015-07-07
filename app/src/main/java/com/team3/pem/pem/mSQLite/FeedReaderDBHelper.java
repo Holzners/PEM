@@ -168,7 +168,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         }
 
         this.getFactorColorMap().put(factorName,colorId);
-        this.getFactorEnabledMap().put(factorName,true);
+        this.getFactorEnabledMap().put(factorName, false);
 
     }
 
@@ -690,7 +690,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         if(factorEnabledMap != null) return factorEnabledMap;
         factorEnabledMap = new HashMap<>();
         for(String s : getFactorList()){
-            factorEnabledMap.put(s, true);
+            factorEnabledMap.put(s, false);
         }
         return factorEnabledMap;
     }
