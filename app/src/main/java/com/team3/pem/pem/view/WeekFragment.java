@@ -155,12 +155,12 @@ public class WeekFragment extends ListFragment{
     private void setTitle(){
         DateTime firstDay = adapter.getFirstDayOfSelectedWeek();
         DateTime lastDay = adapter.lastDayOfThisWeek();
-        String sFirstDay = firstDay.format("DD");
+        String sFirstDay = firstDay.format("DD") + ".";
         String sLastDay = lastDay.format("DD.MM.YYYY");
         String monthFirstDay = "";
         String yearFirstDay = "";
         if(firstDay.getMonth() != lastDay.getMonth()) {
-            monthFirstDay = "." + firstDay.format("MM");
+            monthFirstDay =  firstDay.format("MM") + ".";
 
             if (!(firstDay.getYear()+"").equals(lastDay.getYear()+"")) {
                 Log.d("Not Equal", firstDay.getYear()+ " " +  lastDay.getYear());
