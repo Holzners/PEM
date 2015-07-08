@@ -98,14 +98,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         buttonNewEvent.setTag(TAG_NEW_EVENT);
         buttonNewFactor.setTag(TAG_NEW_FACTOR);
+        buttonNewEvent.setX(200);
 
 
         FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
                 .addSubActionView(buttonNewFactor)
                 .addSubActionView(buttonNewEvent)
                 .attachTo(actionButton)
-                .setStartAngle(257)
-                .setEndAngle(283)
+//                .setRadius(150)
+                .setStartAngle(252)
+                .setEndAngle(288)
                 .build();
     }
 
@@ -133,12 +135,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         } else if (id == R.id.action_delete) {
             final String switchName = selectedSwitch.getText().toString();
             new AlertDialog.Builder(this)
-                    .setTitle("Symptom löschen")
-                    .setMessage("Bist du sicher, dass du " + switchName + " löschen möchtest?")
+                    .setTitle(getResources().getString(R.string.deleteSymptom))
+                    .setMessage(String.format(getResources().getString(R.string.deleteAlert), switchName))
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            mDbHelper.deleteFactor(switchName, mDbHelper.getFactors());
-                            refreshAdapters();
+                public void onClick(DialogInterface dialog, int which) {
+                    mDbHelper.deleteFactor(switchName, mDbHelper.getFactors());
+                    refreshAdapters();
                         }
                     })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -146,7 +148,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                             dialog.dismiss();
                         }
                     })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setIcon(R.drawable.alert)
                     .show();
             setContextMenuOn(false, null);
             invalidateOptionsMenu();
@@ -306,8 +308,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         FragmentManager f = getSupportFragmentManager();
         newFactorFragment.show(f, "TAG");
     }
-    public void showDetailDay(DateTime date) {
-        DayDetailFragment dayDetailFragment = DayDetailFragment.newInstance(date);
+    public void showDetailDay(DateTime date, String day) {
+        DayDetailFragment dayDetailFragment = DayDetailFragment.newInstance(date, day);
         FragmentManager f = getSupportFragmentManager();
         dayDetailFragment.show(f, "TAG");
     }

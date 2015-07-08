@@ -1,34 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="@dimen/abc_dialog_padding_material">
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="30dp" />
+
+    <TextView
+        android:id="@+id/descriptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_below="@+id/list"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignRight="@+id/list"
+        android:layout_alignEnd="@+id/list"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentStart="false" />
 
     <TextView
         android:id="@+id/weatherText"
-        android:layout_marginLeft="@dimen/abc_dialog_padding_material"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:id="@+id/right"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/abc_dialog_padding_material"
-        android:layout_marginLeft="@dimen/abc_dialog_padding_material"
-        android:layout_marginBottom="@dimen/abc_dialog_padding_material">
-       <TextView
-            android:id="@+id/descriptionText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"/>
-        <ListView
-            android:id="@+id/list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/descriptionText"
-            android:layout_marginBottom="@dimen/abc_dialog_padding_material" />
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_below="@+id/descriptionText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignRight="@+id/descriptionText"
+        android:layout_alignEnd="@+id/descriptionText"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentStart="false" />
 
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

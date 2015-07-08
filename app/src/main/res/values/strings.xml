@@ -91,4 +91,10 @@
 
     <!--New Factor Fragment -->
     <string name="noInput">No Input</string>
+
+    <string name="deleteAlert">Bist du dir sicher, dass du %1$s löschen möchtest?</string>
+    <string name="deleteSymptom">Symptom löschen</string>
+    <string name="binary">binär</string>
+    <string name="gradual">graduell</string>
+
 </resources>

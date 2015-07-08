@@ -14,17 +14,5 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true" />
 
-    <view
-        android:layout_width="@dimen/fab_size_normal"
-        android:layout_height="wrap_content"
-        class="android.support.design.widget.FloatingActionButton"
-        android:id="@+id/newReminder"
-        android:src="@drawable/ic_action_new"
-        android:layout_gravity="right|bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/list_reminders"
-        android:layout_alignEnd="@+id/list_reminders"
-        android:layout_marginBottom="@dimen/fab_labels_margin"
-        android:layout_marginRight="@dimen/fab_labels_margin"/>
 
 </RelativeLayout>

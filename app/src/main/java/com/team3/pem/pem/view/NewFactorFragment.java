@@ -71,7 +71,7 @@ public class NewFactorFragment extends DialogFragment {
         tooManySymptomsText.setVisibility(View.INVISIBLE);
         tableRow = (TableRow) view.findViewById(R.id.tableColorContainer);
 
-        if (factorEntries.size() == ColorsToPick.values().length) {
+        if (factorEntries.size() == ColorsToPick.values().length && factor == null) {
             tooManySymptomsText.setVisibility(View.VISIBLE);
             tableRow.setVisibility(View.INVISIBLE);
             newFactorText.setVisibility(View.INVISIBLE);
