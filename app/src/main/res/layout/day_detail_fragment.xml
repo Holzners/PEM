@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="@dimen/abc_dialog_padding_material">
+    android:padding="20dp">
 
     <ListView
         android:id="@+id/list"
@@ -50,6 +50,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:textSize="25sp"
         android:textStyle="bold" />
 
     <ImageButton
@@ -59,6 +60,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_action_edit_holo_dark" />
+        android:src="@drawable/ic_action_edit_black"
+        android:background="@null"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentLeft="false"/>
 
 </RelativeLayout>
