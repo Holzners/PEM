@@ -139,7 +139,7 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
 
         @Override
         public void onClick(View v) {
-            context.showRateDayPopup(date);
+            context.showDetailDay(date);
         }
     }
 }
