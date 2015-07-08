@@ -75,7 +75,7 @@ public class ExportActivity extends ActionBarActivity {
         loadingText = (TextView) findViewById(R.id.loadingText);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        final SwitchExportAdapter adapter = new SwitchExportAdapter(this, R.layout.row_switch_layout, dbHelper.getFactors());
+        final SwitchExportAdapter adapter = new SwitchExportAdapter(this, R.layout.row_switch_layout, dbHelper.getFactorList());
         listView.setAdapter(adapter);
         enabledSymptoms = new ArrayList<String>();
 
@@ -121,7 +121,7 @@ public class ExportActivity extends ActionBarActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     allChecked = true;
-                    enabledSymptoms = dbHelper.getFactors();
+                    enabledSymptoms = dbHelper.getFactorList();
                 } else {
                     allChecked = false;
                     enabledSymptoms.clear();
@@ -176,7 +176,7 @@ public class ExportActivity extends ActionBarActivity {
         new Thread(){
             public void run(){
                 handler.post(new Runnable(){
-                    public void run() {
+                    public void run(){
                         try {
                             Document document = new Document();
                             PdfWriter.getInstance(document, new FileOutputStream(file));
