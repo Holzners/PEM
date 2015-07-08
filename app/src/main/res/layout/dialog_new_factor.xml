@@ -47,7 +47,8 @@
         android:id="@+id/button_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/button_save_factor"
+        android:layout_marginRight="@dimen/action_button_margin"
         android:layout_below="@+id/radioGroup"
         android:background="#00ffffff"
         android:text="@string/action_cancel"
@@ -57,7 +58,8 @@
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/inputText">
+        android:layout_below="@+id/inputText"
+        android:layout_centerInParent="true">
 
         <RadioButton
             android:id="@+id/radioButtonGradual"
