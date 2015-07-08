@@ -70,6 +70,7 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
                 return true;
             }
         });
+
         return newView;
     }
 
@@ -84,7 +85,7 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             int count = Collections.frequency(new ArrayList<Boolean>(mDBHelper.getFactorEnabledMap().values()), true);
-            if(count == 4){
+            if(count == 4 && isChecked){
                 Random generator = new Random();
                 HashMap map = (HashMap) mDBHelper.getFactorEnabledMap().clone();
                 for(Iterator<Map.Entry<String, Boolean>> it = map.entrySet().iterator(); it.hasNext();) {
@@ -95,7 +96,7 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
                 }
                 Object[] keys = map.keySet().toArray();
                 String randomKey = (String) keys[generator.nextInt(keys.length)];
-                mDBHelper.getFactorEnabledMap().put(randomKey, false);
+                mDBHelper.switchFactor(randomKey, false);
             }
             context.switchSymptom(isChecked, symptom);
         }

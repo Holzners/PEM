@@ -53,7 +53,7 @@ public class NotificationsActivity extends ActionBarActivity {
         listView.setAdapter(adapter);
 
         ImageView imageview = new ImageView(this); // Create an icon
-        imageview.setImageResource(R.drawable.ic_action_new);
+        imageview.setImageResource(R.drawable.plus);
 
         com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton actionButton = new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.Builder(this)
                 .setBackgroundDrawable(R.drawable.button_action_accent_selector)
@@ -67,13 +67,13 @@ public class NotificationsActivity extends ActionBarActivity {
                 SwipeMenuItem editItem = new SwipeMenuItem(getApplicationContext());
                 editItem.setBackground(new ColorDrawable(R.color.accentColor));
                 editItem.setWidth(dp2px(90));
-                editItem.setIcon(R.drawable.ic_action_edit_holo_dark);
+                editItem.setIcon(R.drawable.ic_create_white_36dp);
                 swipeMenu.addMenuItem(editItem);
                 //delete
                 SwipeMenuItem deleteItem = new SwipeMenuItem(getApplicationContext());
                 deleteItem.setBackground(new ColorDrawable(Color.rgb(255, 0, 0)));
                 deleteItem.setWidth(dp2px(90));
-                deleteItem.setIcon(R.drawable.ic_action_discard_holo_dark);
+                deleteItem.setIcon(R.drawable.ic_delete_white_24dp);
                 swipeMenu.addMenuItem(deleteItem);
             }
         };

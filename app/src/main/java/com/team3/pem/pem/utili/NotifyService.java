@@ -52,7 +52,7 @@ public class NotifyService extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, ID, new Intent(context, MainActivity.class), 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_action_alarms)
+                .setSmallIcon(R.drawable.ic_notifications_none_white_36dp)
                 .setContentTitle(intent.getStringExtra("title"))
                 .setContentText("Medical Journal");
 

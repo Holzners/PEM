@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -72,7 +73,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         selectedColor = new HashMap<>();
 
         ImageView imageview = new ImageView(this); // Create an icon
-        imageview.setImageResource(R.drawable.ic_action_new);
+        imageview.setImageResource(R.drawable.plus);
 
         FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
                 .setBackgroundDrawable(R.drawable.button_action_accent_selector)
@@ -82,11 +83,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
 
         ImageView iconNewFactor = new ImageView(this);
-        iconNewFactor.setImageResource(R.drawable.ic_action_new_label);
-
+        iconNewFactor.setImageResource(R.drawable.ic_playlist_add_black_36dp); // ic_action_new_label);
         ImageView iconNewEvent = new ImageView(this);
-        iconNewEvent.setImageResource(R.drawable.ic_action_new_event);
-
+        iconNewEvent.setImageResource(R.drawable.ic_note_add_black_36dp); //ic_action_new_event);
 
         SubActionButton buttonNewEvent = itemBuilder.setContentView(iconNewEvent).build();
         SubActionButton buttonNewFactor = itemBuilder.setContentView(iconNewFactor).build();
@@ -133,6 +132,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         } else if (id == R.id.action_reminder) {
             startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
         } else if (id == R.id.action_delete) {
+            selectedSwitch.setTextColor(Color.BLACK);
             final String switchName = selectedSwitch.getText().toString();
             new AlertDialog.Builder(this)
                     .setTitle(getResources().getString(R.string.deleteSymptom))
@@ -148,11 +148,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                             dialog.dismiss();
                         }
                     })
-                    .setIcon(R.drawable.alert)
+                    .setIcon(R.drawable.ic_dialog_alert)
                     .show();
             setContextMenuOn(false, null);
             invalidateOptionsMenu();
         } else if (id == R.id.action_edit) {
+            selectedSwitch.setTextColor(Color.BLACK);
             String color = mDbHelper.getFactorColorMap().get(selectedSwitch.getText().toString());
             NewFactorFragment newFactorFragment = NewFactorFragment.getInstance(this, selectedSwitch.getText().toString(), color);
             FragmentManager f = getSupportFragmentManager();
@@ -201,11 +202,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
-
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         String lastUpdate = sharedPref.getString(getString(R.string.last_weather_update_key), "");
         String today = DateTime.today(TimeZone.getDefault()) + "";
-        if (!lastUpdate.equalsIgnoreCase(today)) {
+        if (lastUpdate != null && !lastUpdate.equalsIgnoreCase(today)) {
             updateWeatherData();
         }
         // if(pemDialogFragment != null) ((RateDayAdapter)pemDialogFragment.getListAdapter()).notifyDataSetChanged();
@@ -342,6 +342,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onClick(View view) {
         if(view.getId() == R.id.contentPanel){
             if(this.contextMenuOn) {
+                selectedSwitch.setTextColor(Color.BLACK);
                 setContextMenuOn(false, null);
                 invalidateOptionsMenu();
             }
