@@ -58,27 +58,21 @@ public interface IDatabaseHelper {
      * @return
      */
     HashMap<DateTime, DayEntry> getDatabaseEntriesMonth(List<String> factors, int month, int year);
+
     /**
      * Returns  entries for Date(day.month.year) to a specific List of factors
      * @param factors
+     * @param startDay
+     * @param month
      * @param year
+     * @param endDay
+     * @param endMonth
+     * @param endYear
      * @return
      */
-    HashMap<DateTime, DayEntry> getDatabaseEntriesYear(List<String> factors, int year);
-
     HashMap<DateTime, DayEntry> getDatabaseEntriesWeek(List<String> factors, int startDay, int month, int year, int endDay, int endMonth, int endYear);
 
-    /**
-     * Returns all saved Factors with Color as Resource ID
-     * @return  HashMap<String, Integer>
-     */
-    HashMap<String, String> getFactorsFromDatabase();
 
-    /**
-     * Returns all saved Factors
-     * @return
-     */
-     List<String> getFactors ();
 
     /**
      * Saves new Reminder in Database
@@ -105,7 +99,35 @@ public interface IDatabaseHelper {
      */
     String getWeatherData(DateTime dateTime);
 
+    /**
+     * Delete factor from database
+     * @param factor
+     * @param factorList
+     */
     void deleteFactor(String factor, List<String> factorList);
 
+    /**
+     *
+     * @param factor
+     * @param enabled
+     */
+    void switchFactor(String factor, boolean enabled);
 
+    /**
+     * Returns all saved Factors
+     * @return
+     */
+    List<String> getFactorList();
+
+    /**
+     * Returns all saved Factors with Color as Resource ID
+     * @return  HashMap<String, String>
+     */
+    HashMap<String, String> getFactorColorMap();
+
+    /**
+     * All factors and their stored mode
+     * @return
+     */
+    HashMap<String, Boolean> getFactorEnabledMap();
 }
