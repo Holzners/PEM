@@ -7,7 +7,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tableColorContainer"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        >
     </TableRow>
 
     <TextView
@@ -27,10 +29,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/inputText"
         android:hint="@string/addFactor"
-        android:gravity="center"
         android:singleLine="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/tableColorContainer"
-        android:layout_centerHorizontal="true" />
+        />
 
     <Button
         android:layout_width="wrap_content"
@@ -39,9 +43,9 @@
         android:id="@+id/button_save_factor"
         android:textColor="@color/accent_material_light"
         android:background="#00ffffff"
-        android:layout_below="@+id/inputText"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/radioGroup"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -52,6 +56,27 @@
         android:background="#00ffffff"
         android:layout_alignTop="@+id/button_save_factor"
         android:layout_toLeftOf="@id/button_save_factor"
-        android:layout_marginRight="@dimen/action_button_margin"/>
+        android:layout_marginRight="@dimen/action_button_margin"
+        />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputText"
+        >
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gradual"
+            android:id="@+id/radioButton"
+            />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/binary"
+            android:id="@+id/radioButton2"
+             />
+    </RadioGroup>
 
 </RelativeLayout>
