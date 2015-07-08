@@ -141,7 +141,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     .setMessage(String.format(getResources().getString(R.string.deleteAlert), switchName))
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    mDbHelper.deleteFactor(switchName, mDbHelper.getFactors());
+                    mDbHelper.deleteFactor(switchName, mDbHelper.getFactorList());
                     refreshAdapters();
                         }
                     })

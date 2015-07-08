@@ -37,7 +37,7 @@ public class NotifyService extends BroadcastReceiver {
 
         //Tag bewerten erinnnerung
         if(ID == 0) {
-            List<String> factors = dbHelper.getFactors();
+            List<String> factors = dbHelper.getFactorList();
             DayEntry factorsDay = dbHelper.getDatabaseEntriesDay(factors, date.getDay(), date.getMonth(), date.getYear());
             if(factorsDay != null){
                 return;
@@ -45,11 +45,9 @@ public class NotifyService extends BroadcastReceiver {
         }
 
         if(!days[dayOfWeek]){
-          //  Log.i("notif", "Notification abgebrochen");
             return;
         }
 
-        //Log.i("notif", "Notification ausgeloest");
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, ID, new Intent(context, MainActivity.class), 0);
 

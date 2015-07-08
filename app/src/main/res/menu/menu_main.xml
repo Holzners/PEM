@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
     <item android:id="@+id/action_reminder"
-        android:icon="@drawable/ic_action_alarms"
+        android:icon="@drawable/bell_outline"
         android:title="@string/action_notifications"
         app:showAsAction="ifRoom"  />
 
     <item android:id="@+id/action_export"
-        android:icon="@drawable/ic_file_download_white_48dp"
+        android:icon="@drawable/export"
         android:title="@string/action_export"
         app:showAsAction="ifRoom"  />
 </menu>

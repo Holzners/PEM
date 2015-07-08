@@ -62,7 +62,7 @@ public class NewFactorFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_new_factor, container, false);
 
         mDBHelper = FeedReaderDBHelper.getInstance();
-        HashMap<String, String> factorEntries = mDBHelper.getFactorsFromDatabase();
+        HashMap<String, String> factorEntries = mDBHelper.getFactorColorMap();
 
         Button saveButton = (Button) view.findViewById(R.id.button_save_factor);
         Button cancelButton = (Button) view.findViewById(R.id.button_cancel);

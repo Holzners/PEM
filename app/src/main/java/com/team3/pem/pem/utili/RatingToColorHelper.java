@@ -13,7 +13,7 @@ public class RatingToColorHelper {
     public static int ratingToColor(String factor, int rating) {
         FeedReaderDBHelper mdHelper = FeedReaderDBHelper.getInstance();
 
-        HashMap<String, String> factorWidthColor = mdHelper.getFactorsFromDatabase();
+        HashMap<String, String> factorWidthColor = mdHelper.getFactorColorMap();
         if(factor == null || rating == 0) return R.color.white;
         String s = factorWidthColor.get(factor);
         ColorsToPick c = ColorsToPick.getColorByString(s);

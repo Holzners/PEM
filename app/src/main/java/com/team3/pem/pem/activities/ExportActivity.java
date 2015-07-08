@@ -108,7 +108,7 @@ public class ExportActivity extends ActionBarActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     allChecked = true;
-                    enabledSymptoms = dbHelper.getFactors();
+                    enabledSymptoms = dbHelper.getFactorList();
                 } else {
                     allChecked = false;
                     enabledSymptoms.clear();

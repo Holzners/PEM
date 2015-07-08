@@ -9,17 +9,24 @@
     <color name= "accentColor">#b0bec5</color> <!-- #ffaf4374 #bdbdbd-->
     <color name= "tabsScrollColor">#FFFFFF</color>
 
-    <color name="green1">#c8e6c9</color><!--#cbffc8</color>-->
-    <color name="green2">#81c784</color><!--#99ff94</color>-->
-    <color name="green3">#4caf50</color><!--#5CFF60</color>-->
-    <color name="green4">#388e3c</color><!--#42FF46</color>-->
-    <color name="green5">#1b5e20</color><!--#00FF00</color>-->
 
-    <color name="blue1">#bbdefb</color><!--#d2cbf0</color>-->
-    <color name="blue2">#64b5f6</color><!--#abacff</color>-->
-    <color name="blue3">#2196f3</color><!--#7a7ff0</color>-->
-    <color name="blue4">#1976d2</color><!--#6460f4</color>-->
-    <color name="blue5">#0d47a1</color><!--#001cf0</color>-->
+    <color name="blue1">#C5CAE9</color><!--#d2cbf0</color>-->
+    <color name="blue2">#7986CB</color><!--#abacff</color>-->
+    <color name="blue3">#3F51B5</color><!--#7a7ff0</color>-->
+    <color name="blue4">#303F9F</color><!--#6460f4</color>-->
+    <color name="blue5">#1A237E</color><!--#001cf0</color>-->
+
+    <color name="cyan1">#B2DFDB</color><!-- #8a7f83 -->
+    <color name="cyan2">#4DB6AC</color><!-- #8a7569 -->
+    <color name="cyan3">#009688</color><!-- #009688 -->
+    <color name="cyan4">#00796B</color> <!-- #00796B -->
+    <color name="cyan5">#004D40</color> <!-- #8a5200 -->
+
+    <color name="green1">#DCEDC8</color><!--#cbffc8</color>-->
+    <color name="green2">#AED581</color><!--#99ff94</color>-->
+    <color name="green3">#8BC34A</color><!--#5CFF60</color>-->
+    <color name="green4">#689F38</color><!--#42FF46</color>-->
+    <color name="green5">#33691E</color><!--#00FF00</color>-->
 
     <color name="yellow1">#fff9c4</color><!--#fff9d8</color> -->
     <color name="yellow2">#fff176</color><!--#feffb0</color>-->
@@ -39,10 +46,5 @@
     <color name="violette4">#7b1fa2</color> <!--#b13fb1-->
     <color name="violette5">#4a148c</color> <!--#b100b0-->
 
-    <color name="brown1">#d7ccc8</color><!-- #8a7f83 -->
-    <color name="brown2">#a1887f</color><!-- #8a7569 -->
-    <color name="brown3">#795548</color><!-- #8a6e50 -->
-    <color name="brown4">#5d4037</color> <!-- #8a7139 -->
-    <color name="brown5">#3e2723</color> <!-- #8a5200 -->
 
 </resources>
