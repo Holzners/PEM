@@ -234,7 +234,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     public void switchSymptom(boolean isEnabled, String symptom) {
-        mDbHelper.getFactorEnabledMap().put(symptom, isEnabled);
+        mDbHelper.switchFactor(symptom, isEnabled);
         refreshAdapters();
     }
 
@@ -308,8 +308,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         FragmentManager f = getSupportFragmentManager();
         newFactorFragment.show(f, "TAG");
     }
-    public void showDetailDay(DateTime date, String day) {
-        DayDetailFragment dayDetailFragment = DayDetailFragment.newInstance(date, day);
+    public void showDetailDay(DateTime date) {
+        DayDetailFragment dayDetailFragment = DayDetailFragment.newInstance(date);
         FragmentManager f = getSupportFragmentManager();
         dayDetailFragment.show(f, "TAG");
     }

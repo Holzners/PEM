@@ -89,7 +89,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
                 rowViews[k].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        context.showDetailDay(firstDayOfSelectedWeek.plusDays(finalK), context.getResources().getStringArray(R.array.days)[finalK]);
+                        context.showDetailDay(firstDayOfSelectedWeek.plusDays(finalK));
                     }
                 });
             }
@@ -174,7 +174,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
 
         @Override
         public void onClick(View v) {
-            context.showRateDayPopup(date);
+            context.showDetailDay(date);
         }
     }
 
