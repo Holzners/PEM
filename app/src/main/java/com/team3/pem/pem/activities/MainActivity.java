@@ -73,7 +73,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         selectedColor = new HashMap<>();
 
         ImageView imageview = new ImageView(this); // Create an icon
-        imageview.setImageResource(R.drawable.ic_add_3x);
+        imageview.setImageResource(R.drawable.plus);
 
         FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
                 .setBackgroundDrawable(R.drawable.button_action_accent_selector)

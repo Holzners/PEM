@@ -53,7 +53,7 @@ public class NotificationsActivity extends ActionBarActivity {
         listView.setAdapter(adapter);
 
         ImageView imageview = new ImageView(this); // Create an icon
-        imageview.setImageResource(R.drawable.ic_add_3x);
+        imageview.setImageResource(R.drawable.plus);
 
         com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton actionButton = new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.Builder(this)
                 .setBackgroundDrawable(R.drawable.button_action_accent_selector)

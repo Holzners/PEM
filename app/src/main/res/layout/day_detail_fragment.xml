@@ -60,7 +60,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_create_black_36dp"
+        android:src="@drawable/ic_create_black_24dp"
         android:background="@null"
         android:layout_alignParentStart="false"
         android:layout_alignParentLeft="false"/>
