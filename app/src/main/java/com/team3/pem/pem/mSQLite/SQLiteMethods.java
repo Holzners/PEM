@@ -32,41 +32,42 @@ public class SQLiteMethods {
     public static final String COLUMN_NAME_ENTRY_DESCRIPTION = "Description";
 
     public static final String TABLE_NAME_WEATHER_TABLE = "Weathertable";
-    public static final String COLUMN_NAME_ENTRY_WEATHER = "Weather";
+    public static final String COLUMN_NAME_WEATHER_WEATHER = "Weather";
 
     public static final String TABLE_NAME_FACTOR_TABLE = "factors";
-    public static final String COLUMN_NAME_ENTRY_ID_FACTORS = "factor";
-    public static final String COLUMN_NAME_ENTRY_COLOR = "COLOR";
+    public static final String COLUMN_NAME_FACTOR_ID_FACTORS = "factor";
+    public static final String COLUMN_NAME_FACTOR_ENABLED = "isEnabled";
+    public static final String COLUMN_NAME_FACTOR_COLOR = "COLOR";
 
     public static final String TABLE_NAME_REMINDER_TABLE = "REMINDERS";
-    public static final String COLUMN_NAME_ENTRY_TIME = "TIME";
-    public static final String COLUMN_NAME_ENTRY_SUNDAY = "SUNDAY";
-    public static final String COLUMN_NAME_ENTRY_MONDAY = "MONDAY";
-    public static final String COLUMN_NAME_ENTRY_TUESDAY = "TUESDAY";
-    public static final String COLUMN_NAME_ENTRY_WEDNESDAY = "WEDNESDAY";
-    public static final String COLUMN_NAME_ENTRY_THURSDAY = "THURSDAY";
-    public static final String COLUMN_NAME_ENTRY_FRIDAY = "FRIDAY";
-    public static final String COLUMN_NAME_ENTRY_SATURDAY = "SATURDAY";
-    public static final String COLUMN_NAME_ENTRY_ACTIVE = "ACTIVE";
-    public static final String COLUMN_NAME_ENTRY_TEXT = "REMINDERTEXT";
-    public static final String COLUMN_NAME_ENTRY_DIALOG_ID = "DIALOGID";
-    public static final String COLUMN_NAME_ENTRY_ID = "ALARMID";
+    public static final String COLUMN_NAME_REMINDER_TIME = "TIME";
+    public static final String COLUMN_NAME_REMINDER_SUNDAY = "SUNDAY";
+    public static final String COLUMN_NAME_REMINDER_MONDAY = "MONDAY";
+    public static final String COLUMN_NAME_REMINDER_TUESDAY = "TUESDAY";
+    public static final String COLUMN_NAME_REMINDER_WEDNESDAY = "WEDNESDAY";
+    public static final String COLUMN_NAME_REMINDER_THURSDAY = "THURSDAY";
+    public static final String COLUMN_NAME_REMINDER_FRIDAY = "FRIDAY";
+    public static final String COLUMN_NAME_REMINDER_SATURDAY = "SATURDAY";
+    public static final String COLUMN_NAME_REMINDER_ACTIVE = "ACTIVE";
+    public static final String COLUMN_NAME_REMINDER_TEXT = "REMINDERTEXT";
+    public static final String COLUMN_NAME_REMINDER_DIALOG_ID = "DIALOGID";
+    public static final String COLUMN_NAME_REMINDER_ID = "ALARMID";
 
     public static final String SQL_CREATE_REMINDERS =
             CREATE_TABLE + SPACE + TABLE_NAME_REMINDER_TABLE + OPEN_BRACE +
-                    COLUMN_NAME_ENTRY_ID + SPACE + NUMBER_TYPE + COMMA_STEP +
-                    COLUMN_NAME_ENTRY_ACTIVE + SPACE + NUMBER_TYPE +COMMA_STEP +
-                    COLUMN_NAME_ENTRY_SUNDAY + SPACE + NUMBER_TYPE +COMMA_STEP +
-                    COLUMN_NAME_ENTRY_MONDAY + SPACE + NUMBER_TYPE +COMMA_STEP +
-                    COLUMN_NAME_ENTRY_TUESDAY + SPACE + NUMBER_TYPE +COMMA_STEP +
-                    COLUMN_NAME_ENTRY_WEDNESDAY + SPACE + NUMBER_TYPE +COMMA_STEP +
-                    COLUMN_NAME_ENTRY_THURSDAY + SPACE + NUMBER_TYPE +COMMA_STEP +
-                    COLUMN_NAME_ENTRY_FRIDAY + SPACE + NUMBER_TYPE +COMMA_STEP +
-                    COLUMN_NAME_ENTRY_SATURDAY + SPACE + NUMBER_TYPE +COMMA_STEP +
-                    COLUMN_NAME_ENTRY_DIALOG_ID + SPACE + NUMBER_TYPE +COMMA_STEP +
-                    COLUMN_NAME_ENTRY_TEXT + SPACE + TEXT_TYPE +COMMA_STEP +
-                    COLUMN_NAME_ENTRY_TIME + SPACE + TEXT_TYPE +COMMA_STEP +
-                    PRIMARY_KEY + OPEN_BRACE + COLUMN_NAME_ENTRY_ID +CLOSE_BRACE +
+                    COLUMN_NAME_REMINDER_ID + SPACE + NUMBER_TYPE + COMMA_STEP +
+                    COLUMN_NAME_REMINDER_ACTIVE + SPACE + NUMBER_TYPE +COMMA_STEP +
+                    COLUMN_NAME_REMINDER_SUNDAY + SPACE + NUMBER_TYPE +COMMA_STEP +
+                    COLUMN_NAME_REMINDER_MONDAY + SPACE + NUMBER_TYPE +COMMA_STEP +
+                    COLUMN_NAME_REMINDER_TUESDAY + SPACE + NUMBER_TYPE +COMMA_STEP +
+                    COLUMN_NAME_REMINDER_WEDNESDAY + SPACE + NUMBER_TYPE +COMMA_STEP +
+                    COLUMN_NAME_REMINDER_THURSDAY + SPACE + NUMBER_TYPE +COMMA_STEP +
+                    COLUMN_NAME_REMINDER_FRIDAY + SPACE + NUMBER_TYPE +COMMA_STEP +
+                    COLUMN_NAME_REMINDER_SATURDAY + SPACE + NUMBER_TYPE +COMMA_STEP +
+                    COLUMN_NAME_REMINDER_DIALOG_ID + SPACE + NUMBER_TYPE +COMMA_STEP +
+                    COLUMN_NAME_REMINDER_TEXT + SPACE + TEXT_TYPE +COMMA_STEP +
+                    COLUMN_NAME_REMINDER_TIME + SPACE + TEXT_TYPE +COMMA_STEP +
+                    PRIMARY_KEY + OPEN_BRACE + COLUMN_NAME_REMINDER_ID +CLOSE_BRACE +
                     CLOSE_BRACE;
 
     public static final String SQL_CREATE_ENTRIES =
@@ -75,7 +76,7 @@ public class SQLiteMethods {
                     COLUMN_NAME_ENTRY_ID_MONTH + SPACE + NUMBER_TYPE + COMMA_STEP +
                     COLUMN_NAME_ENTRY_ID_YEAR + SPACE + NUMBER_TYPE + COMMA_STEP +
                     COLUMN_NAME_ENTRY_DESCRIPTION + SPACE + TEXT_TYPE + COMMA_STEP +
-                    COLUMN_NAME_ENTRY_WEATHER+ SPACE + TEXT_TYPE + COMMA_STEP +
+                    COLUMN_NAME_WEATHER_WEATHER + SPACE + TEXT_TYPE + COMMA_STEP +
                     PRIMARY_KEY + OPEN_BRACE + COLUMN_NAME_ENTRY_ID_DAY + COMMA_STEP +
                     COLUMN_NAME_ENTRY_ID_MONTH + COMMA_STEP + COLUMN_NAME_ENTRY_ID_YEAR + CLOSE_BRACE +
                     CLOSE_BRACE;
@@ -85,16 +86,17 @@ public class SQLiteMethods {
                     COLUMN_NAME_ENTRY_ID_DAY + SPACE + NUMBER_TYPE + COMMA_STEP +
                     COLUMN_NAME_ENTRY_ID_MONTH + SPACE + NUMBER_TYPE + COMMA_STEP +
                     COLUMN_NAME_ENTRY_ID_YEAR + SPACE + NUMBER_TYPE + COMMA_STEP +
-                    COLUMN_NAME_ENTRY_WEATHER+ SPACE + TEXT_TYPE + COMMA_STEP +
+                    COLUMN_NAME_WEATHER_WEATHER + SPACE + TEXT_TYPE + COMMA_STEP +
                     PRIMARY_KEY + OPEN_BRACE + COLUMN_NAME_ENTRY_ID_DAY + COMMA_STEP +
                     COLUMN_NAME_ENTRY_ID_MONTH + COMMA_STEP + COLUMN_NAME_ENTRY_ID_YEAR + CLOSE_BRACE +
                     CLOSE_BRACE;
 
     public static final String SQL_CREATE_FACTORS =
                     CREATE_TABLE+ SPACE + TABLE_NAME_FACTOR_TABLE + OPEN_BRACE +
-                    COLUMN_NAME_ENTRY_ID_FACTORS + SPACE + TEXT_TYPE + COMMA_STEP +
-                    COLUMN_NAME_ENTRY_COLOR + SPACE + TEXT_TYPE + COMMA_STEP +
-                    PRIMARY_KEY + OPEN_BRACE+ COLUMN_NAME_ENTRY_ID_FACTORS + CLOSE_BRACE + CLOSE_BRACE;
+                            COLUMN_NAME_FACTOR_ID_FACTORS + SPACE + TEXT_TYPE + COMMA_STEP +
+                            COLUMN_NAME_FACTOR_COLOR + SPACE + TEXT_TYPE + COMMA_STEP +
+                            COLUMN_NAME_FACTOR_ENABLED + SPACE + NUMBER_TYPE + COMMA_STEP +
+                    PRIMARY_KEY + OPEN_BRACE+ COLUMN_NAME_FACTOR_ID_FACTORS + CLOSE_BRACE + CLOSE_BRACE;
 
 
     public static String addColumn(String tableName, String columnName){
@@ -106,8 +108,8 @@ public class SQLiteMethods {
     }
 
     public static String addFactor(String factor , int color){
-        return INSERT_INTO + SPACE + TABLE_NAME_FACTOR_TABLE + OPEN_BRACE + COLUMN_NAME_ENTRY_ID_FACTORS +
-                COMMA_STEP + COLUMN_NAME_ENTRY_COLOR + CLOSE_BRACE + VALUES + OPEN_BRACE + factor +
+        return INSERT_INTO + SPACE + TABLE_NAME_FACTOR_TABLE + OPEN_BRACE + COLUMN_NAME_FACTOR_ID_FACTORS +
+                COMMA_STEP + COLUMN_NAME_FACTOR_COLOR + CLOSE_BRACE + VALUES + OPEN_BRACE + factor +
                 COMMA_STEP + color +CLOSE_BRACE;
     }
 
@@ -125,7 +127,7 @@ public class SQLiteMethods {
             else valueString =+ i+"";
         }
 
-        String selectAllFactorsString = "SELECT " + COLUMN_NAME_ENTRY_ID_FACTORS + SPACE +
+        String selectAllFactorsString = "SELECT " + COLUMN_NAME_FACTOR_ID_FACTORS + SPACE +
                                         "FROM " + TABLE_NAME_FACTOR_TABLE + ";";
 
         return INSERT_INTO + SPACE + TABLE_NAME_MAIN_TABLE + OPEN_BRACE +
