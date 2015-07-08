@@ -99,7 +99,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         ContentValues values3 = new ContentValues();
         values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, "Kopfschmerzen");
         values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, ColorsToPick.BLUE.name());
-        values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, 1);
+        values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, 1);
 
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
@@ -108,7 +108,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         ContentValues values4 = new ContentValues();
         values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, "Bauchschmerzen");
         values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, ColorsToPick.RED.name());
-        values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, 0);
+        values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, 0);
 
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
@@ -116,8 +116,8 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
         ContentValues values5 = new ContentValues();
         values5.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, "Müdigkeit");
-        values5.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, ColorsToPick.RED.name());
-        values5.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, 1);
+        values5.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, ColorsToPick.YELLOW.name());
+        values5.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, 1);
 
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
@@ -486,6 +486,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         cursor.moveToFirst();
         HashMap<String, String> factors = new HashMap<>();
         while (!cursor.isAfterLast()) {
+            Log.d("Factor", cursor.getString(0)+ " "+ cursor.getString(1));
             factors.put(cursor.getString(0), cursor.getString(1));
             cursor.moveToNext();
         }
@@ -518,6 +519,8 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             int i =  cursor.getInt(2);
             boolean enabled = (i == 1)?true:false;
             factors.put(cursor.getString(0), enabled);
+
+            Log.d("Factor", cursor.getString(0) + " " + enabled);
             cursor.moveToNext();
         }
         cursor.close();
