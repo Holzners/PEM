@@ -18,7 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -92,7 +92,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         buttonNewEvent.setOnClickListener(this);
         buttonNewFactor.setOnClickListener(this);
 
-        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.contentPanel);
+        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.contentPanel);
         mainLayout.setOnClickListener(this);
 
         buttonNewEvent.setTag(TAG_NEW_EVENT);
