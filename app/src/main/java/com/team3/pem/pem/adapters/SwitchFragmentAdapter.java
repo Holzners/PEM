@@ -58,12 +58,13 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
         mSwitch.setOnCheckedChangeListener(new SwitchOnCheckedChangedListener(getItem(position)));
 
         String s = mSwitch.getText().toString();
-        int color = context.getResources().getColor(RatingToColorHelper.ratingToColor(s, 3));
+        final int color = context.getResources().getColor(RatingToColorHelper.ratingToColor(s, 3));
         mSwitch.getThumbDrawable().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
 
         mSwitch.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                mSwitch.setTextColor(color);
                 context.setContextMenuOn(true, mSwitch);
                 context.invalidateOptionsMenu();
                 return true;
