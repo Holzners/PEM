@@ -73,7 +73,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         selectedColor = new HashMap<>();
 
         ImageView imageview = new ImageView(this); // Create an icon
-        imageview.setImageResource(R.drawable.ic_action_new);
+        imageview.setImageResource(R.drawable.ic_add_3x);
 
         FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
                 .setBackgroundDrawable(R.drawable.button_action_accent_selector)
@@ -83,11 +83,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
 
         ImageView iconNewFactor = new ImageView(this);
-        iconNewFactor.setImageResource(R.drawable.ic_action_new_label);
-
+        iconNewFactor.setImageResource(R.drawable.ic_playlist_add_black_36dp); // ic_action_new_label);
         ImageView iconNewEvent = new ImageView(this);
-        iconNewEvent.setImageResource(R.drawable.ic_action_new_event);
-
+        iconNewEvent.setImageResource(R.drawable.ic_note_add_black_36dp); //ic_action_new_event);
 
         SubActionButton buttonNewEvent = itemBuilder.setContentView(iconNewEvent).build();
         SubActionButton buttonNewFactor = itemBuilder.setContentView(iconNewFactor).build();
@@ -150,7 +148,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                             dialog.dismiss();
                         }
                     })
-                    .setIcon(R.drawable.alert)
+                    .setIcon(R.drawable.ic_dialog_alert)
                     .show();
             setContextMenuOn(false, null);
             invalidateOptionsMenu();
@@ -204,11 +202,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
-
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         String lastUpdate = sharedPref.getString(getString(R.string.last_weather_update_key), "");
         String today = DateTime.today(TimeZone.getDefault()) + "";
-        if (!lastUpdate.equalsIgnoreCase(today)) {
+        if (lastUpdate != null && !lastUpdate.equalsIgnoreCase(today)) {
             updateWeatherData();
         }
         // if(pemDialogFragment != null) ((RateDayAdapter)pemDialogFragment.getListAdapter()).notifyDataSetChanged();

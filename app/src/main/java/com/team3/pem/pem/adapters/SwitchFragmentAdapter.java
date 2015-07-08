@@ -70,6 +70,7 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
                 return true;
             }
         });
+
         return newView;
     }
 

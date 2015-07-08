@@ -18,15 +18,6 @@ public class SwitchFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View newView = inflater.inflate(R.layout.fragment_switch_list, container, false);
-//        FloatingActionButton newFactorRating = (FloatingActionButton) newView.findViewById(R.id.newFactorRating);
-//        FloatingActionButton newFactor = (FloatingActionButton) newView.findViewById(R.id.newFactor);
-//        newFactor.setContentDescription("HALLO");
-//        newFactorRating.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.i("TEST", "TEST");
-//            }
-//        });
         this.setHasOptionsMenu(true);
         return newView;
     }
