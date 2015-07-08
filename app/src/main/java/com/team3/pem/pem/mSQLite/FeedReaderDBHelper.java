@@ -83,7 +83,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         }
 
         this.getFactorColorMap().put(factorName, colorId);
-        this.getFactorEnabledMap().put(factorName, true);
+        this.getFactorEnabledMap().put(factorName, false);
 
     }
 
