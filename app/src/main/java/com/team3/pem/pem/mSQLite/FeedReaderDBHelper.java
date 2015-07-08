@@ -97,24 +97,27 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             Log.d("EndDay", yesterday.toString());
         }
         ContentValues values3 = new ContentValues();
-        values3.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS, "Kopfschmerzen");
-        values3.put(SQLiteMethods.COLUMN_NAME_ENTRY_COLOR, ColorsToPick.BLUE.name());
+        values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, "Kopfschmerzen");
+        values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, ColorsToPick.BLUE.name());
+        values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, 1);
 
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
                 "null", values3, SQLiteDatabase.CONFLICT_REPLACE);
 
         ContentValues values4 = new ContentValues();
-        values4.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS, "Bauchschmerzen");
-        values4.put(SQLiteMethods.COLUMN_NAME_ENTRY_COLOR, ColorsToPick.RED.name());
+        values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, "Bauchschmerzen");
+        values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, ColorsToPick.RED.name());
+        values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, 0);
 
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
                 "null", values4, SQLiteDatabase.CONFLICT_REPLACE);
 
         ContentValues values5 = new ContentValues();
-        values5.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS, "Müdigkeit");
-        values5.put(SQLiteMethods.COLUMN_NAME_ENTRY_COLOR, ColorsToPick.VIOLETTE.name());
+        values5.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, "Müdigkeit");
+        values5.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, ColorsToPick.YELLOW.name());
+        values5.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, 1);
 
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
@@ -123,18 +126,18 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         ContentValues values10 = new ContentValues();
 
         String[] dayColumns = {
-                SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_MONDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_TUESDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_WEDNESDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_THURSDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_FRIDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY};
-        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID, 0);
-        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_DIALOG_ID, 0);
-        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_TEXT, "Tag bewerten");
-        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_TIME, "08:00");
-        values10.put(SQLiteMethods.COLUMN_NAME_ENTRY_ACTIVE, 0);
+                SQLiteMethods.COLUMN_NAME_REMINDER_SUNDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_MONDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_TUESDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_WEDNESDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_THURSDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_FRIDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_SATURDAY};
+        values10.put(SQLiteMethods.COLUMN_NAME_REMINDER_ID, 0);
+        values10.put(SQLiteMethods.COLUMN_NAME_REMINDER_DIALOG_ID, 0);
+        values10.put(SQLiteMethods.COLUMN_NAME_REMINDER_TEXT, "Tag bewerten");
+        values10.put(SQLiteMethods.COLUMN_NAME_REMINDER_TIME, "08:00");
+        values10.put(SQLiteMethods.COLUMN_NAME_REMINDER_ACTIVE, 0);
 
         for (int i = 0; i < dayColumns.length; i++) {
             values10.put(dayColumns[i], 0);
@@ -157,8 +160,9 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         this.getFactorList();
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS, factorName);
-        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_COLOR, colorId);
+        values.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, factorName);
+        values.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, colorId);
+        values.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, 1);
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
                 "null", values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -168,7 +172,23 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         }
 
         this.getFactorColorMap().put(factorName,colorId);
-        this.getFactorEnabledMap().put(factorName, false);
+        this.getFactorEnabledMap().put(factorName,true);
+
+    }
+
+    public void switchFactor(String factor, boolean enabled){
+        this.getFactorList();
+        this.getFactorColorMap();
+        this.getFactorEnabledMap().put(factor, enabled);
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        int i = (enabled) ? 1 : 0;
+        values.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, factor);
+        values.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, factorColorMap.get(factor));
+        values.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, i);
+        db.insertWithOnConflict(
+                SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
+                "null", values, SQLiteDatabase.CONFLICT_REPLACE);
 
     }
 
@@ -202,7 +222,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, date.getDay());
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH, date.getMonth());
         values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR, date.getYear());
-        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_WEATHER, weatherData);
+        values.put(SQLiteMethods.COLUMN_NAME_WEATHER_WEATHER, weatherData);
 
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_WEATHER_TABLE,
@@ -448,8 +468,9 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     public HashMap<String, String> getFactorsFromDatabase() {
         SQLiteDatabase dbRwad = getReadableDatabase();
         String[] projection = {
-                SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS,
-                SQLiteMethods.COLUMN_NAME_ENTRY_COLOR,
+                SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS,
+                SQLiteMethods.COLUMN_NAME_FACTOR_COLOR,
+                SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED
         };
 
         Cursor cursor = dbRwad.query(
@@ -465,7 +486,41 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         cursor.moveToFirst();
         HashMap<String, String> factors = new HashMap<>();
         while (!cursor.isAfterLast()) {
+            Log.d("Factor", cursor.getString(0)+ " "+ cursor.getString(1));
             factors.put(cursor.getString(0), cursor.getString(1));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return factors;
+    }
+
+
+    public HashMap<String, Boolean> getFactorsEnabledFromDatabase() {
+        SQLiteDatabase dbRwad = getReadableDatabase();
+        String[] projection = {
+                SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS,
+                SQLiteMethods.COLUMN_NAME_FACTOR_COLOR,
+                SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED,
+        };
+
+        Cursor cursor = dbRwad.query(
+                SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        cursor.moveToFirst();
+        HashMap<String, Boolean> factors = new HashMap<>();
+        while (!cursor.isAfterLast()) {
+            int i =  cursor.getInt(2);
+            boolean enabled = (i == 1)?true:false;
+            factors.put(cursor.getString(0), enabled);
+
+            Log.d("Factor", cursor.getString(0) + " " + enabled);
             cursor.moveToNext();
         }
         cursor.close();
@@ -476,7 +531,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     public List<String> getFactors() {
         SQLiteDatabase dbRwad = getReadableDatabase();
         String[] projection = {
-                SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS,
+                SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS,
         };
 
         Cursor cursor = dbRwad.query(
@@ -505,19 +560,19 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
         boolean[] bools = reminder.getActiveForDays();
         String[] dayColumns = {
-                SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_MONDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_TUESDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_WEDNESDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_THURSDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_FRIDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY};
-        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID, reminder.getAlarmID());
-        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_DIALOG_ID, reminder.getDialogID());
-        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_TEXT, reminder.getText());
-        values.put(SQLiteMethods.COLUMN_NAME_ENTRY_TIME, reminder.getTime());
-        if (reminder.isActive()) values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ACTIVE, 1);
-        else values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ACTIVE, 0);
+                SQLiteMethods.COLUMN_NAME_REMINDER_SUNDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_MONDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_TUESDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_WEDNESDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_THURSDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_FRIDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_SATURDAY};
+        values.put(SQLiteMethods.COLUMN_NAME_REMINDER_ID, reminder.getAlarmID());
+        values.put(SQLiteMethods.COLUMN_NAME_REMINDER_DIALOG_ID, reminder.getDialogID());
+        values.put(SQLiteMethods.COLUMN_NAME_REMINDER_TEXT, reminder.getText());
+        values.put(SQLiteMethods.COLUMN_NAME_REMINDER_TIME, reminder.getTime());
+        if (reminder.isActive()) values.put(SQLiteMethods.COLUMN_NAME_REMINDER_ACTIVE, 1);
+        else values.put(SQLiteMethods.COLUMN_NAME_REMINDER_ACTIVE, 0);
 
         for (int i = 0; i < dayColumns.length && i < bools.length; i++) {
             if (bools[i]) values.put(dayColumns[i], 1);
@@ -534,8 +589,8 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         SQLiteDatabase db = getWritableDatabase();
 
         String UPDATE  = SQLiteMethods.UPDATE + SQLiteMethods.TABLE_NAME_REMINDER_TABLE +
-                SQLiteMethods.SPACE + SQLiteMethods.SET + SQLiteMethods.COLUMN_NAME_ENTRY_TEXT + " = ''" +
-                SQLiteMethods.WHERE + SQLiteMethods.COLUMN_NAME_ENTRY_ID + " = " + iD;
+                SQLiteMethods.SPACE + SQLiteMethods.SET + SQLiteMethods.COLUMN_NAME_REMINDER_TEXT + " = ''" +
+                SQLiteMethods.WHERE + SQLiteMethods.COLUMN_NAME_REMINDER_ID + " = " + iD;
         db.execSQL(UPDATE);
     }
 
@@ -545,18 +600,18 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         SQLiteDatabase dbRwad = getReadableDatabase();
 
         String[] projection = {
-                SQLiteMethods.COLUMN_NAME_ENTRY_ID,
-                SQLiteMethods.COLUMN_NAME_ENTRY_DIALOG_ID,
-                SQLiteMethods.COLUMN_NAME_ENTRY_TEXT,
-                SQLiteMethods.COLUMN_NAME_ENTRY_TIME,
-                SQLiteMethods.COLUMN_NAME_ENTRY_ACTIVE,
-                SQLiteMethods.COLUMN_NAME_ENTRY_SUNDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_MONDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_TUESDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_WEDNESDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_THURSDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_FRIDAY,
-                SQLiteMethods.COLUMN_NAME_ENTRY_SATURDAY
+                SQLiteMethods.COLUMN_NAME_REMINDER_ID,
+                SQLiteMethods.COLUMN_NAME_REMINDER_DIALOG_ID,
+                SQLiteMethods.COLUMN_NAME_REMINDER_TEXT,
+                SQLiteMethods.COLUMN_NAME_REMINDER_TIME,
+                SQLiteMethods.COLUMN_NAME_REMINDER_ACTIVE,
+                SQLiteMethods.COLUMN_NAME_REMINDER_SUNDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_MONDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_TUESDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_WEDNESDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_THURSDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_FRIDAY,
+                SQLiteMethods.COLUMN_NAME_REMINDER_SATURDAY
         };
 
 
@@ -567,7 +622,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
                 null,
                 null,
                 null,
-                SQLiteMethods.COLUMN_NAME_ENTRY_ID + " ASC"
+                SQLiteMethods.COLUMN_NAME_REMINDER_ID + " ASC"
         );
 
         cursor.moveToFirst();
@@ -599,7 +654,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
                 "(" + SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY + " = " + dateTime.getDay() + " AND " +
                         SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH + " = " + dateTime.getMonth() + " AND " +
                         SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR + " = " + dateTime.getYear() + ")";
-        String[] projection = {SQLiteMethods.COLUMN_NAME_ENTRY_WEATHER};
+        String[] projection = {SQLiteMethods.COLUMN_NAME_WEATHER_WEATHER};
 
         Cursor cursor = dbRwad.query(
                 SQLiteMethods.TABLE_NAME_WEATHER_TABLE,
@@ -621,7 +676,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         SQLiteDatabase db = getWritableDatabase();
 
         String[] deleteWhere = new String[]{factor};
-        db.delete(SQLiteMethods.TABLE_NAME_FACTOR_TABLE,  SQLiteMethods.COLUMN_NAME_ENTRY_ID_FACTORS + "=?" , deleteWhere);
+        db.delete(SQLiteMethods.TABLE_NAME_FACTOR_TABLE,  SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS + "=?" , deleteWhere);
 
         factors.remove(factor);
         String createTableCmd = SQLiteMethods.SQL_CREATE_ENTRIES;
@@ -687,11 +742,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     }
 
     public HashMap<String, Boolean> getFactorEnabledMap() {
-        if(factorEnabledMap != null) return factorEnabledMap;
-        factorEnabledMap = new HashMap<>();
-        for(String s : getFactorList()){
-            factorEnabledMap.put(s, false);
-        }
+        if(factorEnabledMap == null) factorEnabledMap = getFactorsEnabledFromDatabase();
         return factorEnabledMap;
     }
 

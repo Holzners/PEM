@@ -235,7 +235,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     public void switchSymptom(boolean isEnabled, String symptom) {
-        mDbHelper.getFactorEnabledMap().put(symptom, isEnabled);
+        mDbHelper.switchFactor(symptom, isEnabled);
         refreshAdapters();
     }
 
