@@ -61,8 +61,6 @@ public class ExportActivity extends ActionBarActivity {
     TextView loadingText;
     String filePath;
 
-    private static final int EXPORT_FINISHED = 1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
