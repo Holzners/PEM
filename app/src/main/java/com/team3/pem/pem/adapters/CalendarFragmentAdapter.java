@@ -120,6 +120,9 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
                 gd.setColor(cellView.getResources().getColor(R.color.white));
             }
 
+        }else{
+            TableLayout tableLayout = (TableLayout) cellView.findViewById(R.id.cellContainer);
+            tableLayout.setBackgroundResource(R.color.transparent);
         }
         cellView.setPadding(leftPadding, topPadding, rightPadding,
                 bottomPadding);
