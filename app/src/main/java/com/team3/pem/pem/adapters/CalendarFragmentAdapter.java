@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.roomorama.caldroid.CaldroidGridAdapter;
@@ -110,13 +111,12 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
                         }
                     }
             }
-                cellView.setBackgroundResource(R.drawable.border);
-                GradientDrawable drawable = (GradientDrawable) cellView.getBackground();
-                drawable.setColor(cellView.getResources().getColor(R.color.white));
+
 
             if(dateTime.isSameDayAs(DateTime.today(TimeZone.getDefault()))){
-                cellView.setBackgroundResource(R.drawable.border_red);
-                GradientDrawable gd = (GradientDrawable) cellView.getBackground();
+                TableLayout tableLayout = (TableLayout) cellView.findViewById(R.id.cellContainer);
+                tableLayout.setBackgroundResource(R.drawable.border_red);
+                GradientDrawable gd = (GradientDrawable) tableLayout.getBackground();
                 gd.setColor(cellView.getResources().getColor(R.color.white));
             }
 
