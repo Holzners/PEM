@@ -37,6 +37,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     private List<String> factorList;
     private HashMap<String , String> factorColorMap;
     private HashMap<String , Boolean> factorEnabledMap;
+    private HashMap<String , Boolean> factorIsGradualMap;
 
     private FeedReaderDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -48,6 +49,11 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         return new FeedReaderDBHelper(appContext);
     }
 
+    @Override
+    public HashMap<String , Boolean> getFactorIsGradualMap(){
+        if(factorIsGradualMap == null) factorIsGradualMap = getFactorIsGradualMapFromDatabase();
+        return factorIsGradualMap;
+    }
 
     @Override
     public List<String> getFactorList() {
@@ -67,13 +73,16 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     }
 
     @Override
-    public void saveFactor(String factorName, String colorId) {
+    public void saveFactor(String factorName, String colorId, boolean isGradual) {
         this.getFactorList();
+
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, factorName);
         values.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, colorId);
         values.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, 1);
+        int i = (isGradual)? 1 : 0;
+        values.put(SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL, i);
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
                 "null", values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -84,6 +93,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
         this.getFactorColorMap().put(factorName, colorId);
         this.getFactorEnabledMap().put(factorName, false);
+        this.getFactorIsGradualMap().put(factorName, isGradual);
 
     }
 
@@ -318,12 +328,14 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         String[] projection = {
                 SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS,
                 SQLiteMethods.COLUMN_NAME_FACTOR_COLOR,
-                SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED
+                SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED,
+                SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL
         };
 
         Cursor cursor = dbRwad.query(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
-                projection, null, null, null, null, null
+                projection, null, null, null, null,
+                SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL + " DESC"
         );
 
         cursor.moveToFirst();
@@ -337,17 +349,45 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         return factors;
     }
 
+    private HashMap<String, Boolean> getFactorIsGradualMapFromDatabase() {
+        SQLiteDatabase dbRwad = getReadableDatabase();
+        String[] projection = {
+                SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS,
+                SQLiteMethods.COLUMN_NAME_FACTOR_COLOR,
+                SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED,
+                SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL
+        };
+
+        Cursor cursor = dbRwad.query(
+                SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
+                projection, null, null, null, null,
+                SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL + " DESC"
+        );
+
+        cursor.moveToFirst();
+        HashMap<String, Boolean> factors = new HashMap<>();
+        while (!cursor.isAfterLast()) {
+            //Log.d("Factor", cursor.getString(0)+ " "+ cursor.getString(1));
+            boolean gradual = (cursor.getInt(3)==1);
+            factors.put(cursor.getString(0), gradual);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return factors;
+    }
+
     private HashMap<String, Boolean> getFactorsEnabledFromDatabase() {
         SQLiteDatabase dbRwad = getReadableDatabase();
         String[] projection = {
                 SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS,
                 SQLiteMethods.COLUMN_NAME_FACTOR_COLOR,
                 SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED,
+                SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL
         };
 
         Cursor cursor = dbRwad.query(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
-                projection, null, null, null, null, null
+                projection, null, null, null, null, SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL + " DESC"
         );
 
         cursor.moveToFirst();
@@ -369,11 +409,12 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         SQLiteDatabase dbRwad = getReadableDatabase();
         String[] projection = {
                 SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS,
+                SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL
         };
 
         Cursor cursor = dbRwad.query(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
-                projection, null, null, null, null, null
+                projection, null, null, null, null, SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL + " DESC"
         );
 
         cursor.moveToFirst();
@@ -561,7 +602,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         db.execSQL(SQLiteMethods.SQL_CREATE_ENTRIES);
         db.execSQL(SQLiteMethods.SQL_CREATE_FACTORS);
         db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, "Kopfschmerzen"));
-        db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, "Bauchschmerzen"));
+        db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, "Medieinnahme"));
         db.execSQL(SQLiteMethods.addColumn(SQLiteMethods.TABLE_NAME_MAIN_TABLE, "Müdigkeit"));
         db.execSQL(SQLiteMethods.SQL_CREATE_REMINDERS);
         db.execSQL(SQLiteMethods.SQL_CREATE_WEATHER);
@@ -577,27 +618,13 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             Random rand = new Random();
 
             values.put("Kopfschmerzen", rand.nextInt(5) + 1);
-            values.put("Bauchschmerzen", rand.nextInt(5) + 1);
+            values.put("Medieinnahme", (rand.nextInt(2) + 1 == 1)? 1 : 0);
             values.put("Müdigkeit", rand.nextInt(5) + 1);
             values.put(SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION, "Damn hard day");
 
             db.insertWithOnConflict(
                     SQLiteMethods.TABLE_NAME_MAIN_TABLE,
                     "null", values, SQLiteDatabase.CONFLICT_REPLACE);
-
-            ContentValues values2 = new ContentValues();
-            values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, startDate.getDay());
-            values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_MONTH, startDate.getMonth());
-            values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_YEAR, startDate.getYear());
-
-            values2.put("Kopfschmerzen", rand.nextInt(5) + 1);
-            values2.put("Bauchschmerzen", rand.nextInt(5) + 1);
-            values2.put("Müdigkeit", rand.nextInt(5) + 1);
-            values2.put(SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION, "Damn hard day");
-
-            db.insertWithOnConflict(
-                    SQLiteMethods.TABLE_NAME_MAIN_TABLE,
-                    "null", values2, SQLiteDatabase.CONFLICT_REPLACE);
 
             startDate = startDate.plusDays(1);
 
@@ -608,15 +635,17 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, "Kopfschmerzen");
         values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, ColorsToPick.BLUE.name());
         values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, 1);
+        values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL, 1);
 
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
                 "null", values3, SQLiteDatabase.CONFLICT_REPLACE);
 
         ContentValues values4 = new ContentValues();
-        values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, "Bauchschmerzen");
+        values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, "Medieinnahme");
         values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, ColorsToPick.RED.name());
         values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, 0);
+        values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL, 0);
 
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
@@ -626,6 +655,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         values5.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, "Müdigkeit");
         values5.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, ColorsToPick.YELLOW.name());
         values5.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, 1);
+        values5.put(SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL, 1);
 
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,

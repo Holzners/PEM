@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.team3.pem.pem.R;
@@ -60,47 +63,60 @@ public class RateDayAdapter extends ArrayAdapter {
 
         View newRow = inflater.inflate(R.layout.rate_day_layout, null);
 
-        TextView factorText = (TextView) newRow.findViewById(R.id.factorText);
-        factorText.setText(getItem(position));
-
-        rateViews[0] = (TextView) newRow.findViewById(R.id.ratText1);
-        rateViews[1] = (TextView) newRow.findViewById(R.id.ratText2);
-        rateViews[2] = (TextView) newRow.findViewById(R.id.ratText3);
-        rateViews[3] = (TextView) newRow.findViewById(R.id.ratText4);
-        rateViews[4] = (TextView) newRow.findViewById(R.id.ratText5);
-
-
-        String color = mDBHelper.getFactorColorMap().get(getItem(position));
-        int[]colors = ColorsToPick.getColorByString(color).getAllColors();
-
-        Display display = activity.getWindowManager().getDefaultDisplay();
-        int width = display.getWidth()/8;
-        int height = display.getWidth()/8;
-
-        for (int i = 0 ; i < colors.length && i < rateViews.length ; i++){
-            ViewGroup.LayoutParams params =rateViews[i].getLayoutParams();
-            params.width = width;
-            params.height = height;
-            rateViews[i].setLayoutParams(params);
-
-            GradientDrawable gd = (GradientDrawable) rateViews[i].getBackground();
-            gd.setColor(newRow.getResources().getColor(colors[i]));
-            gd.setStroke(2, activity.getResources().getColor(R.color.transparent));
-            rateViews[i].setOnClickListener(
-                    new RateViewOnClickListener(rateViews[i],rateViews,position,i));
-        }
-
         FeedReaderDBHelper dbHelper = FeedReaderDBHelper.getInstance();
         DayEntry entry = dbHelper.getDatabaseEntriesDay(mDBHelper.getFactorList(), date.getDay(), date.getMonth(), date.getYear());
         int rating = 1;
-        if(entry != null) {
+        if (entry != null) {
             HashMap<String, Integer> ratings = entry.ratings;
             rating = ratings.get(getItem(position));
         }
 
-        GradientDrawable gd = (GradientDrawable) rateViews[(rating == 0) ? 0 : (rating-1)].getBackground();
-        gd.setStroke(5, activity.getResources().getColor(R.color.black));
-        activity.selectedColor.put(getItem(position), rating);
+
+        if(!mDBHelper.getFactorIsGradualMap().get(getItem(position))){
+            final Switch mSwitch = (Switch) newRow.findViewById(R.id.rateSwitch);
+            TableRow row = (TableRow) newRow.findViewById(R.id.gradualTable);
+            row.setVisibility(View.GONE);
+            boolean checked = rating == 5;
+            mSwitch.setText(getItem(position));
+            mSwitch.setChecked(checked);
+            mSwitch.setVisibility(View.VISIBLE);
+            mSwitch.setOnCheckedChangeListener(new RateDayOnCheckedChangeListener(getItem(position)));
+
+        }else {
+            TextView factorText = (TextView) newRow.findViewById(R.id.factorText);
+            factorText.setText(getItem(position));
+
+            rateViews[0] = (TextView) newRow.findViewById(R.id.ratText1);
+            rateViews[1] = (TextView) newRow.findViewById(R.id.ratText2);
+            rateViews[2] = (TextView) newRow.findViewById(R.id.ratText3);
+            rateViews[3] = (TextView) newRow.findViewById(R.id.ratText4);
+            rateViews[4] = (TextView) newRow.findViewById(R.id.ratText5);
+
+
+            String color = mDBHelper.getFactorColorMap().get(getItem(position));
+            int[] colors = ColorsToPick.getColorByString(color).getAllColors();
+
+            Display display = activity.getWindowManager().getDefaultDisplay();
+            int width = display.getWidth() / 8;
+            int height = display.getWidth() / 8;
+
+            for (int i = 0; i < colors.length && i < rateViews.length; i++) {
+                ViewGroup.LayoutParams params = rateViews[i].getLayoutParams();
+                params.width = width;
+                params.height = height;
+                rateViews[i].setLayoutParams(params);
+
+                GradientDrawable gd = (GradientDrawable) rateViews[i].getBackground();
+                gd.setColor(newRow.getResources().getColor(colors[i]));
+                gd.setStroke(2, activity.getResources().getColor(R.color.transparent));
+                rateViews[i].setOnClickListener(
+                        new RateViewOnClickListener(rateViews[i], rateViews, position, i));
+            }
+
+            GradientDrawable gd = (GradientDrawable) rateViews[(rating == 0) ? 0 : (rating - 1)].getBackground();
+            gd.setStroke(5, activity.getResources().getColor(R.color.black));
+            activity.selectedColor.put(getItem(position), rating);
+        }
         return newRow;
     }
 
@@ -129,4 +145,19 @@ public class RateDayAdapter extends ArrayAdapter {
            gdNew.setStroke(7, activity.getResources().getColor(R.color.black));
        }
    }
+
+    public class RateDayOnCheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
+
+        String factor;
+
+        public RateDayOnCheckedChangeListener(String factor){
+            this.factor = factor;
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            int i = (isChecked) ? 5 : 1;
+            activity.selectedColor.put(factor, i);
+        }
+    }
 }

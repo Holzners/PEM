@@ -1,6 +1,7 @@
 package com.team3.pem.pem.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.team3.pem.pem.utili.RatingToColorHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
@@ -111,6 +113,12 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
                         }
                     }
             }
+            if(allSymptomsDisabled()){
+                colorView[0].setBackgroundColor(Color.TRANSPARENT);
+                colorView[1].setBackgroundColor(Color.TRANSPARENT);
+                colorView[2].setBackgroundColor(Color.TRANSPARENT);
+                colorView[3].setBackgroundColor(Color.TRANSPARENT);
+            }
 
 
             if(dateTime.isSameDayAs(DateTime.today(TimeZone.getDefault()))){
@@ -144,5 +152,13 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
         public void onClick(View v) {
             context.showDetailDay(date);
         }
+    }
+
+    private boolean allSymptomsDisabled(){
+        for(Map.Entry<String ,Boolean> e: mDBHelper.getFactorEnabledMap().entrySet()){
+            if(e.getValue()) return false;
+        }
+
+        return true;
     }
 }

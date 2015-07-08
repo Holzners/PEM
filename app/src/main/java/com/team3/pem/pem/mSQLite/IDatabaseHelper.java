@@ -18,7 +18,7 @@ public interface IDatabaseHelper {
      * @param factorName
      * @param colorId
      */
-    void saveFactor(String factorName, String colorId);
+    void saveFactor(String factorName, String colorId, boolean isGradual);
 
     /**
      * saves Users rate of specific day
@@ -130,4 +130,10 @@ public interface IDatabaseHelper {
      * @return
      */
     HashMap<String, Boolean> getFactorEnabledMap();
+
+    /**
+     * All factors and their Types
+     * @return
+     */
+    HashMap<String , Boolean> getFactorIsGradualMap();
 }

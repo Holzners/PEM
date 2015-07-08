@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ public class NewFactorFragment extends DialogFragment {
     private int selectedIndex = -1;
     private String factor;
     private TextView[] tvs;
+    private RadioButton isGradual;
     public NewFactorFragment() {
 
     }
@@ -64,6 +66,7 @@ public class NewFactorFragment extends DialogFragment {
         mDBHelper = FeedReaderDBHelper.getInstance();
         HashMap<String, String> factorEntries = mDBHelper.getFactorColorMap();
 
+        isGradual = (RadioButton)view.findViewById(R.id.radioButtonGradual);
         Button saveButton = (Button) view.findViewById(R.id.button_save_factor);
         Button cancelButton = (Button) view.findViewById(R.id.button_cancel);
         newFactorText = (EditText) view.findViewById(R.id.inputText);
@@ -98,7 +101,7 @@ public class NewFactorFragment extends DialogFragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveFactor();
+                saveFactor(isGradual.isChecked());
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -110,9 +113,9 @@ public class NewFactorFragment extends DialogFragment {
         return view;
     }
     
-    public void saveFactor() {
+    public void saveFactor(boolean isGradual) {
         if (!newFactorText.getText().toString().equals("") && !selectedColor.equals("") ) {
-            mDBHelper.saveFactor(newFactorText.getText().toString(), selectedColor);
+            mDBHelper.saveFactor(newFactorText.getText().toString(), selectedColor, isGradual);
             context.selectedColor.put(newFactorText.getText().toString(), 1);
             context.refreshAdapters();
             this.dismiss();

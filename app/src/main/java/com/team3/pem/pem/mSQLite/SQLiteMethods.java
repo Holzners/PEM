@@ -31,6 +31,7 @@ public class SQLiteMethods {
     public static final String COLUMN_NAME_FACTOR_ID_FACTORS = "factor";
     public static final String COLUMN_NAME_FACTOR_ENABLED = "isEnabled";
     public static final String COLUMN_NAME_FACTOR_COLOR = "COLOR";
+    public static final String COLUMN_NAME_FACTOR_IS_GRADUAL = "gradual";
 
     public static final String TABLE_NAME_REMINDER_TABLE = "REMINDERS";
     public static final String COLUMN_NAME_REMINDER_TIME = "TIME";
@@ -89,6 +90,7 @@ public class SQLiteMethods {
                             COLUMN_NAME_FACTOR_ID_FACTORS + SPACE + TEXT_TYPE + COMMA_STEP +
                             COLUMN_NAME_FACTOR_COLOR + SPACE + TEXT_TYPE + COMMA_STEP +
                             COLUMN_NAME_FACTOR_ENABLED + SPACE + NUMBER_TYPE + COMMA_STEP +
+                            COLUMN_NAME_FACTOR_IS_GRADUAL + SPACE + NUMBER_TYPE + COMMA_STEP +
                     PRIMARY_KEY + OPEN_BRACE+ COLUMN_NAME_FACTOR_ID_FACTORS + CLOSE_BRACE + CLOSE_BRACE;
 
 

@@ -4,78 +4,72 @@
     android:padding="@dimen/abc_dialog_padding_material">
 
     <TableRow
+        android:id="@+id/tableColorContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tableColorContainer"
         android:layout_alignParentTop="true"
-        android:gravity="center"
-        >
-    </TableRow>
+        android:gravity="center"></TableRow>
 
     <TextView
+        android:id="@+id/tooManySymptomsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/too_many_symptoms"
-        android:id="@+id/tooManySymptomsText"
-        android:gravity="center"
-        android:textIsSelectable="false"
-        android:layout_gravity="center"
-        android:layout_below="@+id/tableColorContainer"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/tableColorContainer"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/too_many_symptoms"
+        android:textIsSelectable="false" />
 
     <EditText
+        android:id="@+id/inputText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/inputText"
-        android:hint="@string/addFactor"
-        android:singleLine="true"
+        android:layout_below="@+id/tableColorContainer"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
-        android:layout_below="@+id/tableColorContainer"
-        />
+        android:hint="@string/addFactor"
+        android:singleLine="true" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Speichern"
         android:id="@+id/button_save_factor"
-        android:textColor="@color/accent_material_light"
-        android:background="#00ffffff"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/inputText"/>
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/action_cancel"
-        android:id="@+id/button_cancel"
-        android:textColor="@color/accent_material_light"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/radioGroup"
         android:background="#00ffffff"
-        android:layout_alignTop="@+id/button_save_factor"
-        android:layout_toLeftOf="@id/button_save_factor"
-        android:layout_marginRight="@dimen/action_button_margin"
-        />
+        android:text="Speichern"
+        android:textColor="@color/accent_material_light" />
 
-    <!--<RadioGroup-->
-        <!--android:id="@+id/radioGroup"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/inputText"-->
-        <!-->-->
-        <!--<RadioButton-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/gradual"-->
-            <!--android:id="@+id/radioButton"-->
-            <!--/>-->
-        <!--<RadioButton-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/binary"-->
-            <!--android:id="@+id/radioButton2"-->
-             <!--/>-->
-    <!--</RadioGroup>-->
+    <Button
+        android:id="@+id/button_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/radioGroup"
+        android:background="#00ffffff"
+        android:text="@string/action_cancel"
+        android:textColor="@color/accent_material_light" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputText">
+
+        <RadioButton
+            android:id="@+id/radioButtonGradual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gradual" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/binary" />
+    </RadioGroup>
 
 </RelativeLayout>
