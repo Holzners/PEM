@@ -486,7 +486,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         cursor.moveToFirst();
         HashMap<String, String> factors = new HashMap<>();
         while (!cursor.isAfterLast()) {
-            Log.d("Factor", cursor.getString(0)+ " "+ cursor.getString(1));
+            //Log.d("Factor", cursor.getString(0)+ " "+ cursor.getString(1));
             factors.put(cursor.getString(0), cursor.getString(1));
             cursor.moveToNext();
         }
@@ -520,7 +520,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             boolean enabled = (i == 1)?true:false;
             factors.put(cursor.getString(0), enabled);
 
-            Log.d("Factor", cursor.getString(0) + " " + enabled);
+           // Log.d("Factor", cursor.getString(0) + " " + enabled);
             cursor.moveToNext();
         }
         cursor.close();

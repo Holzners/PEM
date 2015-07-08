@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -133,6 +134,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         } else if (id == R.id.action_reminder) {
             startActivity(new Intent(MainActivity.this, NotificationsActivity.class));
         } else if (id == R.id.action_delete) {
+            selectedSwitch.setTextColor(Color.BLACK);
             final String switchName = selectedSwitch.getText().toString();
             new AlertDialog.Builder(this)
                     .setTitle(getResources().getString(R.string.deleteSymptom))
@@ -153,6 +155,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             setContextMenuOn(false, null);
             invalidateOptionsMenu();
         } else if (id == R.id.action_edit) {
+            selectedSwitch.setTextColor(Color.BLACK);
             String color = mDbHelper.getFactorColorMap().get(selectedSwitch.getText().toString());
             NewFactorFragment newFactorFragment = NewFactorFragment.getInstance(this, selectedSwitch.getText().toString(), color);
             FragmentManager f = getSupportFragmentManager();
@@ -342,6 +345,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onClick(View view) {
         if(view.getId() == R.id.contentPanel){
             if(this.contextMenuOn) {
+                selectedSwitch.setTextColor(Color.BLACK);
                 setContextMenuOn(false, null);
                 invalidateOptionsMenu();
             }

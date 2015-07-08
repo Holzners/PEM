@@ -59,6 +59,9 @@ public class ExportActivity extends ActionBarActivity {
     public List<String> enabledSymptoms;
     ListView listView;
     TextView loadingText;
+    String filePath;
+
+    private static final int EXPORT_FINISHED = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +78,9 @@ public class ExportActivity extends ActionBarActivity {
         loadingText = (TextView) findViewById(R.id.loadingText);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        final SwitchExportAdapter adapter = new SwitchExportAdapter(this, R.layout.row_switch_layout, dbHelper.getFactors());
+        final SwitchExportAdapter adapter = new SwitchExportAdapter(this, R.layout.row_switch_layout, dbHelper.getFactorList());
         listView.setAdapter(adapter);
-        enabledSymptoms = new ArrayList<String>();
+        enabledSymptoms = new ArrayList<>();
 
         exportButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,23 +92,7 @@ public class ExportActivity extends ActionBarActivity {
                 exportButton.setVisibility(View.INVISIBLE);
                 loadingText.setVisibility(View.VISIBLE);
                 final String filename = nameField.getText().toString();
-
-                try {
-                    createPDF(filename);
-                    if (switchOn) {
-                        Intent email = new Intent(Intent.ACTION_SEND);
-
-                        Uri uri = Uri.fromFile(file);
-                        email.putExtra(Intent.EXTRA_STREAM, uri);
-
-                        email.setType("message/rfc822");
-                        startActivity(Intent.createChooser(email, getResources().getString(R.string.emailClient)));
-                    }
-                } catch (IOException | DocumentException e) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.pdfFailed), Toast.LENGTH_SHORT).show();
-                    exportButton.setVisibility(View.VISIBLE);
-                    loadingText.setVisibility(View.GONE);
-                }
+                createPDF(filename);
             }
         });
 
@@ -160,9 +147,15 @@ public class ExportActivity extends ActionBarActivity {
         exportAll.setChecked(false);
     }
 
-    private boolean createPDF(String name) throws IOException, DocumentException{
+    private boolean createPDF(String name) {
         final Handler handler = new Handler();
-        final String filePath = Environment.getExternalStorageDirectory().getPath() + "/" + name + ".pdf";
+        if(name.equals("")){
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.inputFileName), Toast.LENGTH_LONG).show();
+            exportButton.setVisibility(View.VISIBLE);
+            loadingText.setVisibility(View.GONE);
+            return false;
+        }
+        filePath = Environment.getExternalStorageDirectory().getPath() + "/" + name + ".pdf";
         file = new File(filePath);
         if (file.exists()) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.pdfExists), Toast.LENGTH_LONG).show();
@@ -170,13 +163,21 @@ public class ExportActivity extends ActionBarActivity {
             loadingText.setVisibility(View.GONE);
             return false;
         }else{
-            file.createNewFile();
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.pdfFailed), Toast.LENGTH_LONG).show();
+                exportButton.setVisibility(View.VISIBLE);
+                loadingText.setVisibility(View.GONE);
+                return false;
+            }
         }
 
-        new Thread(){
-            public void run(){
+        new Thread() {
+            @Override
+            public void run() {
                 handler.post(new Runnable(){
-                    public void run() {
+                    public void run(){
                         try {
                             Document document = new Document();
                             PdfWriter.getInstance(document, new FileOutputStream(file));
@@ -187,9 +188,16 @@ public class ExportActivity extends ActionBarActivity {
                                 document.newPage();
                             }
                             document.close();
-                            Toast.makeText(getApplicationContext(), filePath + getResources().getString(R.string.created), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), filePath + getResources().getString(R.string.created), Toast.LENGTH_LONG).show();
                             exportButton.setVisibility(View.VISIBLE);
                             loadingText.setVisibility(View.GONE);
+                            if (switchOn) {
+                                Intent email = new Intent(Intent.ACTION_SEND);
+                                Uri uri = Uri.fromFile(new File(filePath));
+                                email.putExtra(Intent.EXTRA_STREAM, uri);
+                                email.setType("message/rfc822");
+                                startActivity(Intent.createChooser(email, getResources().getString(R.string.emailClient)));
+                            }
                         }catch(FileNotFoundException | DocumentException e) {
                             e.getStackTrace();
                         }
