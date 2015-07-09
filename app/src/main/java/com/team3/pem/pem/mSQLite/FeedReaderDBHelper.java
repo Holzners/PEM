@@ -639,7 +639,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         }
         ContentValues values3 = new ContentValues();
         values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, "Kopfschmerzen");
-        values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, ColorsToPick.BLUE.name());
+        values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, ColorsToPick.CYAN.name());
         values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, 1);
         values3.put(SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL, 1);
 
@@ -649,7 +649,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
         ContentValues values4 = new ContentValues();
         values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, "Medieinnahme");
-        values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, ColorsToPick.RED.name());
+        values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, ColorsToPick.GREEN.name());
         values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, 0);
         values4.put(SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL, 0);
 

@@ -11,6 +11,7 @@
     <string name="action_notifications">Erinnerungen</string>
     <string name="action_rate_day">Tag bewerten</string>
     <string name="action_new_factor">Faktor anlegen</string>
+    <string name="button_new_factor">+ Symptom hinzufügen</string>
 
     <string-array name="tabs">
         <item>Woche</item>

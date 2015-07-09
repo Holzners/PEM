@@ -18,13 +18,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.adapters.ViewPagerAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
@@ -79,35 +76,40 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 .setBackgroundDrawable(R.drawable.button_action_accent_selector)
                 .setContentView(imageview)
                 .build();
-
-        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
-
-        ImageView iconNewFactor = new ImageView(this);
-        iconNewFactor.setImageResource(R.drawable.ic_playlist_add_black_36dp); // ic_action_new_label);
-        ImageView iconNewEvent = new ImageView(this);
-        iconNewEvent.setImageResource(R.drawable.ic_note_add_black_36dp); //ic_action_new_event);
-
-        SubActionButton buttonNewEvent = itemBuilder.setContentView(iconNewEvent).build();
-        SubActionButton buttonNewFactor = itemBuilder.setContentView(iconNewFactor).build();
-        buttonNewEvent.setOnClickListener(this);
-        buttonNewFactor.setOnClickListener(this);
-
-        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.contentPanel);
-        mainLayout.setOnClickListener(this);
-
-        buttonNewEvent.setTag(TAG_NEW_EVENT);
-        buttonNewFactor.setTag(TAG_NEW_FACTOR);
-        buttonNewEvent.setX(200);
-
-
-        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
-                .addSubActionView(buttonNewFactor)
-                .addSubActionView(buttonNewEvent)
-                .attachTo(actionButton)
-//                .setRadius(150)
-                .setStartAngle(252)
-                .setEndAngle(288)
-                .build();
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRateDayPopup(DateTime.today(TimeZone.getDefault()));
+            }
+        });
+//        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
+//
+//        ImageView iconNewFactor = new ImageView(this);
+//        iconNewFactor.setImageResource(R.drawable.ic_playlist_add_black_36dp); // ic_action_new_label);
+//        ImageView iconNewEvent = new ImageView(this);
+//        iconNewEvent.setImageResource(R.drawable.ic_note_add_black_36dp); //ic_action_new_event);
+//
+//        SubActionButton buttonNewEvent = itemBuilder.setContentView(iconNewEvent).build();
+//        SubActionButton buttonNewFactor = itemBuilder.setContentView(iconNewFactor).build();
+//        buttonNewEvent.setOnClickListener(this);
+//        buttonNewFactor.setOnClickListener(this);
+//
+//        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.contentPanel);
+//        mainLayout.setOnClickListener(this);
+//
+//        buttonNewEvent.setTag(TAG_NEW_EVENT);
+//        buttonNewFactor.setTag(TAG_NEW_FACTOR);
+//        buttonNewEvent.setX(200);
+//
+//
+//        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
+//                .addSubActionView(buttonNewFactor)
+//                .addSubActionView(buttonNewEvent)
+//                .attachTo(actionButton)
+////                .setRadius(150)
+//                .setStartAngle(252)
+//                .setEndAngle(288)
+//                .build();
     }
 
     @Override
@@ -302,6 +304,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         RateDayFragment rateDayFragment = RateDayFragment.getInstance(today, this);
         FragmentManager f = getSupportFragmentManager();
         rateDayFragment.show(f, "TAG");
+    }
+
+    public void showNewFactor(View view){
+        showNewFactorDialog();
     }
 
     public void showNewFactorDialog() {
