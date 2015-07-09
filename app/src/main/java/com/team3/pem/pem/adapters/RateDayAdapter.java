@@ -1,7 +1,10 @@
 package com.team3.pem.pem.adapters;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,7 @@ import com.team3.pem.pem.activities.MainActivity;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import com.team3.pem.pem.utili.ColorsToPick;
 import com.team3.pem.pem.utili.DayEntry;
+import com.team3.pem.pem.utili.RatingToColorHelper;
 
 import java.util.HashMap;
 
@@ -53,6 +57,7 @@ public class RateDayAdapter extends ArrayAdapter {
         return mDBHelper.getFactorList().get(position);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -80,6 +85,8 @@ public class RateDayAdapter extends ArrayAdapter {
             mSwitch.setText(getItem(position));
             mSwitch.setChecked(checked);
             mSwitch.setVisibility(View.VISIBLE);
+            final int color = activity.getResources().getColor(RatingToColorHelper.ratingToColor(getItem(position), 3));
+            mSwitch.getThumbDrawable().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
             mSwitch.setOnCheckedChangeListener(new RateDayOnCheckedChangeListener());
 
         }else {

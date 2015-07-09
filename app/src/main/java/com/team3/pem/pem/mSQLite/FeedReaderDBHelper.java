@@ -80,7 +80,6 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     public void saveFactor(String factorName, String colorId, boolean isGradual) {
         this.getFactorList();
 
-        Log.d("fradual", isGradual+"");
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, factorName);
