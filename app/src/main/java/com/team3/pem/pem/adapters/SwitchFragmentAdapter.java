@@ -18,7 +18,6 @@ import com.team3.pem.pem.utili.RatingToColorHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
@@ -87,14 +86,14 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
             int count = Collections.frequency(new ArrayList<Boolean>(mDBHelper.getFactorEnabledMap().values()), true);
             if(count == 4 && isChecked){
                 Random generator = new Random();
-                HashMap map = (HashMap) mDBHelper.getFactorEnabledMap().clone();
-                for(Iterator<Map.Entry<String, Boolean>> it = map.entrySet().iterator(); it.hasNext();) {
+               // HashMap map = (HashMap) .clone();
+                for(Iterator<Map.Entry<String, Boolean>> it = mDBHelper.getFactorEnabledMap().entrySet().iterator(); it.hasNext();) {
                     Map.Entry<String, Boolean> entry = it.next();
                     Boolean n = entry.getValue();
                     if(!n)
                         it.remove();
                 }
-                Object[] keys = map.keySet().toArray();
+                Object[] keys = mDBHelper.getFactorEnabledMap().keySet().toArray();
                 String randomKey = (String) keys[generator.nextInt(keys.length)];
                 mDBHelper.switchFactor(randomKey, false);
             }

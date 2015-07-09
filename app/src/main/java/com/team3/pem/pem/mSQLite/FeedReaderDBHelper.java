@@ -80,6 +80,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     public void saveFactor(String factorName, String colorId, boolean isGradual) {
         this.getFactorList();
 
+        Log.d("fradual", isGradual+"");
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SQLiteMethods.COLUMN_NAME_FACTOR_ID_FACTORS, factorName);
@@ -113,7 +114,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         values.put(SQLiteMethods.COLUMN_NAME_FACTOR_COLOR, factorColorMap.get(factor));
         values.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, i);
         int k = (getFactorIsGradualMap().get(factor)? 1 : 0);
-        values.put(SQLiteMethods.COLUMN_NAME_FACTOR_ENABLED, k);
+        values.put(SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL, k);
         db.insertWithOnConflict(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
                 "null", values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -373,7 +374,8 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         HashMap<String, Boolean> factors = new HashMap<>();
         while (!cursor.isAfterLast()) {
             //Log.d("Factor", cursor.getString(0)+ " "+ cursor.getString(1));
-            boolean gradual = (cursor.getInt(3)==1)?true:false;
+
+            boolean gradual = (cursor.getInt(cursor.getColumnIndex(SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL))==1);
             factors.put(cursor.getString(0), gradual);
             cursor.moveToNext();
         }
