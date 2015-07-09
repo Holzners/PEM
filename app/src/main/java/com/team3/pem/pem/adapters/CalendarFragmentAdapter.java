@@ -28,7 +28,7 @@ import hirondelle.date4j.DateTime;
 /**
  * Created by Stephan on 12.06.15.
  */
-public class CalendarFragmentAdapter extends CaldroidGridAdapter{
+public class CalendarFragmentAdapter extends CaldroidGridAdapter {
 
     FeedReaderDBHelper mDBHelper;
     MainActivity context;
@@ -41,13 +41,13 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         DateTime dateTime = this.datetimeList.get(position);
         List<String> copyOfFactors = new ArrayList<>();
 
-        for(String s: mDBHelper.getFactorList()){
-            if(mDBHelper.getFactorEnabledMap().get(s)){
+        for (String s : mDBHelper.getFactorList()) {
+            if (mDBHelper.getFactorEnabledMap().get(s)) {
                 copyOfFactors.add(s);
             }
         }
@@ -67,29 +67,33 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
         int bottomPadding = cellView.getPaddingBottom();
         int rightPadding = cellView.getPaddingRight();
 
-        if(dateTime.getMonth() == this.month) {
+        if (dateTime.getMonth() == this.month) {
 
             DayEntry dayEntry = mDBHelper.getDatabaseEntriesDay(copyOfFactors, dateTime.getDay(), dateTime.getMonth(), dateTime.getYear());
             TextView colorView[];
 
-                colorView = new TextView[4];
-                colorView[0] = (TextView) cellView.findViewById(R.id.tvTopLeft);
-                colorView[1] = (TextView) cellView.findViewById(R.id.tvTopRight);
-                colorView[2] = (TextView) cellView.findViewById(R.id.tvBottomLeft);
-                colorView[3] = (TextView) cellView.findViewById(R.id.tvBottomRight);
+            colorView = new TextView[4];
+            colorView[0] = (TextView) cellView.findViewById(R.id.tvTopLeft);
+            colorView[1] = (TextView) cellView.findViewById(R.id.tvTopRight);
+            colorView[2] = (TextView) cellView.findViewById(R.id.tvBottomLeft);
+            colorView[3] = (TextView) cellView.findViewById(R.id.tvBottomRight);
+            colorView[0].setBackgroundColor(Color.TRANSPARENT);
+            colorView[1].setBackgroundColor(Color.TRANSPARENT);
+            colorView[2].setBackgroundColor(Color.TRANSPARENT);
+            colorView[3].setBackgroundColor(Color.TRANSPARENT);
 
-            if (dayEntry != null ) {
-                if(dayEntry.description != null && !dayEntry.description.equals("")){
+            if (dayEntry != null) {
+                if (dayEntry.description != null && !dayEntry.description.equals("")) {
                     ImageView imgView = (ImageView) cellView.findViewById(R.id.imageStarView);
                     imgView.setVisibility(View.VISIBLE);
                 }
-                if(copyOfFactors.size()== 1){
-                    for(TextView t : colorView){
-                       t.setBackgroundColor(cellView.getResources().getColor(
+                if (copyOfFactors.size() == 1) {
+                    for (TextView t : colorView) {
+                        t.setBackgroundColor(cellView.getResources().getColor(
                                 RatingToColorHelper.ratingToColor(copyOfFactors.get(0),
                                         dayEntry.ratings.get(copyOfFactors.get(0)))));
                     }
-                }else if (copyOfFactors.size()== 2) {
+                } else if (copyOfFactors.size() == 2) {
                     colorView[0].setBackgroundColor(cellView.getResources().getColor(
                             RatingToColorHelper.ratingToColor(copyOfFactors.get(0),
                                     dayEntry.ratings.get(copyOfFactors.get(0)))));
@@ -103,32 +107,26 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
                             RatingToColorHelper.ratingToColor(copyOfFactors.get(1),
                                     dayEntry.ratings.get(copyOfFactors.get(1)))));
 
-                }else{
-                        for (int i = 0; i < colorView.length && i < dayEntry.ratings.size(); i++) {
-                            colorView[i].setBackgroundResource(R.drawable.border);
-                            GradientDrawable drawable = (GradientDrawable) colorView[i].getBackground();
-                            drawable.setColor(cellView.getResources().getColor(
-                                    RatingToColorHelper.ratingToColor(copyOfFactors.get(i),
-                                            dayEntry.ratings.get(copyOfFactors.get(i)))));
-                        }
+                } else {
+                    for (int i = 0; i < colorView.length && i < dayEntry.ratings.size(); i++) {
+                        colorView[i].setBackgroundResource(R.drawable.border);
+                        GradientDrawable drawable = (GradientDrawable) colorView[i].getBackground();
+                        drawable.setColor(cellView.getResources().getColor(
+                                RatingToColorHelper.ratingToColor(copyOfFactors.get(i),
+                                        dayEntry.ratings.get(copyOfFactors.get(i)))));
                     }
-            }
-            if(allSymptomsDisabled()){
-                colorView[0].setBackgroundColor(Color.TRANSPARENT);
-                colorView[1].setBackgroundColor(Color.TRANSPARENT);
-                colorView[2].setBackgroundColor(Color.TRANSPARENT);
-                colorView[3].setBackgroundColor(Color.TRANSPARENT);
+                }
             }
 
 
-            if(dateTime.isSameDayAs(DateTime.today(TimeZone.getDefault()))){
+            if (dateTime.isSameDayAs(DateTime.today(TimeZone.getDefault()))) {
                 TableLayout tableLayout = (TableLayout) cellView.findViewById(R.id.cellContainer);
                 tableLayout.setBackgroundResource(R.drawable.border_red);
                 GradientDrawable gd = (GradientDrawable) tableLayout.getBackground();
                 gd.setColor(cellView.getResources().getColor(R.color.white));
             }
 
-        }else{
+        } else {
             TableLayout tableLayout = (TableLayout) cellView.findViewById(R.id.cellContainer);
             tableLayout.setBackgroundResource(R.color.transparent);
         }
@@ -143,7 +141,7 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
         private DateTime date;
         private MainActivity context;
 
-        public CellViewOnClickListener(MainActivity context, DateTime date){
+        public CellViewOnClickListener(MainActivity context, DateTime date) {
             this.date = date;
             this.context = context;
         }
@@ -154,9 +152,9 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter{
         }
     }
 
-    private boolean allSymptomsDisabled(){
-        for(Map.Entry<String ,Boolean> e: mDBHelper.getFactorEnabledMap().entrySet()){
-            if(e.getValue()) return false;
+    private boolean allSymptomsDisabled() {
+        for (Map.Entry<String, Boolean> e : mDBHelper.getFactorEnabledMap().entrySet()) {
+            if (e.getValue()) return false;
         }
 
         return true;

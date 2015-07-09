@@ -80,9 +80,13 @@ public class RateDayAdapter extends ArrayAdapter {
             mSwitch.setText(getItem(position));
             mSwitch.setChecked(checked);
             mSwitch.setVisibility(View.VISIBLE);
-            mSwitch.setOnCheckedChangeListener(new RateDayOnCheckedChangeListener(getItem(position)));
+            mSwitch.setOnCheckedChangeListener(new RateDayOnCheckedChangeListener());
 
         }else {
+            TableRow row = (TableRow) newRow.findViewById(R.id.gradualTable);
+            row.setVisibility(View.VISIBLE);
+            final Switch mSwitch = (Switch) newRow.findViewById(R.id.rateSwitch);
+            mSwitch.setVisibility(View.GONE);
             TextView factorText = (TextView) newRow.findViewById(R.id.factorText);
             factorText.setText(getItem(position));
 
@@ -148,16 +152,10 @@ public class RateDayAdapter extends ArrayAdapter {
 
     public class RateDayOnCheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
 
-        String factor;
-
-        public RateDayOnCheckedChangeListener(String factor){
-            this.factor = factor;
-        }
-
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             int i = (isChecked) ? 5 : 1;
-            activity.selectedColor.put(factor, i);
+            activity.selectedColor.put(buttonView.getText().toString(), i);
         }
     }
 }

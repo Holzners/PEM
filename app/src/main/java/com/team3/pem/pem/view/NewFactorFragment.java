@@ -50,6 +50,7 @@ public class NewFactorFragment extends DialogFragment {
         if(factor!= null && color != null){
             newFactorFragment.selectedColor = color;
             newFactorFragment.factor = factor;
+            newFactorFragment.isGradual.setChecked(true);
         }
 
         return newFactorFragment;

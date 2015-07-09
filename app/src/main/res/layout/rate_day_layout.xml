@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:text="New Switch"
         android:id="@+id/rateSwitch"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
 
 
 </LinearLayout>
