@@ -623,7 +623,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             Random rand = new Random();
 
             values.put("Kopfschmerzen", rand.nextInt(5) + 1);
-            values.put("Medieinnahme", (rand.nextInt(2) + 1 == 1)? 1 : 0);
+            values.put("Medieinnahme", (rand.nextInt(2) + 1 == 1)? 5 : 1);
             values.put("Müdigkeit", rand.nextInt(5) + 1);
             values.put(SQLiteMethods.COLUMN_NAME_ENTRY_DESCRIPTION, "Damn hard day");
 
