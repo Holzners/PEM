@@ -20,7 +20,17 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         />
-        <!--android:textAlignment="viewEnd"-->
-        <!--android:gravity="end"     -->
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_new_factor"
+        android:id="@+id/button_add_symptom"
+        android:textColor="@color/accent_material_light"
+        android:background="#00ffffff"
+        android:onClick="showNewFactor"
+        android:visibility="gone"
+        android:layout_below="@+id/switch1"
+        />
 
 </RelativeLayout>
