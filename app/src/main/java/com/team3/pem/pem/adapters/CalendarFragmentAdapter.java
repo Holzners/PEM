@@ -125,14 +125,13 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter {
                 GradientDrawable gd = (GradientDrawable) tableLayout.getBackground();
                 gd.setColor(cellView.getResources().getColor(R.color.white));
             }
-
+            cellView.setOnClickListener(new CellViewOnClickListener(context, dateTime));
         } else {
             TableLayout tableLayout = (TableLayout) cellView.findViewById(R.id.cellContainer);
             tableLayout.setBackgroundResource(R.color.transparent);
         }
         cellView.setPadding(leftPadding, topPadding, rightPadding,
                 bottomPadding);
-        cellView.setOnClickListener(new CellViewOnClickListener(context, dateTime));
         return cellView;
     }
 
