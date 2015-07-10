@@ -49,7 +49,7 @@ public class NotifyService extends BroadcastReceiver {
         }
 
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, ID, new Intent(context, MainActivity.class), 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, ID, new Intent(context, MainActivity.class).putExtra("openDialog", (ID == 0)), 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_notifications_none_white_36dp)

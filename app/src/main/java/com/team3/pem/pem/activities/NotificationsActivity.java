@@ -252,8 +252,7 @@ public class NotificationsActivity extends ActionBarActivity {
                                 dialog.cancel();
                             }
                         });
-        final AlertDialog alertDialog = alertDialogBuilder.create();
 
-        return alertDialog;
+        return alertDialogBuilder.create();
     }
 }

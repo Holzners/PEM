@@ -213,6 +213,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         // if(pemDialogFragment != null) ((RateDayAdapter)pemDialogFragment.getListAdapter()).notifyDataSetChanged();
         updateSelectedColors();
 //        Log.d("Heutiges Wetter", mDbHelper.getWeatherData(DateTime.today(TimeZone.getDefault())));
+
+        if (this.getIntent().getBooleanExtra("openDialog", false)) {
+            this.getIntent().removeExtra("openDialog");
+            showRateDay();
+        }
     }
 
 
@@ -295,7 +300,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         refreshAdapters();
     }
 
-    public void showRateDay(View view) {
+    public void showRateDay() {
         DateTime today = DateTime.today(TimeZone.getDefault());
         showRateDayPopup(today);
     }
@@ -354,7 +359,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             }
         }else {
             if (view.getTag().equals(TAG_NEW_EVENT)) {
-                showRateDay(view);
+                showRateDay();
             }
 
             if (view.getTag().equals(TAG_NEW_FACTOR)) {
