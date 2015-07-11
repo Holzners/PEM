@@ -20,24 +20,22 @@ import com.team3.pem.pem.utili.RatingToColorHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
 
 /**
- * Created by Stephan on 12.06.15.
+ * @author Stephan on 12.06.15.
  */
 public class CalendarFragmentAdapter extends CaldroidGridAdapter {
 
-    FeedReaderDBHelper mDBHelper;
-    MainActivity context;
+    private FeedReaderDBHelper mDBHelper;
+    private MainActivity context;
 
     public CalendarFragmentAdapter(MainActivity context, int month, int year, HashMap<String, Object> caldroidData, HashMap<String, Object> extraData) {
         super(context, month, year, caldroidData, extraData);
         this.mDBHelper = FeedReaderDBHelper.getInstance();
         this.context = context;
-
     }
 
     @Override
@@ -52,7 +50,6 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter {
             }
         }
 
-
         View cellView = convertView;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -60,7 +57,6 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter {
         if (convertView == null) {
             cellView = inflater.inflate(R.layout.row_month_layout, null);
         }
-
 
         int topPadding = cellView.getPaddingTop();
         int leftPadding = cellView.getPaddingLeft();
@@ -117,8 +113,6 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter {
                     }
                 }
             }
-
-
             if (dateTime.isSameDayAs(DateTime.today(TimeZone.getDefault()))) {
                 TableLayout tableLayout = (TableLayout) cellView.findViewById(R.id.cellContainer);
                 tableLayout.setBackgroundResource(R.drawable.border_red);
@@ -132,6 +126,7 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter {
         }
         cellView.setPadding(leftPadding, topPadding, rightPadding,
                 bottomPadding);
+
         return cellView;
     }
 
@@ -149,13 +144,5 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter {
         public void onClick(View v) {
             context.showDetailDay(date);
         }
-    }
-
-    private boolean allSymptomsDisabled() {
-        for (Map.Entry<String, Boolean> e : mDBHelper.getFactorEnabledMap().entrySet()) {
-            if (e.getValue()) return false;
-        }
-
-        return true;
     }
 }

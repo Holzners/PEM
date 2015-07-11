@@ -23,8 +23,7 @@ public class WeekFragment extends ListFragment{
 
     private int year;
     private int calenderWeek;
-    WeekViewAdapter adapter;
-    private ImageButton previous, next;
+    private WeekViewAdapter adapter;
     private TextView week;
 
     public WeekFragment() {
@@ -62,8 +61,8 @@ public class WeekFragment extends ListFragment{
 
         week = (TextView) getView().findViewById(R.id.week);
         setTitle();
-        previous = (ImageButton) getView().findViewById(R.id.previousWeek);
-        next = (ImageButton) getView().findViewById(R.id.nextWeek);
+        ImageButton previous = (ImageButton) getView().findViewById(R.id.previousWeek);
+        ImageButton next = (ImageButton) getView().findViewById(R.id.nextWeek);
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,44 +78,24 @@ public class WeekFragment extends ListFragment{
             }
         });
     }
-//        weekPicker = (Spinner) getView().findViewById(R.id.spinner);
-//        List<Integer> weeks = new ArrayList<>();
-//        for(int i = 1 ; i <= 52 ; i++){
-//            weeks.add(i);
-//        }
-//        ArrayAdapter<Integer> spinnerAdapter = new ArrayAdapter(getActivity(),
-//                android.R.layout.simple_spinner_item,weeks);
-//
-//        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        weekPicker.setAdapter(spinnerAdapter);
-//        weekPicker.setSelection(calenderWeek - 1);
-//        weekPicker.setOnItemSelectedListener(
-//                new AdapterView.OnItemSelectedListener() {
-//                    @Override
-//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                        if (position + 1 < calenderWeek) {
-//                            previousWeek(calenderWeek - position - 1);
-//                            calenderWeek = position + 1;
-//                        } else if (position + 1 > calenderWeek) {
-//                            nextWeek(position + 1 -calenderWeek);
-//                            calenderWeek = position + 1;
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onNothingSelected(AdapterView<?> parent) {
-//
-//                    }
-//                });
 
-
+    /**
+     * Sets the current week to one week later
+     *
+     * @param weeks
+     */
     public void nextWeek(int weeks){
         calenderWeek += 1;
-        adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().plusDays(7*weeks));
+        adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().plusDays(7 * weeks));
         adapter.notifyDataSetChanged();
         setTitle();
     }
 
+    /**
+     * Sets the current week to one week earlier
+     *
+     * @param weeks
+     */
     public void previousWeek(int weeks){
         calenderWeek -= 1;
         adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().minusDays(7 * weeks));
@@ -124,34 +103,34 @@ public class WeekFragment extends ListFragment{
         setTitle();
     }
 
+    /**
+     * Get the current year
+     *
+     * @return <code>year</code>
+     */
     public int getYear() {
         return year;
     }
 
+    /**
+     * Sets the current year
+     *
+     * @param year
+     */
     public void setYear(int year) {
         this.year = year;
     }
 
-    public int getCalenderWeek() {
-        return calenderWeek;
-    }
-
-    public void setCalenderWeek(int calenderWeek) {
-        this.calenderWeek = calenderWeek;
-    }
-
+    /**
+     * Notify current adapter for data changed
+     */
     public void notifyAdapter() {
         adapter.notifyDataSetChanged();
     }
 
-    private String getWeekNr () {
-        return String.valueOf(calenderWeek);
-    }
-
-    private String getFirstDay() {
-        return String.valueOf(adapter.getFirstDayOfSelectedWeek().format("DD.MM.YYYY"));
-    }
-
+    /**
+     * Sets the title of the week to match current week
+     */
     private void setTitle(){
         DateTime firstDay = adapter.getFirstDayOfSelectedWeek();
         DateTime lastDay = adapter.lastDayOfThisWeek();
@@ -161,7 +140,6 @@ public class WeekFragment extends ListFragment{
         String yearFirstDay = "";
         if(firstDay.getMonth() != lastDay.getMonth()) {
             monthFirstDay =  firstDay.format("MM") + ".";
-
             if (!(firstDay.getYear()+"").equals(lastDay.getYear()+"")) {
                 Log.d("Not Equal", firstDay.getYear()+ " " +  lastDay.getYear());
                 yearFirstDay = "." + firstDay.format("YYYY");

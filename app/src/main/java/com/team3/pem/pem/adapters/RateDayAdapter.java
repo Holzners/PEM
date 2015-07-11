@@ -31,9 +31,9 @@ import hirondelle.date4j.DateTime;
  */
 public class RateDayAdapter extends ArrayAdapter {
 
-    MainActivity activity;
-    DateTime date;
-    FeedReaderDBHelper mDBHelper;
+    private MainActivity activity;
+    private DateTime date;
+    private FeedReaderDBHelper mDBHelper;
 
     public RateDayAdapter(MainActivity activity, int resource, DateTime date) {
         super(activity, resource);
@@ -87,7 +87,7 @@ public class RateDayAdapter extends ArrayAdapter {
             mSwitch.setVisibility(View.VISIBLE);
             final int color = activity.getResources().getColor(RatingToColorHelper.ratingToColor(getItem(position), 3));
             mSwitch.getThumbDrawable().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-            mSwitch.setOnCheckedChangeListener(new RateDayOnCheckedChangeListener());
+            mSwitch.setOnCheckedChangeListener(new RateViewListener());
 
         }else {
             TableRow row = (TableRow) newRow.findViewById(R.id.gradualTable);
@@ -121,7 +121,7 @@ public class RateDayAdapter extends ArrayAdapter {
                 gd.setColor(newRow.getResources().getColor(colors[i]));
                 gd.setStroke(2, activity.getResources().getColor(R.color.transparent));
                 rateViews[i].setOnClickListener(
-                        new RateViewOnClickListener(rateViews[i], rateViews, position, i));
+                        new RateViewListener(rateViews[i], rateViews, position, i));
             }
 
             GradientDrawable gd = (GradientDrawable) rateViews[(rating == 0) ? 0 : (rating - 1)].getBackground();
@@ -131,17 +131,20 @@ public class RateDayAdapter extends ArrayAdapter {
         return newRow;
     }
 
-   public class RateViewOnClickListener implements View.OnClickListener {
+   public class RateViewListener implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
        private TextView textView;
        private TextView[] textViews;
        private int factorPosition, index;
 
-       public RateViewOnClickListener(TextView textView, TextView[] textViews, int factorPosition, int index){
+       public RateViewListener(TextView textView, TextView[] textViews, int factorPosition, int index){
            this.textView = textView;
            this.textViews = textViews;
            this.factorPosition = factorPosition;
            this.index = index;
+       }
+
+       public RateViewListener(){
        }
 
        @Override
@@ -155,14 +158,11 @@ public class RateDayAdapter extends ArrayAdapter {
            GradientDrawable gdNew = (GradientDrawable)  textView.getBackground();
            gdNew.setStroke(7, activity.getResources().getColor(R.color.black));
        }
+
+       @Override
+       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+           int i = (isChecked) ? 5 : 1;
+           activity.selectedColor.put(buttonView.getText().toString(), i);
+       }
    }
-
-    public class RateDayOnCheckedChangeListener implements CompoundButton.OnCheckedChangeListener {
-
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            int i = (isChecked) ? 5 : 1;
-            activity.selectedColor.put(buttonView.getText().toString(), i);
-        }
-    }
 }

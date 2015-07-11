@@ -6,7 +6,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 /**
- * Created by olli on 7/3/15.
+ * This one is needed when we want to turn off the swiping between Tablayout
+ * (not used right now)
+ *
+ * @author olli on 7/3/15.
  */
 public class CustomViewPager extends ViewPager {
 

@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * Created by Chris on 29.06.2015.
+ * @author Chris on 29.06.2015.
  */
 public class NotifyBootService extends BroadcastReceiver {
     @Override

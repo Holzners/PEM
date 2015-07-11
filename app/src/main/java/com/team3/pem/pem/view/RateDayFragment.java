@@ -21,13 +21,13 @@ import com.team3.pem.pem.utili.DayEntry;
 import hirondelle.date4j.DateTime;
 
 /**
- * Created by Stephan on 01.07.15.
+ * @author Stephan on 01.07.15.
  */
 public class RateDayFragment extends DialogFragment {
 
-    DateTime date;
-    MainActivity context;
-    FeedReaderDBHelper mDBHelper;
+    private DateTime date;
+    private MainActivity context;
+    private FeedReaderDBHelper mDBHelper;
 
     public RateDayFragment(){
 
@@ -52,15 +52,6 @@ public class RateDayFragment extends DialogFragment {
         ListView lv = (ListView) view.findViewById(R.id.list);
         RateDayAdapter adapter = new RateDayAdapter(context, R.layout.rate_day_layout, date);
         lv.setAdapter(adapter);
-
-//        ImageView newFactor = (ImageView) view.findViewById(R.id.newFactor);
-//        newFactor.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                context.showNewFactorDialog(v);
-//                RateDayFragment.this.dismiss();
-//            }
-//        });
 
         Button saveDay = (Button) view.findViewById(R.id.button_save_day);
         Button cancel = (Button) view.findViewById(R.id.button_cancel);

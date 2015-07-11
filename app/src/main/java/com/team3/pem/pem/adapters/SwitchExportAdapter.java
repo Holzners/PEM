@@ -14,12 +14,11 @@ import com.team3.pem.pem.activities.ExportActivity;
 import java.util.List;
 
 /**
- * Created by Chris on 30.06.2015.
+ * @author Chris on 30.06.2015.
  */
 public class SwitchExportAdapter extends ArrayAdapter<String>{
 
     private ExportActivity context;
-    private int resource;
     private List<String> factors;
 
 
@@ -27,7 +26,6 @@ public class SwitchExportAdapter extends ArrayAdapter<String>{
         super(context, resource, factors);
         this.factors = factors;
         this.context = context;
-        this.resource = resource;
     }
 
     @Override
@@ -49,11 +47,11 @@ public class SwitchExportAdapter extends ArrayAdapter<String>{
 
         Switch mSwitch = (Switch) newView.findViewById(R.id.switch1);
         mSwitch.setText(factors.get(position));
-        if(context.allChecked) {
+        if(context.getAllChecked()) {
             mSwitch.setChecked(true);
         }
         else {
-            for(String enabled : context.enabledSymptoms) {
+            for(String enabled : context.getEnabledSymptoms()) {
                 if(mSwitch.getText().toString().equals(enabled)) {
                     mSwitch.setChecked(true);
                     break;

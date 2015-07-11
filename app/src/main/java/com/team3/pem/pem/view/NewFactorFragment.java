@@ -26,9 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by Stephan on 01.07.15.
+ * @author Stephan on 01.07.15.
  */
 public class NewFactorFragment extends DialogFragment {
+
     private EditText newFactorText;
     private FeedReaderDBHelper mDBHelper;
     private String selectedColor = "";
@@ -39,6 +40,7 @@ public class NewFactorFragment extends DialogFragment {
     private String factor;
     private TextView[] tvs;
     private RadioButton isGradual;
+
     public NewFactorFragment() {
 
     }
@@ -113,7 +115,12 @@ public class NewFactorFragment extends DialogFragment {
         });
         return view;
     }
-    
+
+    /**
+     * Saves the given factor to the database and refresh adapters
+     *
+     * @param isGradual
+     */
     public void saveFactor(boolean isGradual) {
         if (!newFactorText.getText().toString().equals("") && !selectedColor.equals("") ) {
             mDBHelper.saveFactor(newFactorText.getText().toString(), selectedColor, isGradual);
@@ -125,6 +132,9 @@ public class NewFactorFragment extends DialogFragment {
         }
     }
 
+    /**
+     * Create the table for available colors
+     */
     public void initTable(){
         tvs = new TextView[ColorsToPick.values().length];
         int i;
@@ -152,7 +162,7 @@ public class NewFactorFragment extends DialogFragment {
 
     private class OnColorClickListener implements View.OnClickListener{
 
-       private  int indexElement;
+        private  int indexElement;
 
         private OnColorClickListener(int i){
             indexElement = i;
@@ -172,8 +182,6 @@ public class NewFactorFragment extends DialogFragment {
             GradientDrawable gd =  (GradientDrawable) tvs[indexElement].getBackground();
             gd.setColor(getActivity().getResources().getColor(ColorsToPick.getColorByString(colors.get(indexElement)).getColor3()));
             gd.setStroke(2, getActivity().getResources().getColor(R.color.black));
-
-
         }
     }
 }

@@ -18,7 +18,7 @@ import java.util.TimeZone;
 import hirondelle.date4j.DateTime;
 
 /**
- * Created by Chris on 23.06.2015.
+ * @author Chris on 23.06.2015.
  */
 public class NotifyService extends BroadcastReceiver {
 

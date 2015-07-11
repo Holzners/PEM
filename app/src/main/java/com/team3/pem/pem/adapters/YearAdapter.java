@@ -25,12 +25,12 @@ import java.util.TimeZone;
 import hirondelle.date4j.DateTime;
 
 /**
- * Created by Stephan on 29.06.15.
+ * @author Stephan on 29.06.15.
  */
 public class YearAdapter extends ArrayAdapter {
     private MainActivity activity;
     private int width;
-    int selectedYear;
+    private int selectedYear;
     private FeedReaderDBHelper mDBHelper;
 
     public YearAdapter(MainActivity context, int resource, int width, int selectedYear) {

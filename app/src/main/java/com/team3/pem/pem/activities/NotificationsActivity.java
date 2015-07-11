@@ -10,7 +10,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,12 +31,11 @@ import java.util.List;
 
 public class NotificationsActivity extends ActionBarActivity {
 
-    FeedReaderDBHelper dbHelper;
-    List<NotificationModel> reminders;
-    SwipeMenuListView listView;
-    boolean contextMenuOn = false;
-    NotificationsAdapter adapter;
-    EditText userInput;
+    private FeedReaderDBHelper dbHelper;
+    private List<NotificationModel> reminders;
+    private SwipeMenuListView listView;
+    private NotificationsAdapter adapter;
+    private EditText userInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,11 +186,23 @@ public class NotificationsActivity extends ActionBarActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     *  Converts the given @param to an Integer
+     *
+     * @param dp
+     * @return
+     */
     private int dp2px(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 getResources().getDisplayMetrics());
     }
 
+    /**
+     * Removes all reminders from the given list which have no description
+     *
+     * @param reminders
+     * @return the new remindersList
+     */
     private List<NotificationModel> getReminders(List<NotificationModel> reminders){
         for (Iterator<NotificationModel> it = reminders.iterator(); it.hasNext(); ) {
             NotificationModel reminderModel = it.next();
@@ -203,29 +213,11 @@ public class NotificationsActivity extends ActionBarActivity {
         return reminders;
     }
 
-        @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu){
-        Log.i("onPrepareOptionsMenu","called");
-        if (contextMenuOn){
-            Log.i("onPrepareOptionsMenu", "contextMenuOn");
-            menu.clear();
-            getMenuInflater().inflate(R.menu.menu_context, menu);
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    public void setContextMenuOn(boolean contextMenuOn) {
-        this.contextMenuOn = contextMenuOn;
-    }
-
+    /**
+     * Create the dialog when creating or editing a notification
+     *
+     * @return the created dialog
+     */
     private AlertDialog createDialog(){
         LayoutInflater li = LayoutInflater.from(NotificationsActivity.this);
         View promptsView = li.inflate(R.layout.dialog_new_notification, null);

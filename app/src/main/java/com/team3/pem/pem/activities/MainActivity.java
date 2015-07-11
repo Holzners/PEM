@@ -82,34 +82,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 showRateDayPopup(DateTime.today(TimeZone.getDefault()));
             }
         });
-//        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
-//
-//        ImageView iconNewFactor = new ImageView(this);
-//        iconNewFactor.setImageResource(R.drawable.ic_playlist_add_black_36dp); // ic_action_new_label);
-//        ImageView iconNewEvent = new ImageView(this);
-//        iconNewEvent.setImageResource(R.drawable.ic_note_add_black_36dp); //ic_action_new_event);
-//
-//        SubActionButton buttonNewEvent = itemBuilder.setContentView(iconNewEvent).build();
-//        SubActionButton buttonNewFactor = itemBuilder.setContentView(iconNewFactor).build();
-//        buttonNewEvent.setOnClickListener(this);
-//        buttonNewFactor.setOnClickListener(this);
-//
-//        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.contentPanel);
-//        mainLayout.setOnClickListener(this);
-//
-//        buttonNewEvent.setTag(TAG_NEW_EVENT);
-//        buttonNewFactor.setTag(TAG_NEW_FACTOR);
-//        buttonNewEvent.setX(200);
-//
-//
-//        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
-//                .addSubActionView(buttonNewFactor)
-//                .addSubActionView(buttonNewEvent)
-//                .attachTo(actionButton)
-////                .setRadius(150)
-//                .setStartAngle(252)
-//                .setEndAngle(288)
-//                .build();
     }
 
     @Override

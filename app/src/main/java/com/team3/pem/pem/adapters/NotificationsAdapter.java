@@ -30,15 +30,13 @@ import java.util.List;
  */
 public class NotificationsAdapter extends ArrayAdapter {
 
-    NotificationsActivity context;
-    List<NotificationModel> reminders;
-    int resource;
+    private NotificationsActivity context;
+    private List<NotificationModel> reminders;
 
     public NotificationsAdapter(NotificationsActivity context, int resource, List<NotificationModel> reminders) {
         super(context, resource, reminders);
         this.context = context;
         this.reminders = reminders;
-        this.resource = resource;
     }
 
 
@@ -78,36 +76,34 @@ public class NotificationsAdapter extends ArrayAdapter {
         for(int i = 0; i < reminderModel.getActiveForDays().length; i++){
             if(reminderModel.getActiveForDays()[i])
                 days[i].setTextColor(Color.rgb(0, 150, 255));
-            days[i].setOnClickListener(new ReminderViewOnClickListener(days, i, reminderModel));
+            days[i].setOnClickListener(new ReminderViewListener(days, i, reminderModel));
         }
 
-        time.setOnClickListener(new ReminderViewOnClickListener(time, reminderModel));
-        reminderSwitch.setOnCheckedChangeListener(new ReminderViewOnClickListener(reminderSwitch, reminderModel));
+        time.setOnClickListener(new ReminderViewListener(time, reminderModel));
+        reminderSwitch.setOnCheckedChangeListener(new ReminderViewListener(reminderModel));
 
         return convertView;
     }
 
-    public class ReminderViewOnClickListener implements View.OnClickListener, OnCheckedChangeListener{
+    public class ReminderViewListener implements View.OnClickListener, OnCheckedChangeListener{
         private TextView time;
         private TextView[] days;
         private int index;
-        private Switch remindersSwitch;
         private NotificationModel reminderModel;
         private int hour, minute;
 
-        public ReminderViewOnClickListener(TextView[] days, int index, NotificationModel reminder) {
+        public ReminderViewListener(TextView[] days, int index, NotificationModel reminder) {
             this.days = days;
             this.index = index;
             reminderModel = reminder;
         }
 
-        public ReminderViewOnClickListener(TextView time, NotificationModel reminder) {
+        public ReminderViewListener(TextView time, NotificationModel reminder) {
             this.time = time;
             reminderModel = reminder;
         }
 
-        public ReminderViewOnClickListener(Switch remindersSwitch, NotificationModel reminder) {
-            this.remindersSwitch = remindersSwitch;
+        public ReminderViewListener(NotificationModel reminder) {
             reminderModel = reminder;
         }
 
@@ -117,7 +113,7 @@ public class NotificationsAdapter extends ArrayAdapter {
                 case R.id.zeit:
                     hour = Integer.parseInt(reminderModel.getTime().substring(0, 2));
                     minute = Integer.parseInt(reminderModel.getTime().substring(3));
-                    TimePickerDialog tp = new TimePickerDialog(context, timePickerListner, hour, minute, true);
+                    TimePickerDialog tp = new TimePickerDialog(context, timePickerListener, hour, minute, true);
                     tp.show();
                     break;
                 case R.id.mo:
@@ -154,7 +150,7 @@ public class NotificationsAdapter extends ArrayAdapter {
             }
         }
 
-        protected TimePickerDialog.OnTimeSetListener timePickerListner = new TimePickerDialog.OnTimeSetListener(){
+        private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener(){
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 String timeString = (hourOfDay < 10 ? ("0" + hourOfDay) : hourOfDay) + ":" + (minute < 10 ? ("0" + minute) : minute);
@@ -166,7 +162,12 @@ public class NotificationsAdapter extends ArrayAdapter {
             }
         };
 
-        public void createAlarm(int alarmID){
+        /**
+         *  Create and set the AlarmManager for this notification
+         *
+         *  @param alarmID  The unique ID of the notification
+         */
+        private void createAlarm(int alarmID){
             hour = Integer.parseInt(reminderModel.getTime().substring(0, 2));
             minute = Integer.parseInt(reminderModel.getTime().substring(3));
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -187,6 +188,11 @@ public class NotificationsAdapter extends ArrayAdapter {
         }
     }
 
+    /**
+     * Cancel and delete a set alarm
+     *
+     * @param alarmID
+     */
     public void cancelAlarm(int alarmID) {
         Intent intent = new Intent(context, NotifyService.class);
         PendingIntent sender = PendingIntent.getBroadcast(context, alarmID, intent, 0);

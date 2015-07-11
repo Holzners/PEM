@@ -28,10 +28,12 @@ import hirondelle.date4j.DateTime;
 public class DayDetailFragment extends DialogFragment {
 
     private DateTime selectedDate;
-    TextView descriptionDay, weatherText;
-    DayDetailAdapter adapter;
     private FeedReaderDBHelper mDBHelper;
 
+    /**
+     * @param selectedDate
+     * @return
+     */
     public static DayDetailFragment newInstance(DateTime selectedDate) {
         DayDetailFragment fragment = new DayDetailFragment();
         fragment.selectedDate = selectedDate;
@@ -49,16 +51,15 @@ public class DayDetailFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //getDialog().getWindow().setTitle(day + ", " + selectedDate.format("DD.MM.YYYY"));
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
         View view = inflater.inflate(R.layout.day_detail_fragment, container, false);
 
-        weatherText = (TextView) view.findViewById(R.id.weatherText);
-        weatherText.setText(getResources().getString(R.string.weather) +"\n "+ getResources().getString(R.string.noDataAvailable));
+        TextView weatherText = (TextView) view.findViewById(R.id.weatherText);
+        weatherText.setText(getResources().getString(R.string.weather) + "\n " + getResources().getString(R.string.noDataAvailable));
 
-        descriptionDay = (TextView)view.findViewById(R.id.descriptionText);
+        TextView descriptionDay = (TextView) view.findViewById(R.id.descriptionText);
         TextView date = (TextView) view.findViewById(R.id.daydetaildate);
         date.setText(selectedDate.format("DD.MM.YYYY"));
 
@@ -76,14 +77,17 @@ public class DayDetailFragment extends DialogFragment {
         DayEntry entry =  mDBHelper.getDatabaseEntriesDay(mDBHelper.getFactorList(), selectedDate.getDay() , selectedDate.getMonth() ,selectedDate.getYear());
         if (entry != null) {
             ratings = entry.ratings;
-            descriptionDay.setText("\"" + entry.description + "\"");
+            if(!entry.description.equals(""))
+                descriptionDay.setText("\"" + entry.description + "\"");
+            else
+                descriptionDay.setText(getResources().getString(R.string.noDataAvailable));
         }
         String s = mDBHelper.getWeatherData(selectedDate);
         if(s != null && !s.equals("")){
             String[] splitWeather = s.split("\n");
             weatherText.setText(getResources().getString(R.string.weather) + "\n " + splitWeather[0] + "\n" + splitWeather[1] + "\n" + splitWeather[4]);
         }
-        adapter = new DayDetailAdapter(getActivity(),0,ratings);
+        DayDetailAdapter adapter = new DayDetailAdapter(getActivity(), 0, ratings);
         ListView lv = (ListView) view.findViewById(R.id.list);
         lv.setAdapter(adapter);
 

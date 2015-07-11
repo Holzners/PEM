@@ -19,9 +19,8 @@ import java.util.HashMap;
  */
 public class DayDetailAdapter extends ArrayAdapter {
 
-    HashMap<String, Integer> factorRatingMap;
-
-    FeedReaderDBHelper mDBHelper;
+    private HashMap<String, Integer> factorRatingMap;
+    private FeedReaderDBHelper mDBHelper;
 
     public DayDetailAdapter(Context context, int resource, HashMap<String, Integer> factorRatingMap) {
         super(context, resource);
@@ -58,21 +57,5 @@ public class DayDetailAdapter extends ArrayAdapter {
         }
         else gd.setColor(getContext().getResources().getColor(R.color.caldroid_white));
         return newRow;
-    }
-
-    public HashMap<String, Integer> getFactorRatingMap() {
-        return factorRatingMap;
-    }
-
-    public void setFactorRatingMap(HashMap<String, Integer> factorRatingMap) {
-        this.factorRatingMap = factorRatingMap;
-    }
-
-    public FeedReaderDBHelper getmDBHelper() {
-        return mDBHelper;
-    }
-
-    public void setmDBHelper(FeedReaderDBHelper mDBHelper) {
-        this.mDBHelper = mDBHelper;
     }
 }

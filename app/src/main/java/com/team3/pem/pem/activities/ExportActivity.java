@@ -7,7 +7,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -49,17 +48,16 @@ import hirondelle.date4j.DateTime;
 
 public class ExportActivity extends ActionBarActivity {
 
-    Button exportButton;
-    EditText nameField;
-    Switch mailSwitch, exportAll;
-    boolean switchOn = false;
-    public boolean allChecked = false;
-    File file;
-    FeedReaderDBHelper dbHelper;
-    public List<String> enabledSymptoms;
-    ListView listView;
-    TextView loadingText;
-    String filePath;
+    private Button exportButton;
+    private EditText nameField;
+    private Switch exportAll;
+    private boolean switchOn = false;
+    private boolean allChecked = false;
+    private File file;
+    private FeedReaderDBHelper dbHelper;
+    private List<String> enabledSymptoms;
+    private TextView loadingText;
+    private String filePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +68,9 @@ public class ExportActivity extends ActionBarActivity {
 
         exportButton = (Button) findViewById(R.id.button_export);
         nameField = (EditText) findViewById(R.id.nameField);
-        mailSwitch = (Switch) findViewById(R.id.switch_mail);
+        Switch mailSwitch = (Switch) findViewById(R.id.switch_mail);
         exportAll = (Switch) findViewById(R.id.switch_export);
-        listView = (ListView) findViewById(R.id.symptomListView);
+        ListView listView = (ListView) findViewById(R.id.symptomListView);
         loadingText = (TextView) findViewById(R.id.loadingText);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
@@ -123,18 +121,13 @@ public class ExportActivity extends ActionBarActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
-        return super.onOptionsItemSelected(item);
-    }
-
+    /**
+     * Add or remove the selected factor to/from the
+     * <code>enabledSymptoms</code> list
+     *
+     * @param isEnabled
+     * @param symptom
+     */
     public void switchSymptom(boolean isEnabled, String symptom){
         if(isEnabled)
             enabledSymptoms.add(symptom);
@@ -145,6 +138,13 @@ public class ExportActivity extends ActionBarActivity {
         exportAll.setChecked(false);
     }
 
+    /**
+     * Create the PDF file on the device
+     *
+     * @param name
+     * @return <code>true</code> if the file was created successfully,
+     *         or <code>false</code> if the creation of the file failed
+     */
     private boolean createPDF(String name) {
         final Handler handler = new Handler();
         if(name.equals("")){
@@ -206,6 +206,12 @@ public class ExportActivity extends ActionBarActivity {
         return true;
     }
 
+    /**
+     * Create the table for the PDF file
+     *
+     * @param symptom
+     * @return the created table
+     */
     private PdfPTable getTable(String symptom){
         PdfPTable table = new PdfPTable(new float[] {2, 1, 2, 4, 4});
         table.setWidthPercentage(100f);
@@ -226,10 +232,10 @@ public class ExportActivity extends ActionBarActivity {
         table.addCell(getResources().getString(R.string.note));
         table.addCell(getResources().getString(R.string.weatherPDF));
         //Zeilen aus DB einfuegen
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add(symptom);
         HashMap<DateTime, DayEntry> dbEntries = dbHelper.getDatabaseEntries(list);
-        TreeMap<DateTime, DayEntry> dbEntriesTree = new TreeMap<DateTime, DayEntry>(dbEntries);
+        TreeMap<DateTime, DayEntry> dbEntriesTree = new TreeMap<>(dbEntries);
 
         table.getDefaultCell().setBackgroundColor(null);
         table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -263,7 +269,24 @@ public class ExportActivity extends ActionBarActivity {
         cellLegend.setPaddingTop(30);
         table.addCell(cellLegend);
 
-
         return table;
+    }
+
+    /**
+     * Get the value of allChecked
+     *
+     * @return <code>allChecked</code>
+     */
+    public boolean getAllChecked(){
+        return this.allChecked;
+    }
+
+    /**
+     * Get the enabledSymptoms List
+     *
+     * @return <code>enabledSymptoms</code>
+     */
+    public List<String> getEnabledSymptoms(){
+        return this.enabledSymptoms;
     }
 }

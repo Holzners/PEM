@@ -13,8 +13,6 @@ import com.team3.pem.pem.R;
 import com.team3.pem.pem.activities.MainActivity;
 import com.team3.pem.pem.adapters.YearAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
@@ -23,9 +21,7 @@ public class YearFragment extends ListFragment {
 
     private int selectedYear;
     private YearAdapter adapter;
-    private TextView year;
-    private ImageButton previous, next;
-    private List<Integer> years;
+
     public YearFragment() {
         DateTime dateTime = DateTime.today(TimeZone.getDefault());
         selectedYear = dateTime.getYear();
@@ -46,46 +42,46 @@ public class YearFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        yearSpinner = (Spinner) getView().findViewById(R.id.spinner);
 
-        year = (TextView) getView().findViewById(R.id.year);
+        final TextView year = (TextView) getView().findViewById(R.id.year);
         year.setText(String.valueOf(selectedYear));
 
-        previous = (ImageButton) getView().findViewById(R.id.previousYear);
-        next = (ImageButton) getView().findViewById(R.id.nextYear);
+        ImageButton previous = (ImageButton) getView().findViewById(R.id.previousYear);
+        ImageButton next = (ImageButton) getView().findViewById(R.id.nextYear);
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeYear(selectedYear-1);
-                selectedYear = selectedYear-1;
+                changeYear(selectedYear - 1);
+                selectedYear = selectedYear - 1;
                 year.setText(String.valueOf(selectedYear));
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeYear(selectedYear+1);
-                selectedYear = selectedYear+1;
+                changeYear(selectedYear + 1);
+                selectedYear = selectedYear + 1;
                 year.setText(String.valueOf(selectedYear));
             }
         });
-
-
-        years = new ArrayList<>();
-        DateTime today = DateTime.today(TimeZone.getDefault());
-        for(int i = 2010 ; i <= today.getYear() ; i++){
-            years.add(i);
-        }
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         int displayWidth = display.getWidth();
         adapter = new YearAdapter((MainActivity)getActivity(), 0, displayWidth, selectedYear);
         this.setListAdapter(adapter);
     }
 
+    /**
+     * Change the current year
+     *
+     * @param year
+     */
     private void changeYear(int year){
         adapter.setSelectedYear(year);
     }
 
+    /**
+     * Notify the adapter for data changed
+     */
     public void notifyAdapter(){
         adapter.notifyDataSetChanged();
     }
