@@ -40,13 +40,16 @@ public class DayDetailAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        //Inflate Layout
         LayoutInflater inflater = (LayoutInflater) getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View newRow = inflater.inflate(R.layout.day_detail_item, null);
 
         String item = getItem(position);
+        //Get Factor Name and Color Box
         TextView colorText = (TextView) newRow.findViewById(R.id.colorText);
         TextView symptomText = (TextView) newRow.findViewById(R.id.symptomText);
+        //Set text and Rating as Color
         symptomText.setText(getItem(position));
         colorText.setBackgroundResource(R.drawable.border);
         GradientDrawable gd = (GradientDrawable)colorText.getBackground();

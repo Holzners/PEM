@@ -53,10 +53,11 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+        //Inflate Layout
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        //Create Views
         View newRow = inflater.inflate(R.layout.row_week_table, null);
         TextView[] rowViews = new TextView[7];
         rowViews[0] = (TextView) newRow.findViewById(R.id.rowTextView1);
@@ -67,6 +68,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
         rowViews[5] = (TextView) newRow.findViewById(R.id.rowTextView6);
         rowViews[6] = (TextView) newRow.findViewById(R.id.rowTextView7);
 
+        // Firs Row set Header (MO - SO)
         if(position == 0){
             DateTime today = DateTime.today(TimeZone.getDefault());
             DateTime dateOfWeekday =firstDayOfSelectedWeek;
@@ -95,31 +97,38 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
             }
 
         }else {
+            if (mDBHelper == null) {
+                mDBHelper = mDBHelper.getInstance();
+            }
+            //get Rating of Days/Symptoms and fillBackground of textboxes
             if (mDBHelper.getFactorEnabledMap().get(this.getItem(position))) {
                 List<String> factors = new ArrayList<>();
+                //get Factor for Position
                 factors.add(this.getItem(position));
+                //Get Weeks first and last days
                 DateTime startDay = getFirstDayOfSelectedWeek();
                 DateTime endDay = lastDayOfThisWeek();
-
-                HashMap<DateTime, DayEntry> entryHashMap;
-                if (mDBHelper == null) {
-                    mDBHelper = mDBHelper.getInstance();
-                }
-                entryHashMap = mDBHelper.getDatabaseEntriesWeek(factors, startDay.getDay(),
+                //Get Entrie for Factor and Date
+                HashMap<DateTime, DayEntry> entryHashMap = mDBHelper.getDatabaseEntriesWeek(factors, startDay.getDay(),
                         startDay.getMonth(), startDay.getYear(), endDay.getDay(), endDay.getMonth(), endDay.getYear());
 
-
+                //Set Background Color of Textviews by Rating
                 for (int i = 0; i < rowViews.length; i++) {
+                    //Get new Day
                     DateTime thisDate = startDay.plusDays(i);
+                    //Check if day Has Entry
                     if (entryHashMap.containsKey(thisDate)) {
+                        //Set Background by rating (gd to Keep Borders)
                         GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
                         gd.setColor(newRow.getResources().getColor(
                                 RatingToColorHelper.ratingToColor(factors.get(0),
                                         entryHashMap.get(thisDate).ratings.get(factors.get(0)))));
                     } else {
+                        //No Entry -> Background white
                         GradientDrawable gd = (GradientDrawable) rowViews[i].getBackground();
                         gd.setColor(newRow.getResources().getColor(R.color.white));
                     }
+                    //Set Size of Boxes
                     ViewGroup.LayoutParams params = rowViews[i].getLayoutParams();
                     params.height = displayWidth / 7 - 5;
                     params.width = displayWidth / 7 - 5;
@@ -127,6 +136,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
                     rowViews[i].setOnClickListener(new WeekViewClickListener(context, startDay.plusDays(i)));
                 }
             } else {
+                //Factors is disabled
                 for (TextView t : rowViews) {
                     t.setVisibility(View.GONE);
                 }
@@ -136,6 +146,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
         return newRow;
     }
 
+    //Calculate first day of this Week
     private DateTime firstDayOfThisWeek() {
         DateTime today = DateTime.today(TimeZone.getDefault());
         DateTime firstDayThisWeek = today; //start value
@@ -148,8 +159,7 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
         }
         return firstDayThisWeek;
     }
-
-
+    //Calculate last day of this Week
     public DateTime lastDayOfThisWeek() {
       return getFirstDayOfSelectedWeek().plusDays(7);
     }
@@ -167,6 +177,11 @@ public class WeekViewAdapter extends ArrayAdapter<String> {
         private MainActivity context;
         private DateTime date;
 
+        /**
+         * On Click Listener show Detail for clicked date
+         * @param context
+         * @param date
+         */
         public WeekViewClickListener(MainActivity context, DateTime date) {
             this.context = context;
             this.date = date;

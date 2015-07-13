@@ -29,6 +29,9 @@ public class SwitchFragment extends ListFragment {
         setListAdapter(mAdapter);
     }
 
+    /**
+     * Notify ListAdapter
+     */
     public void notifyAdapter(){
         mAdapter.notifyDataSetChanged();
     }

@@ -2,7 +2,6 @@ package com.team3.pem.pem.view;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,28 +44,33 @@ public class RateDayFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //Dialog Settings
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
+        //Set Layout
         View view = inflater.inflate(R.layout.dialog_rate_day, container, false);
+        //Set ListView and Adapter
         ListView lv = (ListView) view.findViewById(R.id.list);
         RateDayAdapter adapter = new RateDayAdapter(context, R.layout.rate_day_layout, date);
         lv.setAdapter(adapter);
 
+        //Save and Cancle Buttons
         Button saveDay = (Button) view.findViewById(R.id.button_save_day);
         Button cancel = (Button) view.findViewById(R.id.button_cancel);
+        //selected Date TextVeiw
         TextView currentDate = (TextView) view.findViewById(R.id.rateDayDate);
         currentDate.setText(date.format("DD.MM.YYYY"));
-
+        //Input Text
         final EditText editText = (EditText) view.findViewById(R.id.editNote);
         DayEntry entry = mDBHelper.getDatabaseEntriesDay(mDBHelper.getFactorList(), date.getDay(), date.getMonth(), date.getYear());
         if (entry != null)
             editText.setText(entry.description);
 
+        //OnClick Listener
         saveDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Date", date + "");
                 context.saveDay(date, editText.getText().toString());
                 RateDayFragment.this.dismiss();
             }

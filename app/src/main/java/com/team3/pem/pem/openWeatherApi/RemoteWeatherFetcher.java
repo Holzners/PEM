@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by Stephan on 28.06.15.
+ * Class to get Weather Data from OpenWeatherMap Api
  */
 public class RemoteWeatherFetcher {
 
@@ -30,6 +30,11 @@ public class RemoteWeatherFetcher {
     private static final String OPEN_WEATHER_MAP_API =
             "http://api.openweathermap.org/data/2.5/weather?q=%s&units=metric";
 
+    /**
+     * sends HttpRequest to API an parse Response to Json
+     * @param context
+     * @return
+     */
     public static JSONObject getJSON(Context context) {
 
         String city = getCurrentLocation(context);
@@ -65,19 +70,30 @@ public class RemoteWeatherFetcher {
         }
     }
 
+    /**
+     * Returns CurrentLocation as City Name
+     * If LocationManager has no last Location, Shared Preferences chick if Location was found earlier
+     * Default loc is Munich
+     * @param context
+     * @return
+     */
     public static String getCurrentLocation(Context context) {
+        //Init LocationManager and Geocoder
         Geocoder gcd = new Geocoder(context, Locale.getDefault());
         LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
-         Location location = null;
+        Location location = null;
+        //Get Shared Prefs for City Key
         SharedPreferences prefs = context.getSharedPreferences("com.team3.pem.pem",Context.MODE_PRIVATE);
         String city = prefs.getString(CITY_KEY, "Munich");
+
         if (locationManager != null) {
+            //Check if Location Manager can find Location without Location Request
             Criteria criteria = new Criteria();
             String provider = locationManager.getBestProvider(criteria, true);
             location = locationManager
                             .getLastKnownLocation(provider);
         }
-
+            // if Location found get City from Location
         if(location != null) {
             List<Address> list = null;
             try {
@@ -92,6 +108,7 @@ public class RemoteWeatherFetcher {
                 city = address.getLocality();
             }
         }
+        //Store City in shared prefs
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(CITY_KEY,city);
         editor.commit();

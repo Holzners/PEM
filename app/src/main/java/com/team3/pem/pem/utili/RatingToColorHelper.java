@@ -6,7 +6,7 @@ import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
 import java.util.HashMap;
 
 /**
- * Created by Stephan on 25.06.15.
+ * Simple Class for Converting Rating to Color Enum Field Color
  */
 public class RatingToColorHelper {
 

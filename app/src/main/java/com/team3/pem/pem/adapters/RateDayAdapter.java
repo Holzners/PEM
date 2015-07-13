@@ -60,53 +60,60 @@ public class RateDayAdapter extends ArrayAdapter {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
-        final TextView[] rateViews = new TextView[5];
-
+        //inflate View
         LayoutInflater inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         View newRow = inflater.inflate(R.layout.rate_day_layout, null);
-
+        final TextView[] rateViews = new TextView[5];
+        //Get DBHelper Instance
         FeedReaderDBHelper dbHelper = FeedReaderDBHelper.getInstance();
+        //Check if day has Ratings
         DayEntry entry = dbHelper.getDatabaseEntriesDay(mDBHelper.getFactorList(), date.getDay(), date.getMonth(), date.getYear());
         int rating = 1;
+        //If day doesnt have Ratings set initial to 1
         if (entry != null) {
             HashMap<String, Integer> ratings = entry.ratings;
             rating = ratings.get(getItem(position));
         }
 
-
+        //if Factor is Binary (only two states)
         if(!mDBHelper.getFactorIsGradualMap().get(getItem(position))){
+            //Hide Textboxes
             final Switch mSwitch = (Switch) newRow.findViewById(R.id.rateSwitch);
             TableRow row = (TableRow) newRow.findViewById(R.id.gradualTable);
             row.setVisibility(View.GONE);
+            //set rating
             boolean checked = rating == 5;
+            //Init Switch
             mSwitch.setText(getItem(position));
             mSwitch.setChecked(checked);
             mSwitch.setVisibility(View.VISIBLE);
+            //Get Color for Symptom
             final int color = activity.getResources().getColor(RatingToColorHelper.ratingToColor(getItem(position), 3));
             mSwitch.getThumbDrawable().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
             mSwitch.setOnCheckedChangeListener(new RateViewListener());
 
         }else {
+            //if Factor is Gradual
+            //Show TextBoxes
             TableRow row = (TableRow) newRow.findViewById(R.id.gradualTable);
             row.setVisibility(View.VISIBLE);
+            //Hide Switch
             final Switch mSwitch = (Switch) newRow.findViewById(R.id.rateSwitch);
             mSwitch.setVisibility(View.GONE);
+            //Set Name
             TextView factorText = (TextView) newRow.findViewById(R.id.factorText);
             factorText.setText(getItem(position));
-
+            //Init Textviews
             rateViews[0] = (TextView) newRow.findViewById(R.id.ratText1);
             rateViews[1] = (TextView) newRow.findViewById(R.id.ratText2);
             rateViews[2] = (TextView) newRow.findViewById(R.id.ratText3);
             rateViews[3] = (TextView) newRow.findViewById(R.id.ratText4);
             rateViews[4] = (TextView) newRow.findViewById(R.id.ratText5);
-
-
+            //Set Colors
             String color = mDBHelper.getFactorColorMap().get(getItem(position));
             int[] colors = ColorsToPick.getColorByString(color).getAllColors();
-
+            //Init Box Sizes
             Display display = activity.getWindowManager().getDefaultDisplay();
             int width = display.getWidth() / 8;
             int height = display.getWidth() / 8;
@@ -137,12 +144,23 @@ public class RateDayAdapter extends ArrayAdapter {
        private TextView[] textViews;
        private int factorPosition, index;
 
+       /**
+        * Clicklistener for Rate Objects
+        * Gradual: Set Stroke of Selected Box
+        * Binar: Set Switch
+        * Set selected Rating to HashMap
+        * @param textView
+        * @param textViews
+        * @param factorPosition
+        * @param index
+        */
        public RateViewListener(TextView textView, TextView[] textViews, int factorPosition, int index){
            this.textView = textView;
            this.textViews = textViews;
            this.factorPosition = factorPosition;
            this.index = index;
        }
+
 
        public RateViewListener(){
        }

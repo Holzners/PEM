@@ -11,6 +11,11 @@ import java.util.Locale;
  */
 public class WeatherJSONRenderer {
 
+    /**
+     * Convert Weather Data JsonMessage to Multiline String with only Data we want to display
+     * @param json
+     * @return
+     */
     public static String renderWeather(JSONObject json){
         try {
             String city = json.getString("name").toUpperCase(Locale.US) + ", " +

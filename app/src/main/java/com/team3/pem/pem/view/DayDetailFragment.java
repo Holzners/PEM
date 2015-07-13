@@ -22,8 +22,6 @@ import hirondelle.date4j.DateTime;
 
 /**
  * A fragment representing a list of Items.
- * <p/>
- * <p/>
  * */
 public class DayDetailFragment extends DialogFragment {
 
@@ -51,9 +49,11 @@ public class DayDetailFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //Dialog Settings
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
+        //Set Layout
         View view = inflater.inflate(R.layout.day_detail_fragment, container, false);
 
         TextView weatherText = (TextView) view.findViewById(R.id.weatherText);
@@ -63,6 +63,7 @@ public class DayDetailFragment extends DialogFragment {
         TextView date = (TextView) view.findViewById(R.id.daydetaildate);
         date.setText(selectedDate.format("DD.MM.YYYY"));
 
+        //Button for edit day Rating
         ImageButton edit = (ImageButton) view.findViewById(R.id.editDay);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +76,7 @@ public class DayDetailFragment extends DialogFragment {
 
         HashMap<String, Integer> ratings = new HashMap<>();
         DayEntry entry =  mDBHelper.getDatabaseEntriesDay(mDBHelper.getFactorList(), selectedDate.getDay() , selectedDate.getMonth() ,selectedDate.getYear());
+        //Check for notice
         if (entry != null) {
             ratings = entry.ratings;
             if(!entry.description.equals(""))
@@ -82,11 +84,13 @@ public class DayDetailFragment extends DialogFragment {
             else
                 descriptionDay.setText(getResources().getString(R.string.noDataAvailable));
         }
+        //Check for saved WeatherData
         String s = mDBHelper.getWeatherData(selectedDate);
         if(s != null && !s.equals("")){
             String[] splitWeather = s.split("\n");
             weatherText.setText(getResources().getString(R.string.weather) + "\n " + splitWeather[0] + "\n" + splitWeather[1] + "\n" + splitWeather[4]);
         }
+        //Set List adapter for Ratings
         DayDetailAdapter adapter = new DayDetailAdapter(getActivity(), 0, ratings);
         ListView lv = (ListView) view.findViewById(R.id.list);
         lv.setAdapter(adapter);

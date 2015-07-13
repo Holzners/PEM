@@ -3,9 +3,10 @@ package com.team3.pem.pem.utili;
 import com.team3.pem.pem.R;
 
 /**
- * Created by Stephan on 25.06.15.
+ * Helper Enum for converting Rating to color
  */
 public enum ColorsToPick {
+
 
     BLUE(R.color.blue1 , R.color.blue2 ,R.color.blue3 ,R.color.blue4 ,R.color.blue5),
     CYAN(R.color.cyan1 , R.color.cyan2 ,R.color.cyan3 ,R.color.cyan4 ,R.color.cyan5),
@@ -17,7 +18,7 @@ public enum ColorsToPick {
 
     private int color1, color2 , color3 , color4, color5;
 
-    private ColorsToPick(int color1, int color2, int color3, int color4, int color5){
+    ColorsToPick(int color1, int color2, int color3, int color4, int color5){
         this.color1 = color1;
         this.color2 = color2;
         this.color3 = color3;
@@ -50,6 +51,11 @@ public enum ColorsToPick {
         return result;
     }
 
+    /**
+     * Get Enum Field by String
+     * @param color
+     * @return
+     */
     public static ColorsToPick getColorByString(String color) {
         if (color!= null){
             if (color.equalsIgnoreCase(GREEN.name())) return GREEN;

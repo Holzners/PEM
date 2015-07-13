@@ -63,12 +63,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Init Database Helper Singleton
         FeedReaderDBHelper.appContext = this;
         mDbHelper = FeedReaderDBHelper.getInstance();
+        //Set View
         setContentView(R.layout.activity_main);
+        //Get todays date
         date = DateTime.today(TimeZone.getDefault());
-        selectedColor = new HashMap<>();
 
+        //Init FAB
         ImageView imageview = new ImageView(this); // Create an icon
         imageview.setImageResource(R.drawable.plus);
 
@@ -82,6 +85,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 showRateDayPopup(DateTime.today(TimeZone.getDefault()));
             }
         });
+
+        selectedColor = new HashMap<>();
     }
 
     @Override
@@ -142,12 +147,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onResume() {
         super.onResume();
 
+        //Check if DB Helper is null
         if (mDbHelper == null)
             mDbHelper = FeedReaderDBHelper.getInstance();
 
-        // Creating The Toolbar and setting it as the Toolbar for the activity
+        //Init Button Fragment
         initSwitchFragment();
-
+        // Creating The Toolbar and setting it as the Toolbar for the activity
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
@@ -176,23 +182,21 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
+        //Check if todays Weather is fetched
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         String lastUpdate = sharedPref.getString(getString(R.string.last_weather_update_key), "");
         String today = DateTime.today(TimeZone.getDefault()) + "";
         if (lastUpdate != null && !lastUpdate.equalsIgnoreCase(today)) {
+            //If not get Weather data
             updateWeatherData();
         }
-        // if(pemDialogFragment != null) ((RateDayAdapter)pemDialogFragment.getListAdapter()).notifyDataSetChanged();
+        //get Selected Colors
         updateSelectedColors();
-//        Log.d("Heutiges Wetter", mDbHelper.getWeatherData(DateTime.today(TimeZone.getDefault())));
-
-        if (this.getIntent().getBooleanExtra("openDialog", false)) {
-            this.getIntent().removeExtra("openDialog");
-            showRateDay();
-        }
     }
 
-
+    /**
+     * Init Switch Button List Fragment and add it to Content View
+     */
     public void initSwitchFragment() {
         this.switchFragment = new SwitchFragment();
         FragmentManager f = getSupportFragmentManager();
@@ -206,6 +210,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onDestroy() {
         super.onDestroy();
         try {
+            //Close database and Helper
             mDbHelper.getReadableDatabase().close();
             mDbHelper.close();
         } catch (Exception e) {
@@ -213,21 +218,32 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * Enabled Mode of "symptom" switched to "isEnabled"
+     * @param isEnabled
+     * @param symptom
+     */
     public void switchSymptom(boolean isEnabled, String symptom) {
+        //Notify Database
         mDbHelper.switchFactor(symptom, isEnabled);
+        //Notify Calendar Views
         refreshAdapters();
     }
 
-
+    /**
+     * Fetch weather data in Background
+     */
     private void updateWeatherData() {
         final Handler handler = new Handler();
 
         new Thread() {
             public void run() {
+                //send Request to API und get JSON Response
                 final JSONObject json = RemoteWeatherFetcher.getJSON(MainActivity.this);
                 if (json == null) {
                     handler.post(new Runnable() {
                         public void run() {
+                            //Fetching failed make toast
                             Toast.makeText(MainActivity.this, getResources().getString(R.string.weatherFail),
                                     Toast.LENGTH_LONG).show();
                         }
@@ -235,9 +251,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 } else {
                     handler.post(new Runnable() {
                         public void run() {
+                            //Convert JSON Response to String and Store in DataBase for today
                             String s = WeatherJSONRenderer.renderWeather(json);
                             DateTime today = DateTime.today(TimeZone.getDefault());
                             mDbHelper.saveWeatherDay(today, s);
+                            //Set Shared Preferences todays Weather Fetched
                             SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putString(getString(R.string.last_weather_update_key), today + "");
@@ -249,55 +267,90 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }.start();
     }
 
+    /**
+     * Show Month View with only one Factor selected
+     * --> Year View onCLick in single symptom Month
+     * If factor == "" go to Month dont change Switch states
+     * @param month
+     * @param year
+     * @param factor
+     */
     public void goToMonth(int month, int year, String factor) {
 
         if (!factor.equals("")) {
+            //Disable all other Symtpoms
             for (Map.Entry<String, Boolean> e : mDbHelper.getFactorEnabledMap().entrySet()) {
                 if (e.getKey().equals(factor)) e.setValue(true);
                 else e.setValue(false);
             }
         }
+        //Page to Month View
         adapter.goToMonth(month, year);
         pager.setCurrentItem(1);
     }
 
+    /**
+     * Updates Selected Colors for Rate Day
+     */
     private void updateSelectedColors() {
         for (String s : mDbHelper.getFactorList()) {
             if (!selectedColor.containsKey(s)) selectedColor.put(s, 1);
         }
     }
 
+    /**
+     * Save selected Ratings in Rate Day view
+     * @param date
+     * @param description
+     */
     public void saveDay(DateTime date, String description) {
+        //save in DB
         this.mDbHelper.saveDay(date, selectedColor, description);
+        //Notify view
         refreshAdapters();
     }
 
-    public void showRateDay() {
+    /**
+     * Show Rate Day Dialog Fragment for today
+     * @param view
+     */
+    public void showRateDay(View view) {
         DateTime today = DateTime.today(TimeZone.getDefault());
         showRateDayPopup(today);
     }
 
+    /**
+     * Show Rate Day Dialog Fragment for any day
+     * @param today
+     */
     public void showRateDayPopup(DateTime today) {
         RateDayFragment rateDayFragment = RateDayFragment.getInstance(today, this);
         FragmentManager f = getSupportFragmentManager();
         rateDayFragment.show(f, "TAG");
     }
 
-    public void showNewFactor(View view){
-        showNewFactorDialog();
-    }
-
+    /**
+     * Show Dialog Fragment for creating new Factors/Symptoms
+     */
     public void showNewFactorDialog() {
         NewFactorFragment newFactorFragment = NewFactorFragment.getInstance(this, null, null);
         FragmentManager f = getSupportFragmentManager();
         newFactorFragment.show(f, "TAG");
     }
+
+    /**
+     * Show Details for selected date in DialogFragment
+     * @param date
+     */
     public void showDetailDay(DateTime date) {
         DayDetailFragment dayDetailFragment = DayDetailFragment.newInstance(date);
         FragmentManager f = getSupportFragmentManager();
         dayDetailFragment.show(f, "TAG");
     }
 
+    /**
+     * Notify ListFragments and Calendar Views for data have changed
+     */
     public void refreshAdapters() {
         adapter.notifyFragment();
         switchFragment.notifyAdapter();
@@ -331,7 +384,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             }
         }else {
             if (view.getTag().equals(TAG_NEW_EVENT)) {
-                showRateDay();
+                showRateDay(view);
             }
 
             if (view.getTag().equals(TAG_NEW_FACTOR)) {

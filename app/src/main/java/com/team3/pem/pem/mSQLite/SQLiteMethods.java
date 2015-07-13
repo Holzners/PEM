@@ -1,7 +1,7 @@
 package com.team3.pem.pem.mSQLite;
 
 /**
- * Created by Stephan on 16.06.15.
+ * Class for static String Constants used for SQLite Commands
  */
 public class SQLiteMethods {
 

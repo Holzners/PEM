@@ -80,24 +80,24 @@ public class WeekFragment extends ListFragment{
     }
 
     /**
-     * Sets the current week to one week later
+     * Sets the current week to "weeks" week later
      *
      * @param weeks
      */
     public void nextWeek(int weeks){
-        calenderWeek += 1;
+        calenderWeek += weeks;
         adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().plusDays(7 * weeks));
         adapter.notifyDataSetChanged();
         setTitle();
     }
 
     /**
-     * Sets the current week to one week earlier
+     * Sets the current week to "weeks" week earlier
      *
      * @param weeks
      */
     public void previousWeek(int weeks){
-        calenderWeek -= 1;
+        calenderWeek -= weeks;
         adapter.setFirstDayOfSelectedWeek(adapter.getFirstDayOfSelectedWeek().minusDays(7 * weeks));
         adapter.notifyDataSetChanged();
         setTitle();

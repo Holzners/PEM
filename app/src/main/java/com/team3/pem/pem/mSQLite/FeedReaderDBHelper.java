@@ -23,7 +23,8 @@ import java.util.TimeZone;
 import hirondelle.date4j.DateTime;
 
 /**
- * Created by Stephan on 16.06.15.
+ * Custom SQLiteOpenHelper Class as Handler For DataBase hits
+ * Javadoc in Inteface IDatabaseHelper
  */
 public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHelper {
 
@@ -52,10 +53,6 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
     @Override
     public HashMap<String , Boolean> getFactorIsGradualMap(){
         if(factorIsGradualMap == null) factorIsGradualMap = getFactorIsGradualMapFromDatabase();
-        for(Map.Entry<String,Boolean> e : factorIsGradualMap.entrySet()){
-         Log.d("String",e.getKey() + " " + e.getValue().toString() );
-        }
-
         return factorIsGradualMap;
     }
 
@@ -328,6 +325,9 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         return entryMap;
     }
 
+    /**
+     * private Methode to Fill Factor Color map With factors in DB
+     */
     private HashMap<String, String> getFactorsFromDatabase() {
         SQLiteDatabase dbRwad = getReadableDatabase();
         String[] projection = {
@@ -340,13 +340,11 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         Cursor cursor = dbRwad.query(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
                 projection, null, null, null, null,null
-               // SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL + " DESC"
         );
 
         cursor.moveToFirst();
         HashMap<String, String> factors = new HashMap<>();
         while (!cursor.isAfterLast()) {
-            //Log.d("Factor", cursor.getString(0)+ " "+ cursor.getString(1));
             factors.put(cursor.getString(0), cursor.getString(1));
             cursor.moveToNext();
         }
@@ -354,6 +352,9 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         return factors;
     }
 
+    /**
+     * private Methode to Fill FactorIsGradual Map factors in DB
+     */
     private HashMap<String, Boolean> getFactorIsGradualMapFromDatabase() {
         SQLiteDatabase dbRwad = getReadableDatabase();
         String[] projection = {
@@ -366,13 +367,11 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         Cursor cursor = dbRwad.query(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
                 projection, null, null, null, null,null
-              //  SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL + " DESC"
         );
 
         cursor.moveToFirst();
         HashMap<String, Boolean> factors = new HashMap<>();
         while (!cursor.isAfterLast()) {
-            //Log.d("Factor", cursor.getString(0)+ " "+ cursor.getString(1));
 
             boolean gradual = (cursor.getInt(cursor.getColumnIndex(SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL))==1);
             factors.put(cursor.getString(0), gradual);
@@ -382,6 +381,9 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         return factors;
     }
 
+    /**
+     * private Methode to Fill FactorEnabled Map for factors in DB
+     */
     private HashMap<String, Boolean> getFactorsEnabledFromDatabase() {
         SQLiteDatabase dbRwad = getReadableDatabase();
         String[] projection = {
@@ -393,7 +395,7 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
 
         Cursor cursor = dbRwad.query(
                 SQLiteMethods.TABLE_NAME_FACTOR_TABLE,
-                projection, null, null, null, null,null // SQLiteMethods.COLUMN_NAME_FACTOR_IS_GRADUAL + " DESC"
+                projection, null, null, null, null,null
         );
 
         cursor.moveToFirst();
@@ -403,14 +405,15 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
             boolean enabled = (i == 1)?true:false;
             factors.put(cursor.getString(0), enabled);
 
-           // Log.d("Factor", cursor.getString(0) + " " + enabled);
             cursor.moveToNext();
         }
         cursor.close();
         return factors;
     }
 
-
+    /**
+     * private Methode to Fill FFactor List with factors in DB
+     */
     private List<String> getFactors() {
         SQLiteDatabase dbRwad = getReadableDatabase();
         String[] projection = {
@@ -561,6 +564,15 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         getFactorColorMap().remove(factor);
     }
 
+    /**
+     * Helper Method for Drop Column of table since SQLite does not support dropping single Columns
+     * @param db
+     * @param createTableCmd
+     * @param tableName
+     * @param colToRemove
+     * @param remainingFactors
+     * @throws java.sql.SQLException
+     */
     private void dropColumn(SQLiteDatabase db,
                             String createTableCmd,
                             String tableName,
@@ -588,6 +600,12 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         db.execSQL("DROP TABLE " + tableName + "_old;");
     }
 
+    /**
+     * GEt All Table Columns as List
+     * @param tableName
+     * @param db
+     * @return
+     */
     private List<String> getTableColumns(String tableName, SQLiteDatabase db) {
         ArrayList<String> columns = new ArrayList<String>();
         String cmd = "pragma table_info(" + tableName + ");";
@@ -613,9 +631,12 @@ public class FeedReaderDBHelper extends SQLiteOpenHelper implements IDatabaseHel
         db.execSQL(SQLiteMethods.SQL_CREATE_REMINDERS);
         db.execSQL(SQLiteMethods.SQL_CREATE_WEATHER);
 
-        DateTime startDate = DateTime.forDateOnly(2014, 1, 1);
+        DateTime startDate = DateTime.forDateOnly(2015, 1, 1);
         DateTime yesterday = DateTime.today(TimeZone.getDefault());
 
+        /* Simple while loop filling database with random entries for 1.1.2015 till yesterday
+         * if Database first created, this may take few seconds
+         */
         while (!startDate.isSameDayAs(yesterday)) {
             ContentValues values = new ContentValues();
             values.put(SQLiteMethods.COLUMN_NAME_ENTRY_ID_DAY, startDate.getDay());

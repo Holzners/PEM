@@ -3,7 +3,7 @@ package com.team3.pem.pem.utili;
 import java.util.HashMap;
 
 /**
- * Created by Stephan on 18.06.15.
+ * Simple Day Entrie Model Class
  */
 public class DayEntry {
     public HashMap<String, Integer> ratings;

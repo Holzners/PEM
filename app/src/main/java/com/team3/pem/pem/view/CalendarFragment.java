@@ -8,6 +8,9 @@ import com.team3.pem.pem.R;
 import com.team3.pem.pem.activities.MainActivity;
 import com.team3.pem.pem.adapters.CalendarFragmentAdapter;
 
+/**
+ * Custom Caldroid Fragment to Override getNewGridAdapter with custom Adapters
+ */
 public class CalendarFragment extends CaldroidFragment {
 
     public CalendarFragment(){

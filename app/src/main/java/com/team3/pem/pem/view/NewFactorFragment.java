@@ -45,6 +45,13 @@ public class NewFactorFragment extends DialogFragment {
 
     }
 
+    /**
+     * Init Fragment
+     * @param context
+     * @param factor
+     * @param color
+     * @return
+     */
     public static NewFactorFragment getInstance(MainActivity context, String factor, String color ) {
         NewFactorFragment newFactorFragment = new NewFactorFragment();
         newFactorFragment.context = context;
@@ -61,14 +68,17 @@ public class NewFactorFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //Init Dialog Settings
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
-        View view = inflater.inflate(R.layout.dialog_new_factor, container, false);
 
+        //Get DBHelper Instance
         mDBHelper = FeedReaderDBHelper.getInstance();
         HashMap<String, String> factorEntries = mDBHelper.getFactorColorMap();
 
+        //Init View
+        View view = inflater.inflate(R.layout.dialog_new_factor, container, false);
         isGradual = (RadioButton)view.findViewById(R.id.radioButtonGradual);
         Button saveButton = (Button) view.findViewById(R.id.button_save_factor);
         Button cancelButton = (Button) view.findViewById(R.id.button_cancel);
@@ -77,6 +87,7 @@ public class NewFactorFragment extends DialogFragment {
         tooManySymptomsText.setVisibility(View.INVISIBLE);
         tableRow = (TableRow) view.findViewById(R.id.tableColorContainer);
 
+        // Check if Max Colors of Symptoms reached
         if (factorEntries.size() == ColorsToPick.values().length && factor == null) {
             tooManySymptomsText.setVisibility(View.VISIBLE);
             tableRow.setVisibility(View.INVISIBLE);
@@ -85,12 +96,11 @@ public class NewFactorFragment extends DialogFragment {
             cancelButton.setEnabled(true);
             newFactorText.setEnabled(false);
         } else {
+            //still Colors available
             colors = new ArrayList<>();
             for (int i = 0; i < ColorsToPick.values().length && colors.size() < (ColorsToPick.values().length - factorEntries.size()); i++) {
                 if (!factorEntries.containsValue(ColorsToPick.values()[i].name())) {
                     colors.add(ColorsToPick.values()[i].name());
-                } else {
-                    Log.d("Color vergeben", ColorsToPick.values()[i].name());
                 }
             }
             if(selectedColor != null && factor != null){
@@ -164,6 +174,10 @@ public class NewFactorFragment extends DialogFragment {
 
         private  int indexElement;
 
+        /**
+         * OnClick Listener for handle Color Selection ... Selected Color with Stroke
+         * @param i
+         */
         private OnColorClickListener(int i){
             indexElement = i;
         }

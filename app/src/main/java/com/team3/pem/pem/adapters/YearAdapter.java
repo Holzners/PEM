@@ -25,7 +25,7 @@ import java.util.TimeZone;
 import hirondelle.date4j.DateTime;
 
 /**
- * @author Stephan on 29.06.15.
+ * Adapter for Year View of Medical Journal
  */
 public class YearAdapter extends ArrayAdapter {
     private MainActivity activity;
@@ -53,25 +53,29 @@ public class YearAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        //Get factors and their enalbed state
         HashMap<String,Boolean> factorsEnabled = mDBHelper.getFactorEnabledMap();
-
-
+        //Inflate Layout
         LayoutInflater inflater = (LayoutInflater) activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View newRow = inflater.inflate(R.layout.row_year_layout, null);
+        //Get Textviews
         TableRow rowContainer = (TableRow)newRow.findViewById(R.id.yearContainer);
         TextView [] textViews = new TextView[12];
         int[] ratingsMonths = new int[12];
+
         if(position != 0){
             if(!factorsEnabled.get(getItem(position))) return newRow;
-
+            //if factor is enabled calculate Month Averages
             ratingsMonths = getYearAverageForMonths(selectedYear, getItem(position));
         }
+        //Init layout for TextBoxes
         for(int i = 0; i < textViews.length; i ++){
             textViews[i] = new TextView(activity);
             textViews[i].setHeight(width / 12 - 2);
             textViews[i].setWidth(width / 12 - 2);
             textViews[i].setBackgroundResource(R.drawable.border);
+
             if(position == 0){
                 GradientDrawable gd = (GradientDrawable)  textViews[i].getBackground();
                 gd.setColor(activity.getResources().getColor(R.color.transparent));
@@ -79,11 +83,13 @@ public class YearAdapter extends ArrayAdapter {
                 textViews[i].setTextColor(activity.getResources().getColor(R.color.caldroid_gray));
                 textViews[i].setGravity(Gravity.CENTER);
             }else{
+                //Set Background Color by Factor and Ratings
                 GradientDrawable gd = (GradientDrawable) textViews[i].getBackground();
                 gd.setColor(activity.getResources().getColor(
                         RatingToColorHelper.ratingToColor(getItem(position), ratingsMonths[i])));
 
             }
+            //Add OnClick
             textViews[i].setOnClickListener(new OnMonthClickListener(getItem(position), i+1, selectedYear));
             rowContainer.addView(textViews[i]);
         }
@@ -96,26 +102,37 @@ public class YearAdapter extends ArrayAdapter {
         return newRow;
     }
 
+    /**
+     * get Year Average ratings (each rating == average month Rating) for selected Factor
+     */
     private int[] getYearAverageForMonths(int year, String factor){
         int[] result = new int[12];
         List<String> factorSingleList = new ArrayList<>();
         factorSingleList.add(factor);
+
         for(int i = 0 ; i < result.length ; i++){
+            //Get all entries for Month for Single Symptom
             HashMap<DateTime, DayEntry> entriesMonth = mDBHelper.getDatabaseEntriesMonth(factorSingleList,i+1, year);
             int countRatings = 0;
             int averageRating = 0;
+            //Calulate Average for month
             for(Map.Entry<DateTime, DayEntry> e : entriesMonth.entrySet() ){
                 if(e.getValue().ratings== null) continue;
                 else if(e.getValue().ratings.get(factor)== 0) continue;
                 averageRating += e.getValue().ratings.get(factor);
                 countRatings ++;
             }
+
             if (countRatings!=0)averageRating = Math.round(averageRating / countRatings);
             result[i] = averageRating;
         }
         return result;
     }
 
+    /**
+     * NEW Year is selected
+     * @param year
+     */
     public void setSelectedYear (int year){
         this.selectedYear = year;
         this.notifyDataSetChanged();
@@ -126,6 +143,12 @@ public class YearAdapter extends ArrayAdapter {
         private String factor;
         private int month, year;
 
+        /**
+         * Listener for Month Cells OnClick go To Month View
+         * @param factor
+         * @param month
+         * @param year
+         */
         public OnMonthClickListener(String factor , int month, int year){
             this.factor = factor;
             this.month = month;

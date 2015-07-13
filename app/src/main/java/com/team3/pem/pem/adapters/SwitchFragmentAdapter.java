@@ -47,20 +47,22 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
+        //inflate Layout
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View newView = inflater.inflate(R.layout.row_switch_layout, null);
 
+        //get State of Factor and set it to state of Switch
         final Switch mSwitch = (Switch) newView.findViewById(R.id.switch1);
         mSwitch.setText(getItem(position));
         mSwitch.setChecked(mDBHelper.getFactorEnabledMap().get(getItem(position)));
+        //set OnChange Listener
         mSwitch.setOnCheckedChangeListener(new SwitchOnCheckedChangedListener(getItem(position)));
-
         String s = mSwitch.getText().toString();
         final int color = context.getResources().getColor(RatingToColorHelper.ratingToColor(s, 3));
         mSwitch.getThumbDrawable().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-
+        //On Long ClickListener open Remove/ Edit Factor Properties
         mSwitch.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -71,6 +73,7 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
             }
         });
 
+        //Set New Factor Button in Last Row
         Button button = (Button) newView.findViewById(R.id.button_add_symptom);
         if (position==getCount()-1 ) button.setVisibility(View.VISIBLE);
 
@@ -87,10 +90,11 @@ public class SwitchFragmentAdapter extends ArrayAdapter<String> {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            int count = Collections.frequency(new ArrayList<Boolean>(mDBHelper.getFactorEnabledMap().values()), true);
+            int count = Collections.frequency(new ArrayList<>(mDBHelper.getFactorEnabledMap().values()), true);
+            //Check if more than 4 Factors are enabled
             if(count == 4 && isChecked){
+                //If yes disable other random Symptom
                 Random generator = new Random();
-               // HashMap map = (HashMap) .clone();
                 for(Iterator<Map.Entry<String, Boolean>> it = mDBHelper.getFactorEnabledMap().entrySet().iterator(); it.hasNext();) {
                     Map.Entry<String, Boolean> entry = it.next();
                     Boolean n = entry.getValue();
