@@ -52,14 +52,14 @@ public class NewFactorFragment extends DialogFragment {
      * @param color
      * @return
      */
-    public static NewFactorFragment getInstance(MainActivity context, String factor, String color ) {
+    public static NewFactorFragment getInstance(MainActivity context, String factor, String color) {
         NewFactorFragment newFactorFragment = new NewFactorFragment();
         newFactorFragment.context = context;
         newFactorFragment.mDBHelper = FeedReaderDBHelper.getInstance();
-        if(factor!= null && color != null){
+        if(factor != null && color != null){
             newFactorFragment.selectedColor = color;
             newFactorFragment.factor = factor;
-            newFactorFragment.isGradual.setChecked(true);
+            //newFactorFragment.isGradual.setChecked(true);
         }
 
         return newFactorFragment;
@@ -134,7 +134,7 @@ public class NewFactorFragment extends DialogFragment {
     public void saveFactor(boolean isGradual) {
         if (!newFactorText.getText().toString().equals("") && !selectedColor.equals("") ) {
             mDBHelper.saveFactor(newFactorText.getText().toString(), selectedColor, isGradual);
-            context.selectedColor.put(newFactorText.getText().toString(), 1);
+            context.getSelectedColor().put(newFactorText.getText().toString(), 1);
             context.refreshAdapters();
             this.dismiss();
         } else {

@@ -34,15 +34,17 @@ public class RateDayAdapter extends ArrayAdapter {
     private MainActivity activity;
     private DateTime date;
     private FeedReaderDBHelper mDBHelper;
+    private HashMap<String, Integer> selectedColor;
 
     public RateDayAdapter(MainActivity activity, int resource, DateTime date) {
         super(activity, resource);
         this.activity = activity;
         this.mDBHelper = FeedReaderDBHelper.getInstance();
         this.date = date;
-        activity.selectedColor = new HashMap<>();
+        activity.initSelectedColor();
+        this.selectedColor = activity.getSelectedColor();
         for (String s : mDBHelper.getFactorList()){
-            activity.selectedColor.put(s,1);
+            selectedColor.put(s, 1);
         }
     }
 
@@ -133,7 +135,7 @@ public class RateDayAdapter extends ArrayAdapter {
 
             GradientDrawable gd = (GradientDrawable) rateViews[(rating == 0) ? 0 : (rating - 1)].getBackground();
             gd.setStroke(5, activity.getResources().getColor(R.color.black));
-            activity.selectedColor.put(getItem(position), rating);
+            selectedColor.put(getItem(position), rating);
         }
         return newRow;
     }
@@ -147,7 +149,6 @@ public class RateDayAdapter extends ArrayAdapter {
        /**
         * Clicklistener for Rate Objects
         * Gradual: Set Stroke of Selected Box
-        * Binar: Set Switch
         * Set selected Rating to HashMap
         * @param textView
         * @param textViews
@@ -162,17 +163,20 @@ public class RateDayAdapter extends ArrayAdapter {
        }
 
 
+       /**
+        * CheckedChangeListener for Switches
+        */
        public RateViewListener(){
        }
 
        @Override
        public void onClick(View v) {
-           int oldIndex =  activity.selectedColor.get(getItem(factorPosition))-1;
+           int oldIndex =  selectedColor.get(getItem(factorPosition))-1;
            oldIndex = (oldIndex == -1) ? 0 : oldIndex;
            GradientDrawable gd = (GradientDrawable)  textViews[oldIndex].getBackground();
            gd.setStroke(1, activity.getResources().getColor(R.color.transparent));
 
-           activity.selectedColor.put(getItem(factorPosition), index+1);
+           selectedColor.put(getItem(factorPosition), index + 1);
            GradientDrawable gdNew = (GradientDrawable)  textView.getBackground();
            gdNew.setStroke(7, activity.getResources().getColor(R.color.black));
        }
@@ -180,7 +184,7 @@ public class RateDayAdapter extends ArrayAdapter {
        @Override
        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
            int i = (isChecked) ? 5 : 1;
-           activity.selectedColor.put(buttonView.getText().toString(), i);
+           selectedColor.put(buttonView.getText().toString(), i);
        }
    }
 }

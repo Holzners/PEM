@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -41,24 +42,20 @@ import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
 
-public class MainActivity extends ActionBarActivity implements View.OnClickListener {
+public class MainActivity extends ActionBarActivity {
 
-    SwitchFragment switchFragment;
-    FeedReaderDBHelper mDbHelper;
-    Toolbar toolbar;
-    ViewPager pager;
-    ViewPagerAdapter adapter;
-    SlidingTabLayout tabs;
-    String titles[];
-    int tabNumber = 3;
-    private static final String TAG_NEW_EVENT = "newEvent";
-    private static final String TAG_NEW_FACTOR = "newFactor";
-    Switch selectedSwitch;
+    private SwitchFragment switchFragment;
+    private FeedReaderDBHelper mDbHelper;
+    private ViewPager pager;
+    private ViewPagerAdapter adapter;
+    private Switch selectedSwitch;
 
-    public HashMap<String, Integer> selectedColor;
-    DateTime date;
-    Menu mMenu;
-    boolean contextMenuOn = false;
+    private HashMap<String, Integer> selectedColor;
+    private DateTime date;
+    private Menu mMenu;
+    private boolean contextMenuOn = false;
+
+    private  static final int TABNUMBER = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +79,23 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showRateDayPopup(DateTime.today(TimeZone.getDefault()));
+                showRateDayPopup(date);
             }
         });
 
-        selectedColor = new HashMap<>();
+        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.contentPanel);
+        mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(contextMenuOn) {
+                    selectedSwitch.setTextColor(Color.BLACK);
+                    setContextMenuOn(false, null);
+                    invalidateOptionsMenu();
+                }
+            }
+        });
+
+        initSelectedColor();
     }
 
     @Override
@@ -154,13 +163,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         //Init Button Fragment
         initSwitchFragment();
         // Creating The Toolbar and setting it as the Toolbar for the activity
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        titles = getResources().getStringArray(R.array.tabs);
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, tabNumber);
+        String[] titles = getResources().getStringArray(R.array.tabs);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, TABNUMBER);
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
@@ -168,7 +177,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         pager.setCurrentItem(1);
 
         // Assiging the Sliding Tab Layout View
-        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        SlidingTabLayout tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
 
         // Setting Custom Color for the Scroll bar indicator of the Tab View
@@ -185,13 +194,18 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         //Check if todays Weather is fetched
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         String lastUpdate = sharedPref.getString(getString(R.string.last_weather_update_key), "");
-        String today = DateTime.today(TimeZone.getDefault()) + "";
+        String today = date + "";
         if (lastUpdate != null && !lastUpdate.equalsIgnoreCase(today)) {
             //If not get Weather data
             updateWeatherData();
         }
         //get Selected Colors
         updateSelectedColors();
+
+        if (this.getIntent().getBooleanExtra("openDialog", false)) {
+            this.getIntent().removeExtra("openDialog");
+            showRateDayPopup(date);
+        }
     }
 
     /**
@@ -253,12 +267,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                         public void run() {
                             //Convert JSON Response to String and Store in DataBase for today
                             String s = WeatherJSONRenderer.renderWeather(json);
-                            DateTime today = DateTime.today(TimeZone.getDefault());
-                            mDbHelper.saveWeatherDay(today, s);
+                            mDbHelper.saveWeatherDay(date, s);
                             //Set Shared Preferences todays Weather Fetched
                             SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putString(getString(R.string.last_weather_update_key), today + "");
+                            editor.putString(getString(R.string.last_weather_update_key), date + "");
                             editor.apply();
                         }
                     });
@@ -311,15 +324,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     /**
-     * Show Rate Day Dialog Fragment for today
-     * @param view
-     */
-    public void showRateDay(View view) {
-        DateTime today = DateTime.today(TimeZone.getDefault());
-        showRateDayPopup(today);
-    }
-
-    /**
      * Show Rate Day Dialog Fragment for any day
      * @param today
      */
@@ -331,8 +335,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     /**
      * Show Dialog Fragment for creating new Factors/Symptoms
+     * Called by row_switch_layout.xml
      */
-    public void showNewFactorDialog() {
+    public void showNewFactor(View view) {
         NewFactorFragment newFactorFragment = NewFactorFragment.getInstance(this, null, null);
         FragmentManager f = getSupportFragmentManager();
         newFactorFragment.show(f, "TAG");
@@ -374,22 +379,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         return mMenu;
     }
 
-    @Override
-    public void onClick(View view) {
-        if(view.getId() == R.id.contentPanel){
-            if(this.contextMenuOn) {
-                selectedSwitch.setTextColor(Color.BLACK);
-                setContextMenuOn(false, null);
-                invalidateOptionsMenu();
-            }
-        }else {
-            if (view.getTag().equals(TAG_NEW_EVENT)) {
-                showRateDay(view);
-            }
+    public HashMap<String, Integer> getSelectedColor(){
+        return this.selectedColor;
+    }
 
-            if (view.getTag().equals(TAG_NEW_FACTOR)) {
-                showNewFactorDialog();
-            }
-        }
+    public void initSelectedColor(){
+        this.selectedColor = new HashMap<>();
     }
 }
