@@ -349,7 +349,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     /**
-     * Notify ListFragments and Calendar Views for data have changed
+     * Notify ListFragments and Calendar Views for data have change
      */
     public void refreshAdapters() {
         adapter.notifyFragment();
