@@ -40,6 +40,7 @@ public class NewFactorFragment extends DialogFragment {
     private String factor;
     private TextView[] tvs;
     private RadioButton isGradual;
+    private RadioButton isBinary;
 
     public NewFactorFragment() {
 
@@ -59,7 +60,6 @@ public class NewFactorFragment extends DialogFragment {
         if(factor != null && color != null){
             newFactorFragment.selectedColor = color;
             newFactorFragment.factor = factor;
-            //newFactorFragment.isGradual.setChecked(true);
         }
 
         return newFactorFragment;
@@ -80,6 +80,8 @@ public class NewFactorFragment extends DialogFragment {
         //Init View
         View view = inflater.inflate(R.layout.dialog_new_factor, container, false);
         isGradual = (RadioButton)view.findViewById(R.id.radioButtonGradual);
+        isGradual.setChecked(true);
+        isBinary = (RadioButton) view.findViewById(R.id.radioButton2);
         Button saveButton = (Button) view.findViewById(R.id.button_save_factor);
         Button cancelButton = (Button) view.findViewById(R.id.button_cancel);
         newFactorText = (EditText) view.findViewById(R.id.inputText);
@@ -90,6 +92,8 @@ public class NewFactorFragment extends DialogFragment {
         // Check if Max Colors of Symptoms reached
         if (factorEntries.size() == ColorsToPick.values().length && factor == null) {
             tooManySymptomsText.setVisibility(View.VISIBLE);
+            isGradual.setVisibility(View.INVISIBLE);
+            isBinary.setVisibility(View.INVISIBLE);
             tableRow.setVisibility(View.INVISIBLE);
             newFactorText.setVisibility(View.INVISIBLE);
             saveButton.setEnabled(false);
@@ -104,6 +108,8 @@ public class NewFactorFragment extends DialogFragment {
                 }
             }
             if(selectedColor != null && factor != null){
+                isGradual.setChecked(mDBHelper.getFactorIsGradualMap().get(factor));
+                isBinary.setChecked(!isGradual.isChecked());
                 newFactorText.setText(factor);
                 newFactorText.setEnabled(false);
                 colors.add(selectedColor);
