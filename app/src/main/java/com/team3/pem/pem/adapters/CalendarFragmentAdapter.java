@@ -50,13 +50,11 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter {
             }
         }
         // Inflate Layout
-        View cellView = convertView;
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if (convertView == null) {
-            cellView = inflater.inflate(R.layout.row_month_layout, null);
-        }
+        View cellView = inflater.inflate(R.layout.row_month_layout, null);
+
         //store old Padding
         int topPadding = cellView.getPaddingTop();
         int leftPadding = cellView.getPaddingLeft();
@@ -128,6 +126,7 @@ public class CalendarFragmentAdapter extends CaldroidGridAdapter {
                 gd.setColor(cellView.getResources().getColor(R.color.white));
             }
             cellView.setOnClickListener(new CellViewOnClickListener(context, dateTime));
+
         } else {
             //Set Cells not in this Month Background transparent
             TableLayout tableLayout = (TableLayout) cellView.findViewById(R.id.cellContainer);
