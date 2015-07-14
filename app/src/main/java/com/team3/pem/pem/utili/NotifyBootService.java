@@ -17,11 +17,12 @@ import java.util.List;
 public class NotifyBootService extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        //Recreating alarm when device gets rebooted
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             FeedReaderDBHelper dbHelper = FeedReaderDBHelper.getInstance();
             List<NotificationModel> reminders = dbHelper.getAllReminders();
             for(NotificationModel reminder : reminders){
-                if(reminders.get(reminder.getAlarmID()).isActive()) {
+                if(reminder.isActive()) {
                     int hour = Integer.parseInt(reminder.getTime().substring(0, 2));
                     int minute = Integer.parseInt(reminder.getTime().substring(3));
                     AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

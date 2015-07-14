@@ -78,6 +78,7 @@ public class ExportActivity extends ActionBarActivity {
         listView.setAdapter(adapter);
         enabledSymptoms = new ArrayList<>();
 
+        //ClickListener for exportButton
         exportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +89,7 @@ public class ExportActivity extends ActionBarActivity {
                 exportButton.setVisibility(View.INVISIBLE);
                 loadingText.setVisibility(View.VISIBLE);
                 final String filename = nameField.getText().toString();
+                //Create PDF
                 createPDF(filename);
             }
         });
@@ -99,6 +101,7 @@ public class ExportActivity extends ActionBarActivity {
             }
         });
 
+        //OnCheckedChangeListener for exportAll switch
         exportAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -147,6 +150,7 @@ public class ExportActivity extends ActionBarActivity {
      */
     private boolean createPDF(String name) {
         final Handler handler = new Handler();
+        //if no filename was entered
         if(name.equals("")){
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.inputFileName), Toast.LENGTH_LONG).show();
             exportButton.setVisibility(View.VISIBLE);
@@ -155,12 +159,14 @@ public class ExportActivity extends ActionBarActivity {
         }
         filePath = Environment.getExternalStorageDirectory().getPath() + "/" + name + ".pdf";
         file = new File(filePath);
+        //If the given file already exists
         if (file.exists()) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.pdfExists), Toast.LENGTH_LONG).show();
             exportButton.setVisibility(View.VISIBLE);
             loadingText.setVisibility(View.GONE);
             return false;
         }else{
+            //Create the file
             try {
                 file.createNewFile();
             } catch (IOException e) {
@@ -171,6 +177,7 @@ public class ExportActivity extends ActionBarActivity {
             }
         }
 
+        //new Thread to write data into the file
         new Thread() {
             @Override
             public void run() {
@@ -180,6 +187,7 @@ public class ExportActivity extends ActionBarActivity {
                             Document document = new Document();
                             PdfWriter.getInstance(document, new FileOutputStream(file));
                             document.open();
+                            //Create new table for each symptom
                             for (String symptom : enabledSymptoms) {
                                 PdfPTable table = getTable(symptom);
                                 document.add(table);
@@ -189,6 +197,7 @@ public class ExportActivity extends ActionBarActivity {
                             Toast.makeText(getApplicationContext(), filePath + getResources().getString(R.string.created), Toast.LENGTH_LONG).show();
                             exportButton.setVisibility(View.VISIBLE);
                             loadingText.setVisibility(View.GONE);
+                            //If user checked mail sending we open mail client and attach file to the mail
                             if (switchOn) {
                                 Intent email = new Intent(Intent.ACTION_SEND);
                                 Uri uri = Uri.fromFile(new File(filePath));
@@ -215,7 +224,7 @@ public class ExportActivity extends ActionBarActivity {
     private PdfPTable getTable(String symptom){
         PdfPTable table = new PdfPTable(new float[] {2, 1, 2, 4, 4});
         table.setWidthPercentage(100f);
-        //Header
+        //Create the table header
         table.getDefaultCell().setPadding(3);
         table.getDefaultCell().setUseAscender(true);
         table.getDefaultCell().setUseDescender(true);
@@ -231,14 +240,15 @@ public class ExportActivity extends ActionBarActivity {
         table.addCell(cellHead);
         table.addCell(getResources().getString(R.string.note));
         table.addCell(getResources().getString(R.string.weatherPDF));
-        //Zeilen aus DB einfuegen
+        //Get rows from SQLite
         List<String> list = new ArrayList<>();
         list.add(symptom);
         HashMap<DateTime, DayEntry> dbEntries = dbHelper.getDatabaseEntries(list);
+        //Need to convert the data from SQLite to TreeMap
         TreeMap<DateTime, DayEntry> dbEntriesTree = new TreeMap<>(dbEntries);
-
         table.getDefaultCell().setBackgroundColor(null);
         table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+        //Add each TreeMap entry as a row into the table
         for(TreeMap.Entry<DateTime, DayEntry> entry : dbEntriesTree.entrySet()){
             table.addCell(entry.getKey().format("DD.MM.YYYY"));
             HashMap<String, Integer> ratings = entry.getValue().ratings;
@@ -249,10 +259,11 @@ public class ExportActivity extends ActionBarActivity {
             cell.setBorderColor(BaseColor.WHITE);
             cell.setBackgroundColor(WebColors.getRGBColor(hexColor));
             table.addCell(cell);
-
+            //Convert 1-5 to a string
             String staerke = getResources().getStringArray(R.array.rating)[ratings.get(symptom)];
             table.addCell(staerke);
             table.addCell(entry.getValue().description);
+            //Add weather info to the row
             String getWeatherData = dbHelper.getWeatherData(entry.getKey());
             if(!getWeatherData.equals("")){
                 String[] splitWeather = getWeatherData.split("\n");
@@ -262,7 +273,7 @@ public class ExportActivity extends ActionBarActivity {
             }
         }
 
-        //Legend
+        //Add legend at the end of the table
         PdfPCell cellLegend = new PdfPCell(new Phrase(getResources().getString(R.string.skala)));
         cellLegend.setBorderColor(BaseColor.WHITE);
         cellLegend.setColspan(4);

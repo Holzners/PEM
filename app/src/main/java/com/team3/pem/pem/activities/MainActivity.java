@@ -379,10 +379,18 @@ public class MainActivity extends ActionBarActivity {
         return mMenu;
     }
 
+    /**
+     * Get the current selected colors Hashmap
+     *
+     * @return
+     */
     public HashMap<String, Integer> getSelectedColor(){
         return this.selectedColor;
     }
 
+    /**
+     * Init selected colors Hashmap
+     */
     public void initSelectedColor(){
         this.selectedColor = new HashMap<>();
     }

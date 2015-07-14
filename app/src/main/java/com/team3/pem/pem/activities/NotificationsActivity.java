@@ -33,7 +33,6 @@ public class NotificationsActivity extends ActionBarActivity {
 
     private FeedReaderDBHelper dbHelper;
     private List<NotificationModel> reminders;
-    private SwipeMenuListView listView;
     private NotificationsAdapter adapter;
     private EditText userInput;
 
@@ -45,19 +44,21 @@ public class NotificationsActivity extends ActionBarActivity {
         dbHelper = FeedReaderDBHelper.getInstance();
         reminders = getReminders(dbHelper.getAllReminders());
 
-        listView = (SwipeMenuListView) findViewById(R.id.list_reminders);
+        SwipeMenuListView listView = (SwipeMenuListView) findViewById(R.id.list_reminders);
 
         adapter = new NotificationsAdapter(this, R.layout.row_reminder_layout, reminders);
         listView.setAdapter(adapter);
 
-        ImageView imageview = new ImageView(this); // Create an icon
+        ImageView imageview = new ImageView(this);
         imageview.setImageResource(R.drawable.plus);
 
+        //Init FloatingActionButton
         com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton actionButton = new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.Builder(this)
                 .setBackgroundDrawable(R.drawable.button_action_accent_selector)
                 .setContentView(imageview)
                 .build();
 
+        //Create SwipeMenuListener for delete and edit
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
             public void create(SwipeMenu swipeMenu) {
@@ -77,6 +78,7 @@ public class NotificationsActivity extends ActionBarActivity {
         };
         listView.setMenuCreator(creator);
 
+        //Add ClickListener for edit and delete
         listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
@@ -85,7 +87,7 @@ public class NotificationsActivity extends ActionBarActivity {
                 switch (index) {
                     case 0:
                         //edit
-                        if(item.getAlarmID() == 0){
+                        if (item.getAlarmID() == 0) {
                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.cantedit), Toast.LENGTH_LONG).show();
                             return false;
                         }
@@ -118,7 +120,7 @@ public class NotificationsActivity extends ActionBarActivity {
                         break;
                     case 1:
                         //delete
-                        if(item.getAlarmID() == 0){
+                        if (item.getAlarmID() == 0) {
                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.cantdelete), Toast.LENGTH_LONG).show();
                             return false;
                         }
@@ -135,6 +137,7 @@ public class NotificationsActivity extends ActionBarActivity {
             }
         });
 
+        //OnClickListener for FAB to create new notification
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

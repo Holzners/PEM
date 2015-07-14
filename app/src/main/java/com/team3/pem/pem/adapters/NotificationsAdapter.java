@@ -39,7 +39,6 @@ public class NotificationsAdapter extends ArrayAdapter {
         this.reminders = reminders;
     }
 
-
     @Override
     public int getCount() {
         return reminders.size();
@@ -57,6 +56,7 @@ public class NotificationsAdapter extends ArrayAdapter {
         if(convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_reminder_layout, parent, false);
 
+        //Init all IDs of the layout
         TextView time = (TextView) convertView.findViewById(R.id.zeit);
         Switch reminderSwitch = (Switch) convertView.findViewById(R.id.reminderSwitch);
         TextView[] days = new TextView[7];
@@ -73,6 +73,7 @@ public class NotificationsAdapter extends ArrayAdapter {
         if(reminderModel.isActive())
             reminderSwitch.setChecked(true);
 
+        //Get which days in a week are activated and change their colors
         for(int i = 0; i < reminderModel.getActiveForDays().length; i++){
             if(reminderModel.getActiveForDays()[i])
                 days[i].setTextColor(Color.rgb(0, 150, 255));
@@ -86,23 +87,42 @@ public class NotificationsAdapter extends ArrayAdapter {
     }
 
     public class ReminderViewListener implements View.OnClickListener, OnCheckedChangeListener{
+
         private TextView time;
         private TextView[] days;
         private int index;
         private NotificationModel reminderModel;
         private int hour, minute;
 
+        /**
+         * ClickListener for clicking on a day in a week
+         *
+         * @param days
+         * @param index
+         * @param reminder
+         */
         public ReminderViewListener(TextView[] days, int index, NotificationModel reminder) {
             this.days = days;
             this.index = index;
             reminderModel = reminder;
         }
 
+        /**
+         * ClickListener for clicking on the time
+         *
+         * @param time
+         * @param reminder
+         */
         public ReminderViewListener(TextView time, NotificationModel reminder) {
             this.time = time;
             reminderModel = reminder;
         }
 
+        /**
+         * CheckedChangeListener for enabling the notification
+         *
+         * @param reminder
+         */
         public ReminderViewListener(NotificationModel reminder) {
             reminderModel = reminder;
         }
@@ -111,6 +131,7 @@ public class NotificationsAdapter extends ArrayAdapter {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.zeit:
+                    //Converting hour and minute to integer and open TimePickerDialog
                     hour = Integer.parseInt(reminderModel.getTime().substring(0, 2));
                     minute = Integer.parseInt(reminderModel.getTime().substring(3));
                     TimePickerDialog tp = new TimePickerDialog(context, timePickerListener, hour, minute, true);
@@ -123,6 +144,7 @@ public class NotificationsAdapter extends ArrayAdapter {
                 case R.id.fr:
                 case R.id.sa:
                 case R.id.so:
+                    //Changing text colors and recreating the alarm
                     if (reminderModel.getActiveForDays()[index]) {
                         days[index].setTextColor(Color.argb(255, 109, 109, 109));
                         reminderModel.setActiveDay(index, false);
@@ -141,6 +163,7 @@ public class NotificationsAdapter extends ArrayAdapter {
             if(buttonView.getId() != R.id.reminderSwitch) {
                 return;
             }
+            //Creating or canceling the alarm
             if (isChecked) {
                 reminderModel.setIsActive(true);
                 createAlarm(reminderModel.getAlarmID());
@@ -150,6 +173,7 @@ public class NotificationsAdapter extends ArrayAdapter {
             }
         }
 
+        //Creating TimePickerDialog and recreating the alarm
         private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener(){
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
