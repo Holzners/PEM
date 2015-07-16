@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -53,10 +54,17 @@ public class NotificationsActivity extends ActionBarActivity {
         imageview.setImageResource(R.drawable.plus);
 
         //Init FloatingActionButton
-        com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton actionButton = new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.Builder(this)
-                .setBackgroundDrawable(R.drawable.button_action_accent_selector)
-                .setContentView(imageview)
-                .build();
+//        com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton actionButton = new com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton.Builder(this)
+//                .setBackgroundDrawable(R.drawable.button_action_accent_selector)
+//                .setContentView(imageview)
+//                .build();
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override public void onClick(View v) {
+//                showRateDayPopup(date);
+//            }
+//        });
 
         //Create SwipeMenuListener for delete and edit
         SwipeMenuCreator creator = new SwipeMenuCreator() {
@@ -138,7 +146,7 @@ public class NotificationsActivity extends ActionBarActivity {
         });
 
         //OnClickListener for FAB to create new notification
-        actionButton.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final AlertDialog alertDialog = createDialog();
@@ -188,6 +196,8 @@ public class NotificationsActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_notifications, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+
 
     /**
      *  Converts the given @param to an Integer

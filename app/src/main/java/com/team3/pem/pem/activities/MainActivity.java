@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -22,7 +23,6 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.team3.pem.pem.R;
 import com.team3.pem.pem.adapters.ViewPagerAdapter;
 import com.team3.pem.pem.mSQLite.FeedReaderDBHelper;
@@ -57,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
 
     private  static final int TABNUMBER = 3;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,16 +73,6 @@ public class MainActivity extends ActionBarActivity {
         ImageView imageview = new ImageView(this); // Create an icon
         imageview.setImageResource(R.drawable.plus);
 
-        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
-                .setBackgroundDrawable(R.drawable.button_action_accent_selector)
-                .setContentView(imageview)
-                .build();
-        actionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showRateDayPopup(date);
-            }
-        });
 
         RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.contentPanel);
         mainLayout.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +146,14 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRateDayPopup(date);
+            }
+        });
 
         //Check if DB Helper is null
         if (mDbHelper == null)

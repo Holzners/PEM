@@ -8,6 +8,7 @@
     <color name= "primaryColorDark">#263238</color> <!-- #30359F #111111-->
     <color name= "accentColor">#b0bec5</color> <!-- #ffaf4374 #bdbdbd-->
     <color name= "tabsScrollColor">#FFFFFF</color>
+    <color name= "FAB">#bf360c</color>
 
 
     <color name="blue1">#C5CAE9</color><!--#d2cbf0</color>-->

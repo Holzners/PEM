@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:layout_width="match_parent"
@@ -11,6 +12,23 @@
         layout="@layout/tool_bar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/plus"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="right|bottom"
+        app:elevation="6dp"
+        app:borderWidth="0dp"
+        app:pressedTranslationZ="12dp"
+        app:backgroundTint="@color/FAB"
+        app:rippleColor="@android:color/white"
+        android:layout_marginBottom="@dimen/fab_labels_margin"
+        android:layout_marginRight="@dimen/fab_labels_margin"
+        />
 
     <com.team3.pem.pem.view.SlidingTabLayout
         android:id="@+id/tabs"
